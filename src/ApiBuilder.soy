@@ -13,6 +13,11 @@
 		{call .path data="all" /}
 		{call .handler data="all" /}
 		{call .params data="all" /}
+		<div class="form-group">
+			<a href="#" class="text-muted api-builder-param-add" data-onclick="handleAddParamClick_">
+				add param...
+			</a>
+		</div>
 		<button type="button" class="btn btn-primary">Save</div>
 	</div>
 {/template}
@@ -105,9 +110,6 @@
 				{param paramName: $paramName /}
 			{/call}
 		{/foreach}
-		<div class="form-group">
-			<a href="#" class="text-muted">add param...</a>
-		</div>
 	</div>
 {/template}
 
@@ -116,7 +118,7 @@
  * @param paramName
  */
 {template .param private="true"}
-	<div class="row form-group">
+	<div class="row form-group api-builder-param">
 		<div class="col-xs-2">
 			<input type="text" class="form-control" placeholder="Param" value="{$paramName}" />
 		</div>
@@ -144,6 +146,9 @@
 		</div>
 		<div class="col-xs-2">
 			<label><input type="checkbox" {$param.required ? 'checked' : ''} /> Required</label>
+			<button type="button" class="close">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 	</div>
 {/template}

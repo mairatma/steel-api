@@ -19,7 +19,7 @@ if (typeof Templates.ApiBuilder == 'undefined') { Templates.ApiBuilder = {}; }
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.content = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="api component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.name(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + '<button type="button" class="btn btn-primary">Save</div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="api component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.name(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + '<div class="form-group"><a href="#" class="text-muted api-builder-param-add" data-onclick="handleAddParamClick_">add param...</a></div><button type="button" class="btn btn-primary">Save</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.content.soyTemplateName = 'Templates.ApiBuilder.content';
@@ -150,7 +150,7 @@ Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
     var paramNameData69 = paramNameList69[paramNameIndex69];
     output += Templates.ApiBuilder.param({param: opt_data.parameters[paramNameData69], paramName: paramNameData69}, null, opt_ijData);
   }
-  output += '<div class="form-group"><a href="#" class="text-muted">add param...</a></div></div>';
+  output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -166,7 +166,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div class="row form-group"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.paramName) + '" /></div><div class="col-xs-2">';
+  var output = '<div class="row form-group api-builder-param"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.paramName) + '" /></div><div class="col-xs-2">';
   var types__soy79 = ['number', 'string', 'boolean', 'array', 'object'];
   output += '<select type="text" class="form-control">';
   var typeList81 = types__soy79;
@@ -179,7 +179,7 @@ Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
   var value__soy91 = opt_data.param.value ? opt_data.param.value : '';
   output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy91) + '" /></div><div class="col-xs-2"><select type="text" class="form-control"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
   var description__soy97 = opt_data.param.description ? opt_data.param.description : '';
-  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy97) + '" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' /> Required</label></div></div>';
+  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy97) + '" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' /> Required</label><button type="button" class="close"><span aria-hidden="true">&times;</span></button></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

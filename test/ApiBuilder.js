@@ -1,5 +1,6 @@
 'use strict';
 
+import dom from 'bower:metal/src/dom/dom';
 import ApiBuilder from '../src/ApiBuilder';
 
 describe('ApiBuilder', function() {
@@ -56,7 +57,6 @@ describe('ApiBuilder', function() {
 
 		it('should fill param values with the given parameters', function() {
 			builder = new ApiBuilder({
-				id: 'builder',
 				parameters: {
 					foo: {
 						type: 'string',
@@ -71,7 +71,7 @@ describe('ApiBuilder', function() {
 				}
 			}).render();
 
-			var paramRows = builder.element.querySelectorAll('#builder-params .row');
+			var paramRows = builder.element.querySelectorAll('.api-builder-param');
 			assert.strictEqual(2, paramRows.length);
 			assert.strictEqual('foo', paramRows[0].querySelector('input').value);
 			assert.strictEqual('string', paramRows[0].querySelector('select').value);
@@ -86,6 +86,33 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('body', paramRows[1].querySelectorAll('select')[1].value);
 			assert.strictEqual('', paramRows[1].querySelectorAll('input')[2].value);
 			assert.ok(!paramRows[1].querySelectorAll('input')[3].checked);
+		});
+	});
+
+	describe('Params', function() {
+		it('should add a new parameter row when button is clicked', function() {
+			builder = new ApiBuilder().render();
+
+			assert.strictEqual(0, builder.element.querySelectorAll('.api-builder-param').length);
+			dom.triggerEvent(builder.element.querySelector('.api-builder-param-add'), 'click');
+			assert.strictEqual(1, builder.element.querySelectorAll('.api-builder-param').length);
+			dom.triggerEvent(builder.element.querySelector('.api-builder-param-add'), 'click');
+			assert.strictEqual(2, builder.element.querySelectorAll('.api-builder-param').length);
+		});
+
+		it('should remove a new parameter row when button is clicked', function() {
+			builder = new ApiBuilder().render();
+
+			dom.triggerEvent(builder.element.querySelector('.api-builder-param-add'), 'click');
+			dom.triggerEvent(builder.element.querySelector('.api-builder-param-add'), 'click');
+
+			var paramRows = builder.element.querySelectorAll('.api-builder-param');
+			assert.strictEqual(2, paramRows.length);
+
+			dom.triggerEvent(paramRows[0].querySelector('.close'), 'click');
+			var currParamRows = builder.element.querySelectorAll('.api-builder-param');
+			assert.strictEqual(1, currParamRows.length);
+			assert.strictEqual(paramRows[1], currParamRows[0]);
 		});
 	});
 });
