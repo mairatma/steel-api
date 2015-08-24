@@ -1,0 +1,149 @@
+{namespace Templates.ApiBuilder}
+
+/**
+ * This renders the main element.
+ * @param? elementClasses
+ * @param id
+ */
+{template .content}
+	<div id="{$id}" class="api component{$elementClasses ? ' ' + $elementClasses : ''}">
+		{call .name data="all" /}
+		{call .description data="all" /}
+		{call .methods data="all" /}
+		{call .path data="all" /}
+		{call .handler data="all" /}
+		{call .params data="all" /}
+		<button type="button" class="btn btn-primary">Save</div>
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param name
+ */
+{template .name}
+	<div id="{$id}-name" class="form-group">
+		<input type="text" class="form-control" name="name" placeholder="Name" value="{$name}" />
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param description
+ */
+{template .description}
+	<div id="{$id}-description" class="form-group">
+		<textarea class="form-control" name="description" placeholder="Description">
+			{$description}
+		</textarea>
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param method
+ */
+{template .methods}
+	<div id="{$id}-methods" class="api-builder-methods form-group">
+		{let $supportedMethods: ['delete', 'get', 'head', 'patch', 'post', 'put'] /}
+		{foreach $currentMethod in $supportedMethods}
+			<label class="checkbox-inline">
+				{let $methodChecked kind="html"}
+					{call .methodChecked data="all"}
+						{param method: $currentMethod /}
+						{param methods: $method /}
+					{/call}
+				{/let}
+			  <input type="checkbox" value="{$currentMethod}"{$methodChecked}>{$currentMethod}
+			</label>
+		{/foreach}
+	</div>
+{/template}
+
+/**
+ * @param method
+ * @param methods
+ */
+{template .methodChecked private="true"}
+	{foreach $currentMethod in $methods}
+		{if $method == $currentMethod}checked{/if}
+	{/foreach}
+{/template}
+
+/**
+ * @param id
+ * @param path
+ */
+{template .path}
+	<div id="{$id}-path" class="form-group">
+		<input type="text" class="form-control" name="path" placeholder="Path" value="{$path}" />
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param handler
+ */
+{template .handler}
+	<div id="{$id}-handler" class="form-group">
+		<textarea class="form-control" name="handler" placeholder="Handler">
+			{$handler}
+		</textarea>
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param parameters
+ */
+{template .params}
+	<div id="{$id}-params">
+		<label>Params</label>
+		{foreach $paramName in keys($parameters)}
+			{call .param}
+				{param param: $parameters[$paramName] /}
+				{param paramName: $paramName /}
+			{/call}
+		{/foreach}
+		<div class="form-group">
+			<a href="#" class="text-muted">add param...</a>
+		</div>
+	</div>
+{/template}
+
+/**
+ * @param param
+ * @param paramName
+ */
+{template .param private="true"}
+	<div class="row form-group">
+		<div class="col-xs-2">
+			<input type="text" class="form-control" placeholder="Param" value="{$paramName}" />
+		</div>
+		<div class="col-xs-2">
+			{let $types: ['number', 'string', 'boolean', 'array', 'object'] /}
+			<select type="text" class="form-control">
+				{foreach $type in $types}
+					<option value="{$type}"{$type == $param.type ? 'selected' : ''}>{$type}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="col-xs-2">
+			{let $value: $param.value ? $param.value : '' /}
+			<input type="text" class="form-control" placeholder="Value" value="{$value}" />
+		</div>
+		<div class="col-xs-2">
+			<select type="text" class="form-control">
+				<option value="body">Body</option>
+				<option value="url"{$param.in == 'url' ? 'selected' : ''}>URL Param</option>
+			</select>
+		</div>
+		<div class="col-xs-2">
+			{let $description: $param.description ? $param.description : '' /}
+			<input type="text" class="form-control" placeholder="Description" value="{$description}" />
+		</div>
+		<div class="col-xs-2">
+			<label><input type="checkbox" {$param.required ? 'checked' : ''} /> Required</label>
+		</div>
+	</div>
+{/template}

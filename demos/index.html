@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Demo: Api</title>
+	<title>Demo: ApiBuilder</title>
 
 	<link rel="stylesheet" href="../bower_components/steel-bootstrap/build/bootstrap.css">
 	<link rel="stylesheet" href="../build/api.css">
@@ -11,9 +11,22 @@
 	<script src="../build/globals/api.js"></script>
 </head>
 <body>
-	<h1>Api</h1>
+	<h1>ApiBuilder</h1>
 	<script type="text/javascript">
-		new steel.Api().render();
+		window.builder = new steel.ApiBuilder({
+			parameters: {
+				id: {
+					type: 'number',
+				},
+				name: {
+					type: 'string',
+					in: 'url',
+					value: 'Maira',
+					description: 'Talent',
+					required: true
+				}
+			}
+		}).render();
 	</script>
 </body>
 </html>

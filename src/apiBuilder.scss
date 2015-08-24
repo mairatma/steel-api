@@ -1,7 +1,10 @@
 @import "steel-bootstrap/src/variables";
 @import "steel-bootstrap/src/mixins";
 
-/* API
+/* API Builder
 	 ========================================================================== */
-.api {
+.api-builder {
+	.api-builder-methods {
+		text-transform: uppercase
+	}
 }
