@@ -1,7 +1,7 @@
 {
 	"name": "steel-api",
 	"version": "0.0.0",
-	"description": "Steel's API Explorer component",
+	"description": "Steel's API Builder and API Explorer components",
 	"main": "src/Api.js",
 	"moduleType": [
 		"es6"

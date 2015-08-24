@@ -1,6 +1,6 @@
 # steel-api
 
-Steel's API Explorer component
+Steel's API Builder and API Explorer components,
 
 ## Setup
 
