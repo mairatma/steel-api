@@ -27,9 +27,34 @@ describe('ApiBase', function() {
 		assert.deepEqual(['patch'], api.method);
 	});
 
-	it('should set "parameters" attr to empty object by default', function() {
+	it('should set "parameters" attr to empty array by default', function() {
 		api = new ApiBase();
-		assert.deepEqual({}, api.parameters);
+		assert.deepEqual([], api.parameters);
+	});
+
+	it('should convert "parameters" attr to array format', function() {
+		api = new ApiBase({
+			parameters: {
+				id: {
+					value: 1
+				},
+				foo: {
+					in: 'url'
+				}
+			}
+		});
+
+		var expected = [
+			{
+				name: 'id',
+				value: 1
+			},
+			{
+				name: 'foo',
+				in: 'url'
+			}
+		];
+		assert.deepEqual(expected, api.parameters);
 	});
 
 	it('should return JSON object with only the attrs relating to the constructed api', function() {

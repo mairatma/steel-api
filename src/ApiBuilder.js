@@ -24,7 +24,6 @@ class ApiBuilder extends ApiBase {
 	handleAddParamClick_(event) {
 		event.preventDefault();
 		var frag = dom.buildFragment(this.renderTemplateByName_('ApiBuilder', 'param', {
-			paramName: '',
 			param: {}
 		}));
 		dom.append(this.getSurfaceElement('params'), frag);

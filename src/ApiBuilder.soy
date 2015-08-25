@@ -104,10 +104,9 @@
 {template .params}
 	<div id="{$id}-params">
 		<label>Params</label>
-		{foreach $paramName in keys($parameters)}
+		{foreach $param in $parameters}
 			{call .param}
-				{param param: $parameters[$paramName] /}
-				{param paramName: $paramName /}
+				{param param: $param /}
 			{/call}
 		{/foreach}
 	</div>
@@ -115,12 +114,11 @@
 
 /**
  * @param param
- * @param paramName
  */
 {template .param private="true"}
 	<div class="row form-group api-builder-param">
 		<div class="col-xs-2">
-			<input type="text" class="form-control" placeholder="Param" value="{$paramName}" />
+			<input type="text" class="form-control" placeholder="Param" value="{$param.name}" />
 		</div>
 		<div class="col-xs-2">
 			{let $types: ['number', 'string', 'boolean', 'array', 'object'] /}

@@ -144,11 +144,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><label>Params</label>';
-  var paramNameList69 = soy.$$getMapKeys(opt_data.parameters);
-  var paramNameListLen69 = paramNameList69.length;
-  for (var paramNameIndex69 = 0; paramNameIndex69 < paramNameListLen69; paramNameIndex69++) {
-    var paramNameData69 = paramNameList69[paramNameIndex69];
-    output += Templates.ApiBuilder.param({param: opt_data.parameters[paramNameData69], paramName: paramNameData69}, null, opt_ijData);
+  var paramList69 = opt_data.parameters;
+  var paramListLen69 = paramList69.length;
+  for (var paramIndex69 = 0; paramIndex69 < paramListLen69; paramIndex69++) {
+    var paramData69 = paramList69[paramIndex69];
+    output += Templates.ApiBuilder.param({param: paramData69}, null, opt_ijData);
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -166,20 +166,20 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div class="row form-group api-builder-param"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.paramName) + '" /></div><div class="col-xs-2">';
-  var types__soy79 = ['number', 'string', 'boolean', 'array', 'object'];
+  var output = '<div class="row form-group api-builder-param"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" /></div><div class="col-xs-2">';
+  var types__soy78 = ['number', 'string', 'boolean', 'array', 'object'];
   output += '<select type="text" class="form-control">';
-  var typeList81 = types__soy79;
-  var typeListLen81 = typeList81.length;
-  for (var typeIndex81 = 0; typeIndex81 < typeListLen81; typeIndex81++) {
-    var typeData81 = typeList81[typeIndex81];
-    output += '<option value="' + soy.$$escapeHtmlAttribute(typeData81) + '"' + soy.$$filterHtmlAttributes(typeData81 == opt_data.param.type ? 'selected' : '') + '>' + soy.$$escapeHtml(typeData81) + '</option>';
+  var typeList80 = types__soy78;
+  var typeListLen80 = typeList80.length;
+  for (var typeIndex80 = 0; typeIndex80 < typeListLen80; typeIndex80++) {
+    var typeData80 = typeList80[typeIndex80];
+    output += '<option value="' + soy.$$escapeHtmlAttribute(typeData80) + '"' + soy.$$filterHtmlAttributes(typeData80 == opt_data.param.type ? 'selected' : '') + '>' + soy.$$escapeHtml(typeData80) + '</option>';
   }
   output += '</select></div><div class="col-xs-2">';
-  var value__soy91 = opt_data.param.value ? opt_data.param.value : '';
-  output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy91) + '" /></div><div class="col-xs-2"><select type="text" class="form-control"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
-  var description__soy97 = opt_data.param.description ? opt_data.param.description : '';
-  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy97) + '" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' /> Required</label><button type="button" class="close"><span aria-hidden="true">&times;</span></button></div></div>';
+  var value__soy90 = opt_data.param.value ? opt_data.param.value : '';
+  output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy90) + '" /></div><div class="col-xs-2"><select type="text" class="form-control"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
+  var description__soy96 = opt_data.param.description ? opt_data.param.description : '';
+  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy96) + '" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' /> Required</label><button type="button" class="close"><span aria-hidden="true">&times;</span></button></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

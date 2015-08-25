@@ -1,12 +1,48 @@
 'use strict';
 
 import core from 'bower:metal/src/core';
+import object from 'bower:metal/src/object/object';
 import SoyComponent from 'bower:metal/src/soy/SoyComponent';
 
 /**
  * Base class for components that will handle APIs, like `ApiBuilder` and `ApiExplorer`.
  */
 class ApiBase extends SoyComponent {
+	/**
+	 * Converts the given parameters from the array to the object format.
+	 * @param {!Array} parameters
+	 * @return {!Object}
+	 * @protected
+	 */
+	convertToObj_(parameters) {
+		var obj = {};
+		for (var i = 0; i < parameters.length; i++) {
+			obj[parameters[i].name] = object.mixin({}, parameters[i]);
+			delete obj[parameters[i].name].name;
+		}
+		return obj;
+	}
+
+	/**
+	 * Setter for the `parameters` attribute. If given as an object, the value will
+	 * be converted into an array format for internal use. The `toJson` method will
+	 * return the object format for the `parameters` attribute though.
+	 * @param {!Object|Array} val
+	 * @return {!Array}
+	 * @protected
+	 */
+	setterParametersFn_(val) {
+		if (!(val instanceof Array)) {
+			var obj = val;
+			val = Object.keys(obj).map(function(name) {
+				return object.mixin({
+					name: name
+				}, obj[name]);
+			});
+		}
+		return val;
+	}
+
 	/**
 	 * Returns a JSON object that represents the API handled by this component.
 	 * @return {!Object}
@@ -15,7 +51,12 @@ class ApiBase extends SoyComponent {
 	toJson() {
 		var json = {};
 		for (var i = 0; i < ApiBase.API_ATTRS.length; i++) {
-			json[ApiBase.API_ATTRS[i]] = this[ApiBase.API_ATTRS[i]];
+			var name = ApiBase.API_ATTRS[i];
+			var val = this[name];
+			if (name === 'parameters') {
+				val = this.convertToObj_(val);
+			}
+			json[name] = val;
 		}
 		return json;
 	}
@@ -75,13 +116,16 @@ ApiBase.ATTRS = {
 
 	/**
 	 * An object with the api's parameters. Both body and url parameters should
-	 * be listed here, distinguished by the `in` key.
-	 * @type {Object}
+	 * be listed here, distinguished by the `in` key. Note that the parameters
+	 * can be given either as an array or as an object (in which case each key
+	 * should represent the name of a param).
+	 * @type {!Object|Array}
 	 */
 	parameters: {
+		setter: 'setterParametersFn_',
 		validator: core.isObject,
 		valueFn: function() {
-			return {};
+			return [];
 		}
 	},
 
