@@ -14,11 +14,10 @@
 		{call .handler data="all" /}
 		{call .params data="all" /}
 		<div class="form-group">
-			<a href="#" class="text-muted api-builder-param-add" data-onclick="handleAddParamClick_">
+			<a href="#" class="text-muted api-builder-param-add" data-onclick="handleClickAddParam_">
 				add param...
 			</a>
 		</div>
-		<button type="button" class="btn btn-primary">Save</div>
 	</div>
 {/template}
 
@@ -28,7 +27,14 @@
  */
 {template .name}
 	<div id="{$id}-name" class="form-group">
-		<input type="text" class="form-control" name="name" placeholder="Name" value="{$name}" />
+		<input
+			type="text"
+			class="form-control"
+			name="name"
+			placeholder="Name"
+			value="{$name}"
+			data-oninput="handleInputName_"
+		/>
 	</div>
 {/template}
 
@@ -38,7 +44,11 @@
  */
 {template .description}
 	<div id="{$id}-description" class="form-group">
-		<textarea class="form-control" name="description" placeholder="Description">
+		<textarea
+			class="form-control"
+			name="description"
+			placeholder="Description"
+			data-oninput="handleInputDescription_">
 			{$description}
 		</textarea>
 	</div>
@@ -59,7 +69,11 @@
 						{param methods: $method /}
 					{/call}
 				{/let}
-			  <input type="checkbox" value="{$currentMethod}"{$methodChecked}>{$currentMethod}
+			  <input
+					type="checkbox"
+					data-onchange="handleChangeMethod_"
+					value="{$currentMethod}"{$methodChecked}
+				>{$currentMethod}
 			</label>
 		{/foreach}
 	</div>
@@ -81,7 +95,14 @@
  */
 {template .path}
 	<div id="{$id}-path" class="form-group">
-		<input type="text" class="form-control" name="path" placeholder="Path" value="{$path}" />
+		<input
+			type="text"
+			class="form-control"
+			name="path"
+			placeholder="Path"
+			value="{$path}"
+			data-oninput="handleInputPath_"
+		/>
 	</div>
 {/template}
 
@@ -91,7 +112,11 @@
  */
 {template .handler}
 	<div id="{$id}-handler" class="form-group">
-		<textarea class="form-control" name="handler" placeholder="Handler">
+		<textarea
+			class="form-control"
+			name="handler"
+			placeholder="Handler"
+			data-oninput="handleInputHandler_">
 			{$handler}
 		</textarea>
 	</div>
@@ -106,6 +131,7 @@
 		<label>Params</label>
 		{foreach $param in $parameters}
 			{call .param}
+				{param index: index($param) /}
 				{param param: $param /}
 			{/call}
 		{/foreach}
@@ -113,16 +139,21 @@
 {/template}
 
 /**
+ * @param index
  * @param param
  */
 {template .param private="true"}
-	<div class="row form-group api-builder-param">
+	<div
+		class="row form-group api-builder-param"
+		data-index="{$index}"
+		data-onchange="handleChangeParam_"
+		data-oninput="handleInputParam_">
 		<div class="col-xs-2">
-			<input type="text" class="form-control" placeholder="Param" value="{$param.name}" />
+			<input type="text" class="form-control" placeholder="Param" value="{$param.name}" data-name="name" />
 		</div>
 		<div class="col-xs-2">
 			{let $types: ['number', 'string', 'boolean', 'array', 'object'] /}
-			<select type="text" class="form-control">
+			<select type="text" class="form-control" data-name="type">
 				{foreach $type in $types}
 					<option value="{$type}"{$type == $param.type ? 'selected' : ''}>{$type}</option>
 				{/foreach}
@@ -130,21 +161,21 @@
 		</div>
 		<div class="col-xs-2">
 			{let $value: $param.value ? $param.value : '' /}
-			<input type="text" class="form-control" placeholder="Value" value="{$value}" />
+			<input type="text" class="form-control" placeholder="Value" value="{$value}" data-name="value" />
 		</div>
 		<div class="col-xs-2">
-			<select type="text" class="form-control">
+			<select type="text" class="form-control" data-name="in">
 				<option value="body">Body</option>
 				<option value="url"{$param.in == 'url' ? 'selected' : ''}>URL Param</option>
 			</select>
 		</div>
 		<div class="col-xs-2">
 			{let $description: $param.description ? $param.description : '' /}
-			<input type="text" class="form-control" placeholder="Description" value="{$description}" />
+			<input type="text" class="form-control" placeholder="Description" value="{$description}" data-name="description" />
 		</div>
 		<div class="col-xs-2">
-			<label><input type="checkbox" {$param.required ? 'checked' : ''} /> Required</label>
-			<button type="button" class="close">
+			<label><input type="checkbox" {$param.required ? 'checked' : ''} data-name="required" /> Required</label>
+			<button type="button" class="close" data-onclick="handleClickRemoveParam_" data-index="{$index}">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
