@@ -16,6 +16,7 @@
   ],
   "devDependencies": {
     "chai": "^2.3.0",
+    "express": "^4.13.3",
     "gulp": "^3.8.11",
     "gulp-metal": "^0.3.1",
     "isparta": "^3.0.3",

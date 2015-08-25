@@ -16,6 +16,7 @@
 		"!test/**/*"
 	],
 	"dependencies": {
+		"api.js": "liferay-apps/api.js#master",
 		"metal": "metal/metal.js#master",
 		"metal-jquery-adapter": "metal/metal-jquery-adapter#master",
 		"steel-bootstrap": "metal/steel-bootstrap#master"

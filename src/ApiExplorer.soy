@@ -14,6 +14,7 @@
 		<div class="app-explorer-try-it-header">Try it out:</div>
 		{call .runParams data="all" /}
 		{call .tryIt data="all" /}
+		{call .response data="all" /}
 	</div>
 {/template}
 
@@ -87,7 +88,7 @@
 			{foreach $param in $parameters}
 				<span class="app-explorer-try-it-param">
 					{let $value: $param.value ? $param.value : '' /}
-					<label>{$param.name}</label> <input type="text" placeholder="{$value}" />
+					<label>{$param.name}</label> <input type="text" placeholder="{$value}" class="app-explorer-try-it-param-input" />
 				</span>
 			{/foreach}
 		</div>
@@ -101,12 +102,33 @@
  */
 {template .tryIt}
 	<div id="{$id}-tryIt">
-    <select class="form-control app-explorer-try-it-methods">
-    	{foreach $currMethod in $method}
-      	<option>{$currMethod}</option>
-    	{/foreach}
-    </select>
-    <input type="text" class="form-control app-explorer-try-it-path" value="{$path}" disabled>
-    <button type="button" class="btn btn-primary app-explorer-try-it-button">Run</button>
-  </div>
+		<select class="form-control app-explorer-try-it-methods">
+			{foreach $currMethod in $method}
+				<option value="{$currMethod}">{$currMethod}</option>
+			{/foreach}
+		</select>
+		<input type="text" class="form-control app-explorer-try-it-path" value="{$path}" disabled>
+		<button type="button" class="btn btn-primary app-explorer-try-it-button" data-onclick="handleClickRun_">
+			Run
+		</button>
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param response
+ */
+{template .response}
+	<div id="{$id}-response" class="api-explorer-response">
+		{if $response}
+			<div class="api-explorer-response-status">
+				{$response.statusCode} {$response.statusText}
+			</div>
+			{if $response.bodyString}
+				<div class="api-explorer-response-body">
+					{$response.bodyString}
+				</div>
+			{/if}
+		{/if}
+	</div>
 {/template}

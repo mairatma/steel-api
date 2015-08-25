@@ -16,7 +16,7 @@
 		window.builder = new steel.ApiExplorer({
 			name: 'Get Users',
 			description: 'API for fetching users from the database',
-			method: ['get', 'head'],
+			method: ['get', 'post'],
 			parameters: {
 				age: {
 					description: 'The age of the user',
@@ -29,11 +29,12 @@
 				},
 				sort: {
 					description: 'If the results sorting should be ascending or descending',
+					in: 'url',
 					type: 'string',
 					value: 'asc'
 				}
 			},
-			path: 'launchpad.org/data/users'
+			path: 'http://localhost:3000/data'
 		}).render();
 	</script>
 </body>

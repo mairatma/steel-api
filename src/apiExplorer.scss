@@ -29,4 +29,13 @@
 	.app-explorer-try-it-button {
 		width: 20%;
 	}
+
+	.api-explorer-response-status {
+		border: 1px solid #000;
+	}
+
+	.api-explorer-response-body {
+		border: 1px solid #000;
+		border-top: none;
+	}
 }
