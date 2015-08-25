@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo: ApiExplorer</title>
+
+	<link rel="stylesheet" href="../bower_components/steel-bootstrap/build/bootstrap.css">
+	<link rel="stylesheet" href="../build/api.css">
+
+	<script src="../bower_components/soyutils/soyutils.js"></script>
+	<script src="../build/globals/api.js"></script>
+</head>
+<body>
+	<h1>ApiExplorer</h1>
+	<script type="text/javascript">
+		window.builder = new steel.ApiExplorer({
+			parameters: {
+				id: {
+					type: 'number',
+				},
+				name: {
+					type: 'string',
+					in: 'url',
+					value: 'Maira',
+					description: 'Talent',
+					required: true
+				}
+			}
+		}).render();
+	</script>
+</body>
+</html>

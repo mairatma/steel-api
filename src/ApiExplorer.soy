@@ -1,0 +1,11 @@
+{namespace Templates.ApiExplorer}
+
+/**
+ * This renders the main element.
+ * @param? elementClasses
+ * @param id
+ */
+{template .content}
+	<div id="{$id}" class="api component{$elementClasses ? ' ' + $elementClasses : ''}">
+	</div>
+{/template}
