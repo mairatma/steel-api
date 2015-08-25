@@ -14,18 +14,26 @@
 	<h1>ApiExplorer</h1>
 	<script type="text/javascript">
 		window.builder = new steel.ApiExplorer({
+			name: 'Get Users',
+			description: 'API for fetching users from the database',
+			method: ['get', 'head'],
 			parameters: {
-				id: {
-					type: 'number',
+				age: {
+					description: 'The age of the user',
+					type: 'number'
 				},
 				name: {
+					description: 'The name of the user',
 					type: 'string',
-					in: 'url',
-					value: 'Maira',
-					description: 'Talent',
 					required: true
+				},
+				sort: {
+					description: 'If the results sorting should be ascending or descending',
+					type: 'string',
+					value: 'asc'
 				}
-			}
+			},
+			path: 'launchpad.org/data/users'
 		}).render();
 	</script>
 </body>

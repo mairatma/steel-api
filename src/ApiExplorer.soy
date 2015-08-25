@@ -6,6 +6,107 @@
  * @param id
  */
 {template .content}
-	<div id="{$id}" class="api component{$elementClasses ? ' ' + $elementClasses : ''}">
+	<div id="{$id}" class="api-explorer component{$elementClasses ? ' ' + $elementClasses : ''}">
+		{call .nameAndMethods data="all" /}
+		{call .description data="all" /}
+		{call .path data="all" /}
+		{call .params data="all" /}
+		<div>Try it out:</div>
+		{call .runParams data="all" /}
+		{call .tryIt data="all" /}
 	</div>
+{/template}
+
+/**
+ * @param id
+ * @param method
+ * @param name
+ */
+{template .nameAndMethods}
+	<div id="{$id}-nameAndMethods">
+		{$name}{foreach $currMethod in $method} <span class="label label-default">{$currMethod}</span>{/foreach}
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param description
+ */
+{template .description}
+	<div id="{$id}-description" class="text-muted">
+		{$description}
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param path
+ */
+{template .path}
+	<div id="{$id}-path">
+		{$path}
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param parameters
+ */
+{template .params}
+	<div id="{$id}-params" class="api-explorer-params row">
+		<div class="col-xs-4">
+			<strong>Name</strong>
+		</div>
+		<div class="col-xs-4">
+			<strong>Type</strong>
+		</div>
+		<div class="col-xs-4">
+			<strong>Description</strong>
+		</div>
+		{foreach $param in $parameters}
+			<div class="col-xs-4">
+				{$param.name}
+			</div>
+			<div class="col-xs-4">
+				{$param.type}
+			</div>
+			<div class="col-xs-4">
+				{$param.description}
+			</div>
+		{/foreach}
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param parameters
+ */
+{template .runParams}
+	<div id="{$id}-runParams" class="form-inline">
+		<div class="form-group">
+			{foreach $param in $parameters}
+				<span class="app-explorer-try-it-param">
+					{let $value: $param.value ? $param.value : '' /}
+					<label>{$param.name}</label> <input type="text" placeholder="{$value}" />
+				</span>
+			{/foreach}
+		</div>
+	</div>
+{/template}
+
+/**
+ * @param id
+ * @param method
+ * @param path
+ */
+{template .tryIt}
+	<div id="{$id}-tryIt">
+    <select class="form-control app-explorer-try-it-methods">
+    	{foreach $currMethod in $method}
+      	<option>{$currMethod}</option>
+    	{/foreach}
+    </select>
+    <input type="text" class="form-control app-explorer-try-it-path" value="{$path}" disabled>
+    <button type="button" class="btn btn-primary app-explorer-try-it-button">Run</button>
+  </div>
 {/template}

@@ -1,0 +1,28 @@
+@import "steel-bootstrap/src/variables";
+@import "steel-bootstrap/src/mixins";
+
+/* API Explorer
+	 ========================================================================== */
+.api-explorer {
+	.api-explorer-params {
+		margin-top: 10px;
+	}
+
+	.app-explorer-try-it-param {
+		margin-right: 10px;
+	}
+
+	.app-explorer-try-it-methods {
+		display: inline;
+		width: 20%;
+	}
+
+	.app-explorer-try-it-path {
+		display: inline;
+		width: 60%;
+	}
+
+	.app-explorer-try-it-button {
+		width: 20%;
+	}
+}
