@@ -35,11 +35,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.nameAndMethods = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-nameAndMethods">' + soy.$$escapeHtml(opt_data.name);
-  var currMethodList128 = opt_data.method;
-  var currMethodListLen128 = currMethodList128.length;
-  for (var currMethodIndex128 = 0; currMethodIndex128 < currMethodListLen128; currMethodIndex128++) {
-    var currMethodData128 = currMethodList128[currMethodIndex128];
-    output += ' <span class="label label-default">' + soy.$$escapeHtml(currMethodData128) + '</span>';
+  var currMethodList113 = opt_data.method;
+  var currMethodListLen113 = currMethodList113.length;
+  for (var currMethodIndex113 = 0; currMethodIndex113 < currMethodListLen113; currMethodIndex113++) {
+    var currMethodData113 = currMethodList113[currMethodIndex113];
+    output += ' <span class="label label-default">' + soy.$$escapeHtml(currMethodData113) + '</span>';
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -88,11 +88,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params" class="api-explorer-params row"><div class="col-xs-4"><strong>Name</strong></div><div class="col-xs-4"><strong>Type</strong></div><div class="col-xs-4"><strong>Description</strong></div>';
-  var paramList150 = opt_data.parameters;
-  var paramListLen150 = paramList150.length;
-  for (var paramIndex150 = 0; paramIndex150 < paramListLen150; paramIndex150++) {
-    var paramData150 = paramList150[paramIndex150];
-    output += '<div class="col-xs-4">' + soy.$$escapeHtml(paramData150.name) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData150.type) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData150.description) + '</div>';
+  var paramList135 = opt_data.parameters;
+  var paramListLen135 = paramList135.length;
+  for (var paramIndex135 = 0; paramIndex135 < paramListLen135; paramIndex135++) {
+    var paramData135 = paramList135[paramIndex135];
+    output += '<div class="col-xs-4">' + soy.$$escapeHtml(paramData135.name) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData135.type) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData135.description) + '</div>';
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -111,13 +111,13 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.runParams = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-runParams" class="form-inline"><div class="form-group">';
-  var paramList164 = opt_data.parameters;
-  var paramListLen164 = paramList164.length;
-  for (var paramIndex164 = 0; paramIndex164 < paramListLen164; paramIndex164++) {
-    var paramData164 = paramList164[paramIndex164];
+  var paramList149 = opt_data.parameters;
+  var paramListLen149 = paramList149.length;
+  for (var paramIndex149 = 0; paramIndex149 < paramListLen149; paramIndex149++) {
+    var paramData149 = paramList149[paramIndex149];
     output += '<span class="app-explorer-try-it-param">';
-    var value__soy166 = paramData164.value ? paramData164.value : '';
-    output += '<label>' + soy.$$escapeHtml(paramData164.name) + '</label> <input type="text" placeholder="' + soy.$$escapeHtmlAttribute(value__soy166) + '" class="app-explorer-try-it-param-input" /></span>';
+    var value__soy151 = paramData149.value ? paramData149.value : '';
+    output += '<label>' + soy.$$escapeHtml(paramData149.name) + '</label> <input type="text" placeholder="' + soy.$$escapeHtmlAttribute(value__soy151) + '" class="app-explorer-try-it-param-input" /></span>';
   }
   output += '</div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -136,11 +136,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.tryIt = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryIt"><select class="form-control app-explorer-try-it-methods">';
-  var currMethodList178 = opt_data.method;
-  var currMethodListLen178 = currMethodList178.length;
-  for (var currMethodIndex178 = 0; currMethodIndex178 < currMethodListLen178; currMethodIndex178++) {
-    var currMethodData178 = currMethodList178[currMethodIndex178];
-    output += '<option value="' + soy.$$escapeHtmlAttribute(currMethodData178) + '">' + soy.$$escapeHtml(currMethodData178) + '</option>';
+  var currMethodList163 = opt_data.method;
+  var currMethodListLen163 = currMethodList163.length;
+  for (var currMethodIndex163 = 0; currMethodIndex163 < currMethodListLen163; currMethodIndex163++) {
+    var currMethodData163 = currMethodList163[currMethodIndex163];
+    output += '<option value="' + soy.$$escapeHtmlAttribute(currMethodData163) + '">' + soy.$$escapeHtml(currMethodData163) + '</option>';
   }
   output += '</select><input type="text" class="form-control app-explorer-try-it-path" value="' + soy.$$escapeHtmlAttribute(opt_data.path) + '" disabled><button type="button" class="btn btn-primary app-explorer-try-it-button" data-onclick="handleClickRun_">Run</button></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);

@@ -12,6 +12,7 @@ module.exports = function (config) {
 		files: [
 			'bower_components/soyutils/soyutils.js',
 			'bower_components/metal*/src/**/*.js',
+			'bower_components/steel*/src/**/*.js',
 			'bower_components/api.js/src/**/*.js',
 			'src/**/*.js',
 			'test/**/*.js'
@@ -20,6 +21,7 @@ module.exports = function (config) {
 		preprocessors: {
 			'src/**/*.js': ['babel', 'commonjs'],
 			'bower_components/metal*/**/*.js': ['babel', 'commonjs'],
+			'bower_components/steel*/**/*.js': ['babel', 'commonjs'],
 			'bower_components/api.js/**/*.js': ['babel', 'commonjs'],
 			'test/**/*.js': ['babel', 'commonjs']
 		},

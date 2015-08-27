@@ -59,34 +59,22 @@
  * @param method
  */
 {template .methods}
-	<div id="{$id}-methods" class="api-builder-methods form-group">
-		{let $supportedMethods: ['delete', 'get', 'head', 'patch', 'post', 'put'] /}
-		{foreach $currentMethod in $supportedMethods}
-			<label class="checkbox-inline">
-				{let $methodChecked kind="html"}
-					{call .methodChecked data="all"}
-						{param method: $currentMethod /}
-						{param methods: $method /}
-					{/call}
-				{/let}
-			  <input
-					type="checkbox"
-					data-onchange="handleChangeMethod_"
-					value="{$currentMethod}"{$methodChecked}
-				>{$currentMethod}
-			</label>
-		{/foreach}
+	<div id="{$id}-methods" class="api-builder-methods">
+		{call Templates.ButtonGroup.content}
+			{param buttons: [
+				['label': 'get', 'cssClass': 'btn btn-default btn-get-bg'],
+				['label': 'head', 'cssClass': 'btn btn-default btn-head-bg'],
+				['label': 'post', 'cssClass': 'btn btn-default btn-post-bg'],
+				['label': 'put', 'cssClass': 'btn btn-default btn-put-bg'],
+				['label': 'patch', 'cssClass': 'btn btn-default btn-patch-bg'],
+				['label': 'delete', 'cssClass': 'btn btn-default btn-delete-bg']
+			] /}
+			{param events: ['selectedChanged': $id + ':handleMethodsSelectedChanged_'] /}
+			{param id: $id + '-methodButtonGroup' /}
+			{param minSelected: 1 /}
+			{param selected: $method /}
+		{/call}
 	</div>
-{/template}
-
-/**
- * @param method
- * @param methods
- */
-{template .methodChecked private="true"}
-	{foreach $currentMethod in $methods}
-		{if $method == $currentMethod}checked{/if}
-	{/foreach}
 {/template}
 
 /**

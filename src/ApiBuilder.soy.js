@@ -64,44 +64,10 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.methods = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods form-group">';
-  var supportedMethods__soy31 = ['delete', 'get', 'head', 'patch', 'post', 'put'];
-  var currentMethodList32 = supportedMethods__soy31;
-  var currentMethodListLen32 = currentMethodList32.length;
-  for (var currentMethodIndex32 = 0; currentMethodIndex32 < currentMethodListLen32; currentMethodIndex32++) {
-    var currentMethodData32 = currentMethodList32[currentMethodIndex32];
-    output += '<label class="checkbox-inline">';
-    var methodChecked__soy34 = '' + Templates.ApiBuilder.methodChecked(soy.$$augmentMap(opt_data, {method: currentMethodData32, methods: opt_data.method}), null, opt_ijData);
-    methodChecked__soy34 = soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks(methodChecked__soy34);
-    output += '<input type="checkbox" data-onchange="handleChangeMethod_" value="' + soy.$$escapeHtmlAttribute(currentMethodData32) + '"' + soy.$$filterHtmlAttributes(methodChecked__soy34) + '>' + soy.$$escapeHtml(currentMethodData32) + '</label>';
-  }
-  output += '</div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods">' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default btn-get-bg'}, {label: 'head', cssClass: 'btn btn-default btn-head-bg'}, {label: 'post', cssClass: 'btn btn-default btn-post-bg'}, {label: 'put', cssClass: 'btn btn-default btn-put-bg'}, {label: 'patch', cssClass: 'btn btn-default btn-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default btn-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method}, null, opt_ijData)) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.methods.soyTemplateName = 'Templates.ApiBuilder.methods';
-}
-
-
-/**
- * @param {Object.<string, *>=} opt_data
- * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
- * @suppress {checkTypes}
- */
-Templates.ApiBuilder.methodChecked = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '';
-  var currentMethodList48 = opt_data.methods;
-  var currentMethodListLen48 = currentMethodList48.length;
-  for (var currentMethodIndex48 = 0; currentMethodIndex48 < currentMethodListLen48; currentMethodIndex48++) {
-    var currentMethodData48 = currentMethodList48[currentMethodIndex48];
-    output += (opt_data.method == currentMethodData48) ? 'checked' : '';
-  }
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
-};
-if (goog.DEBUG) {
-  Templates.ApiBuilder.methodChecked.soyTemplateName = 'Templates.ApiBuilder.methodChecked';
 }
 
 
@@ -144,11 +110,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><label>Params</label>';
-  var paramList69 = opt_data.parameters;
-  var paramListLen69 = paramList69.length;
-  for (var paramIndex69 = 0; paramIndex69 < paramListLen69; paramIndex69++) {
-    var paramData69 = paramList69[paramIndex69];
-    output += Templates.ApiBuilder.param({index: paramIndex69, param: paramData69}, null, opt_ijData);
+  var paramList54 = opt_data.parameters;
+  var paramListLen54 = paramList54.length;
+  for (var paramIndex54 = 0; paramIndex54 < paramListLen54; paramIndex54++) {
+    var paramData54 = paramList54[paramIndex54];
+    output += Templates.ApiBuilder.param({index: paramIndex54, param: paramData54}, null, opt_ijData);
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -167,19 +133,19 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div class="row form-group api-builder-param" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-onchange="handleChangeParam_" data-oninput="handleInputParam_"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div><div class="col-xs-2">';
-  var types__soy81 = ['number', 'string', 'boolean', 'array', 'object'];
+  var types__soy66 = ['number', 'string', 'boolean', 'array', 'object'];
   output += '<select type="text" class="form-control" data-name="type">';
-  var typeList83 = types__soy81;
-  var typeListLen83 = typeList83.length;
-  for (var typeIndex83 = 0; typeIndex83 < typeListLen83; typeIndex83++) {
-    var typeData83 = typeList83[typeIndex83];
-    output += '<option value="' + soy.$$escapeHtmlAttribute(typeData83) + '"' + soy.$$filterHtmlAttributes(typeData83 == opt_data.param.type ? 'selected' : '') + '>' + soy.$$escapeHtml(typeData83) + '</option>';
+  var typeList68 = types__soy66;
+  var typeListLen68 = typeList68.length;
+  for (var typeIndex68 = 0; typeIndex68 < typeListLen68; typeIndex68++) {
+    var typeData68 = typeList68[typeIndex68];
+    output += '<option value="' + soy.$$escapeHtmlAttribute(typeData68) + '"' + soy.$$filterHtmlAttributes(typeData68 == opt_data.param.type ? 'selected' : '') + '>' + soy.$$escapeHtml(typeData68) + '</option>';
   }
   output += '</select></div><div class="col-xs-2">';
-  var value__soy93 = opt_data.param.value ? opt_data.param.value : '';
-  output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy93) + '" data-name="value" /></div><div class="col-xs-2"><select type="text" class="form-control" data-name="in"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
-  var description__soy99 = opt_data.param.description ? opt_data.param.description : '';
-  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy99) + '" data-name="description" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' data-name="required" /> Required</label><button type="button" class="close" data-onclick="handleClickRemoveParam_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><span aria-hidden="true">&times;</span></button></div></div>';
+  var value__soy78 = opt_data.param.value ? opt_data.param.value : '';
+  output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy78) + '" data-name="value" /></div><div class="col-xs-2"><select type="text" class="form-control" data-name="in"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
+  var description__soy84 = opt_data.param.description ? opt_data.param.description : '';
+  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy84) + '" data-name="description" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' data-name="required" /> Required</label><button type="button" class="close" data-onclick="handleClickRemoveParam_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><span aria-hidden="true">&times;</span></button></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -190,7 +156,6 @@ Templates.ApiBuilder.content.params = ["id"];
 Templates.ApiBuilder.name.params = ["id","name"];
 Templates.ApiBuilder.description.params = ["id","description"];
 Templates.ApiBuilder.methods.params = ["id","method"];
-Templates.ApiBuilder.methodChecked.private = true;
 Templates.ApiBuilder.path.params = ["id","path"];
 Templates.ApiBuilder.handler.params = ["id","handler"];
 Templates.ApiBuilder.params.params = ["id","parameters"];

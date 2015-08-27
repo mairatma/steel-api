@@ -1,9 +1,9 @@
 'use strict';
 
-import array from 'bower:metal/src/array/array';
 import ApiBase from './ApiBase';
 import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
+import 'bower:steel-button-group/src/ButtonGroup';
 import './ApiBuilder.soy';
 
 /**
@@ -18,22 +18,6 @@ class ApiBuilder extends ApiBase {
 
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
-	}
-
-	/**
-	 * Handles a `change` event on a method checkbox. Updates the `method`
-	 * attr to include/exclude the affected value.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	handleChangeMethod_(event) {
-		if (event.delegateTarget.checked) {
-			this.method.push(event.delegateTarget.value);
-		} else {
-			array.remove(this.method, event.delegateTarget.value);
-		}
-		this.method = this.method;
-		this.skipSurfaceUpdateForAttr_ = 'method';
 	}
 
 	/**
@@ -118,6 +102,23 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleInputPath_(event) {
 		this.updateAttrFromInput_(event, 'path');
+	}
+
+	/**
+	 * Handles a `selectedChanged` event triggered by the methods `ButtonGroup` instance.
+	 * Updates the `method` attr with the new value.
+	 * @protected
+	 */
+	handleMethodsSelectedChanged_() {
+		var newMethods = [];
+		var methodButtonGroup = this.components[this.id + '-methodButtonGroup'];
+		for (var i = 0; i < methodButtonGroup.buttons.length; i++) {
+			if (methodButtonGroup.selected[i]) {
+				newMethods.push(methodButtonGroup.buttons[i].label);
+			}
+		}
+		this.method = newMethods;
+		this.skipSurfaceUpdateForAttr_ = 'method';
 	}
 
 	/**

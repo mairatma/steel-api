@@ -27,16 +27,16 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('foo', builder.element.querySelector('#builder-description textarea').value);
 		});
 
-		it('should check method checkboxes for given methods', function() {
+		it('should check selected buttons for given methods', function() {
 			builder = new ApiBuilder({
 				id: 'builder',
 				method: ['get', 'post']
 			}).render();
 
-			var checked = builder.element.querySelectorAll('#builder-methods input:checked');
-			assert.strictEqual(2, checked.length);
-			assert.strictEqual('get', checked[0].value);
-			assert.strictEqual('post', checked[1].value);
+			var buttons = builder.element.querySelectorAll('#builder-methods .btn-group .btn-group-selected');
+			assert.strictEqual(2, buttons.length);
+			assert.strictEqual('get', buttons[0].textContent);
+			assert.strictEqual('post', buttons[1].textContent);
 		});
 
 		it('should fill path text field with given path', function() {
@@ -286,22 +286,30 @@ describe('ApiBuilder', function() {
 		});
 	});
 
-	it('should update "method" when value is changed via checkboxes', function(done) {
+	it('should update "method" when method button is clicked', function() {
 		builder = new ApiBuilder().render();
 
-		var elements = builder.element.querySelectorAll('#' + builder.id + '-methods [type="checkbox"]');
-		elements[0].checked = true;
-		dom.triggerEvent(elements[0], 'change');
-		builder.once('attrsChanged', function() {
-			assert.deepEqual(['get', 'delete'], builder.method);
+		var buttons = builder.element.querySelectorAll('.btn-group button');
+		dom.triggerEvent(buttons[5], 'click');
+		assert.deepEqual(['get', 'delete'], builder.method);
 
-			elements[1].checked = false;
-			dom.triggerEvent(elements[1], 'change');
-			builder.once('attrsChanged', function() {
-				assert.deepEqual(['delete'], builder.method);
-				done();
-			});
-		});
+		dom.triggerEvent(buttons[0], 'click');
+		assert.deepEqual(['delete'], builder.method);
+	});
+
+	it('should not allow deselecting all method buttons', function() {
+		builder = new ApiBuilder().render();
+
+		var buttons = builder.element.querySelectorAll('.btn-group button');
+		dom.triggerEvent(buttons[0], 'click');
+		assert.deepEqual(['get'], builder.method);
+		assert.ok(dom.hasClass(buttons[0], 'btn-group-selected'));
+
+		dom.triggerEvent(buttons[5], 'click');
+		dom.triggerEvent(buttons[0], 'click');
+		dom.triggerEvent(buttons[5], 'click');
+		assert.deepEqual(['delete'], builder.method);
+		assert.ok(dom.hasClass(buttons[5], 'btn-group-selected'));
 	});
 
 	it('should update "path" when value is changed via input', function(done) {
