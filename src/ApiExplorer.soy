@@ -6,27 +6,40 @@
  * @param id
  */
 {template .content}
-	<div id="{$id}" class="api-explorer component{$elementClasses ? ' ' + $elementClasses : ''}">
-		{call .nameAndMethods data="all" /}
+	<div id="{$id}" class="explorer component{$elementClasses ? ' ' + $elementClasses : ''}">
+		{call .title data="all" /}
 		{call .description data="all" /}
-		{call .path data="all" /}
+		{call .authentication data="all" /}
 		{call .params data="all" /}
-		<div class="app-explorer-try-it-header">Try it out:</div>
-		{call .runParams data="all" /}
-		{call .tryIt data="all" /}
-		{call .response data="all" /}
+
+		<p class="api-section-title">Try it out</p>
+		<div class="explorer-section-try">
+			<form>
+				{call .tryParams data="all" /}
+				{call .tryIt data="all" /}
+			</form>
+			{call .tryResponse data="all" /}
+		</div>
 	</div>
 {/template}
 
 /**
+ * @param data
  * @param id
  * @param method
- * @param name
+ * @param path
  */
-{template .nameAndMethods}
-	<div id="{$id}-nameAndMethods">
-		{$name}{foreach $currMethod in $method} <span class="label label-default">{$currMethod}</span>{/foreach}
-	</div>
+{template .title}
+	<p id="{$id}-title" class="explorer-title">
+		<span class="explorer-title-label label label-sm http-{$method[0]}-bg">{$method[0]}</span>
+		<span class="explorer-title-name">{$path}</span>
+		{if $data}
+			<span class="explorer-data">
+				<span class="explorer-data-icon icon-12-check"></span>
+				<span class="explorer-data-label">Data</span>
+			</span>
+		{/if}
+	</p>
 {/template}
 
 /**
@@ -34,18 +47,34 @@
  * @param description
  */
 {template .description}
-	<div id="{$id}-description" class="text-muted">
+	<p id="{$id}-description" class="explorer-description">
 		{$description}
-	</div>
+	</p>
 {/template}
 
 /**
  * @param id
- * @param path
+ * @param authentication
  */
-{template .path}
-	<div id="{$id}-path">
-		{$path}
+{template .authentication}
+	<div id="{$id}-authentication">
+		<p class="api-section-title">Authentication</p>
+		<div class="explorer-section-auth">
+			{if $authentication.roles}
+				{foreach $role in $authentication.roles}
+					<span class="label label-primary">
+						<span class="label-icon icon-12-person"></span> {$role}
+					</span>
+				{/foreach}
+			{/if}
+			{if $authentication.permissions}
+				{foreach $permission in $authentication.permissions}
+					<span class="label label-success">
+						<span class="label-icon icon-12-check"></span> {$permission}
+					</span>
+				{/foreach}
+			{/if}
+		</div>
 	</div>
 {/template}
 
@@ -54,27 +83,36 @@
  * @param parameters
  */
 {template .params}
-	<div id="{$id}-params" class="api-explorer-params row">
-		<div class="col-xs-4">
-			<strong>Name</strong>
+	<div id="{$id}-params">
+		<p class="api-section-title">Parameters</p>
+		<div class="explorer-section-params">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th class="text-center">Type</th>
+						<th class="text-center">Value</th>
+						<th class="text-center">Required</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $param in $parameters}
+						<tr>
+							<td>{$param.name}</td>
+							<td>{$param.description ? $param.description : ''}</td>
+							<td class="text-center">{$param.type}</td>
+							<td class="text-center">{$param.value ? $param.value : ''}</td>
+							<td class="text-center">
+								{if $param.required}
+									<span class="explorer-icon-required icon-16-confirm"></span>
+								{/if}
+							</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
 		</div>
-		<div class="col-xs-4">
-			<strong>Type</strong>
-		</div>
-		<div class="col-xs-4">
-			<strong>Description</strong>
-		</div>
-		{foreach $param in $parameters}
-			<div class="col-xs-4">
-				{$param.name}
-			</div>
-			<div class="col-xs-4">
-				{$param.type}
-			</div>
-			<div class="col-xs-4">
-				{$param.description}
-			</div>
-		{/foreach}
 	</div>
 {/template}
 
@@ -82,35 +120,50 @@
  * @param id
  * @param parameters
  */
-{template .runParams}
-	<div id="{$id}-runParams" class="form-inline">
-		<div class="form-group">
-			{foreach $param in $parameters}
-				<span class="app-explorer-try-it-param">
-					{let $value: $param.value ? $param.value : '' /}
-					<label>{$param.name}</label> <input type="text" placeholder="{$value}" class="app-explorer-try-it-param-input" />
-				</span>
-			{/foreach}
-		</div>
+{template .tryParams}
+	<div id="{$id}-tryParams" class="row">
+		{foreach $param in $parameters}
+			<div class="col-md-3">
+				<label for="from">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
+				<input
+					name="{$param.name}"
+					class="form-control explorer-section-try-param"
+					type="text"
+					autocomplete="off"
+					placeholder="{$param.value ? $param.value : ''}">
+			</div>
+		{/foreach}
 	</div>
 {/template}
 
 /**
+ * @param host
  * @param id
  * @param method
  * @param path
  */
 {template .tryIt}
-	<div id="{$id}-tryIt">
-		<select class="form-control app-explorer-try-it-methods">
-			{foreach $currMethod in $method}
-				<option value="{$currMethod}">{$currMethod}</option>
-			{/foreach}
-		</select>
-		<input type="text" class="form-control app-explorer-try-it-path" value="{$path}" disabled>
-		<button type="button" class="btn btn-primary app-explorer-try-it-button" data-onclick="handleClickRun_">
-			Run
-		</button>
+	<div id="{$id}-tryIt" class="row">
+		<div class="col-md-12">
+			<div class="input-group">
+				<div class="input-group-btn">
+					{call Templates.Select.content}
+						{param id: $id + '-methodSelect' /}
+						{param items: $method /}
+						{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
+						{param hiddenFieldName: 'method' /}
+					{/call}
+				</div>
+				<input class="input-btn-right form-control" type="text" value="{$host}{$path}" readonly>
+				<div class="input-group-btn">
+					<button
+						class="btn btn-sm btn-success explorer-section-try-button"
+						type="button" data-onclick="{$id}:handleClickRun_">
+						Try It!
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 {/template}
 
@@ -118,17 +171,19 @@
  * @param id
  * @param response
  */
-{template .response}
-	<div id="{$id}-response" class="api-explorer-response">
+{template .tryResponse}
+	<div id="{$id}-tryResponse">
 		{if $response}
-			<div class="api-explorer-response-status">
-				{$response.statusCode} {$response.statusText}
-			</div>
-			{if $response.bodyString}
-				<div class="api-explorer-response-body">
-					{$response.bodyString}
+			<div class="explorer-section-response">
+				<div class="explorer-status-container">
+					<span class="explorer-status">{$response.statusCode} {$response.statusText}</span>
 				</div>
-			{/if}
+				{if $response.bodyString}
+					<div class="explorer-code-container">
+						<textarea>{$response.bodyString}</textarea>
+					</div>
+				{/if}
+			</div>
 		{/if}
 	</div>
 {/template}

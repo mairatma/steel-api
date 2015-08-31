@@ -5,6 +5,8 @@
 	<title>Demo: ApiExplorer</title>
 
 	<link rel="stylesheet" href="../bower_components/steel-bootstrap/build/bootstrap.css">
+	<link rel="stylesheet" href="../bower_components/steel-bootstrap/build/fonts/icon-12.css">
+	<link rel="stylesheet" href="../bower_components/steel-bootstrap/build/fonts/icon-16.css">
 	<link rel="stylesheet" href="../build/api.css">
 
 	<script src="../bower_components/soyutils/soyutils.js"></script>
@@ -14,27 +16,61 @@
 	<h1>ApiExplorer</h1>
 	<script type="text/javascript">
 		window.builder = new steel.ApiExplorer({
-			name: 'Get Users',
-			description: 'API for fetching users from the database',
-			method: ['get', 'post'],
-			parameters: {
-				age: {
-					description: 'The age of the user',
-					type: 'number'
-				},
-				name: {
-					description: 'The name of the user',
-					type: 'string',
-					required: true
-				},
-				sort: {
-					description: 'If the results sorting should be ascending or descending',
-					in: 'url',
-					type: 'string',
-					value: 'asc'
-				}
+			authentication: {
+				roles: ['Owner', 'Admin', 'Member'],
+				permissions: ['Edit', 'Invite', 'Delete']
 			},
-			path: 'http://localhost:3000/data'
+			description: 'Email API',
+			host: 'http://localhost:3000/email',
+			path: '/',
+			method: ['post', 'put'],
+			handler: 'com.liferay.launchpad.email.EmailAction#post',
+			parameters: {
+				from: {
+					description: 'Sender email address',
+					required: true,
+					multiple: false,
+					type: 'string',
+					validator: 'new RegExp($config.emailRegex).test($from)'
+				},
+				message: {
+					description: 'HTML content of your email message. Up to 5MB',
+					required: true,
+					multiple: false,
+					type: 'string',
+					validator: '$message.length <= 5120'
+				},
+				subject: {
+					description: 'Subject of your email. Up to 1MB',
+					multiple: false,
+					type: 'string',
+					validator: '$subject.length <= 1024'
+				},
+				to: {
+					description: 'Recipient email address. Multiple addresses should be defined in multiple parameters',
+					required: true,
+					validator: 'new RegExp($config.emailRegex).test($to)'
+				},
+				bcc: {
+					description: 'Bcc recipient email address. Multiple addresses should be defined in multiple parameters',
+					validator: 'new RegExp($config.emailRegex).test($bcc)'
+				},
+				cc: {
+					description: 'Cc recipient email address. Multiple addresses should be defined in multiple parameters',
+					validator: 'new RegExp($config.emailRegex).test($cc)'
+				},
+				priority: {
+					description: 'Used by email clients to define a message\'s importance. From 1 to 5 where \'1\' is highest and \'5\' is the lowest priority',
+					type: 'number',
+					validator: '$priority >= 1 && $priority <= 5',
+					value: 1
+				},
+				replyTo: {
+					description: 'Append a reply-to address to your email message',
+					type: 'string',
+					validator: 'new RegExp($config.emailRegex).test($replyTo)'
+				}
+			}
 		}).render();
 	</script>
 </body>

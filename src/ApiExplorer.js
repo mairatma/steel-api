@@ -4,6 +4,7 @@ import core from 'bower:metal/src/core';
 import ApiBase from './ApiBase';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
+import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
 
 /**
@@ -21,7 +22,7 @@ class ApiExplorer extends ApiBase {
 			body: {},
 			url: {}
 		};
-		var paramNodes = this.element.querySelectorAll('.app-explorer-try-it-param-input');
+		var paramNodes = this.element.querySelectorAll('.explorer-section-try-param');
 		for (var i = 0; i < paramNodes.length; i++) {
 			var value = paramNodes[i].value;
 			if (value.trim() === '') {
@@ -39,10 +40,11 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		var method = this.element.querySelector('.app-explorer-try-it-methods').value;
+		var methodSelect = this.components[this.id + '-methodSelect'];
+		var method = methodSelect.items[methodSelect.selectedIndex].name;
 		var params = this.getParamsFromInputs_();
 
-		var launchpad = Launchpad.url(this.path);
+		var launchpad = Launchpad.url(this.host + this.path);
 		this.setLaunchpadParams_(launchpad, params.url);
 		launchpad[method](params.body).then(this.handleResponse_.bind(this));
 	}
@@ -86,6 +88,14 @@ class ApiExplorer extends ApiBase {
  */
 ApiExplorer.ATTRS = {
 	/**
+	 * The host url for this api.
+	 * @type {string}
+	 */
+	host: {
+		validator: core.isString
+	},
+
+	/**
 	 * The last obtained JSON response, if any.
 	 * @type {!Object}
 	 */
@@ -99,7 +109,7 @@ ApiExplorer.ATTRS = {
  * @type {string}
  * @static
  */
-ApiExplorer.ELEMENT_CLASSES = 'api-explorer';
+ApiExplorer.ELEMENT_CLASSES = 'explorer';
 
 ComponentRegistry.register('ApiExplorer', ApiExplorer);
 

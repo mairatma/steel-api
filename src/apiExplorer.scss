@@ -3,39 +3,116 @@
 
 /* API Explorer
 	 ========================================================================== */
-.api-explorer {
-	.api-explorer-params {
-		margin-top: 10px;
-	}
 
-	.app-explorer-try-it-header {
-		margin-top: 10px;
-	}
+.explorer-title {
+	color: rgba($primary, .8);
+	font-size: 20px;
+	margin: 60px 0 30px;
+}
 
-	.app-explorer-try-it-param {
-		margin-right: 10px;
-	}
+.explorer-title-label {
+	position: relative;
+	top: -3px;
+}
 
-	.app-explorer-try-it-methods {
-		display: inline;
-		width: 20%;
-	}
+.explorer-title-name {
+	margin-left: 12px;
+}
 
-	.app-explorer-try-it-path {
-		display: inline;
-		width: 60%;
-	}
+.explorer-data {
+	float: right;
+	position: relative;
+}
 
-	.app-explorer-try-it-button {
-		width: 20%;
-	}
+.explorer-data-icon {
+	background: $white;
+	border-radius: 50%;
+	border: 1px solid $brand-success;
+	color: $brand-success;
+	padding: 4px 5px 6px;
+	position: relative;
+}
 
-	.api-explorer-response-status {
-		border: 1px solid #000;
-	}
+.explorer-data-label {
+	color: rgba($primary, .7);
+	font-size: 12px;
+	margin-left: 5px;
+}
 
-	.api-explorer-response-body {
-		border: 1px solid #000;
-		border-top: none;
-	}
+.explorer-description {
+	color: rgba($primary, .5);
+	margin-bottom: 20px;
+}
+
+// Section / Authentication ----------------------------------------------------
+
+.explorer-section-auth .label {
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+// Section / Params ------------------------------------------------------------
+
+.explorer-section-params {
+	border: 1px solid rgba($primary, .2);
+	border-radius: $border-radius-base;
+	padding: 10px 0 0 20px;
+}
+
+.explorer-section-params .explorer-icon-required {
+	color: $brand-success;
+}
+
+// Section / Try it out --------------------------------------------------------
+
+.explorer-section-try {
+	border: 1px solid rgba($primary, .2);
+	border-radius: $border-radius-base;
+	padding: 30px 30px 0;
+	margin-bottom: 60px;
+}
+
+.explorer-section-try .explorer-icon-required {
+	color: $brand-danger;
+}
+
+.explorer-section-try .row {
+	margin-bottom: 20px;
+}
+
+.explorer-section-try label {
+	color: rgba($primary, .4);
+	font-size: 12px;
+}
+
+.explorer-section-try .input-group:last-child {
+	margin-bottom: 25px;
+}
+
+.explorer-section-try .dropdown-menu,
+.explorer-section-try .dropdown-select {
+	text-transform: uppercase;
+}
+
+// Section / Response ----------------------------------------------------------
+
+.explorer-status-container {
+	border-top: 1px solid rgba($brand-primary, .2);
+	border-bottom: 1px solid rgba($brand-primary, .2);
+	padding: 40px 0;
+	text-align: center;
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+.explorer-status {
+	border-radius: $border-radius-base;
+	border: 1px solid rgba($primary, .6);
+	color: rgba($primary, .8);
+	font-size: 13px;
+	padding: 10px 13px;
+}
+
+.explorer-code-container {
+	margin-right: -29px;
 }

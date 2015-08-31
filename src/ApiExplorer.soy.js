@@ -19,7 +19,7 @@ if (typeof Templates.ApiExplorer == 'undefined') { Templates.ApiExplorer = {}; }
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.content = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="api-explorer component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiExplorer.nameAndMethods(opt_data, null, opt_ijData) + Templates.ApiExplorer.description(opt_data, null, opt_ijData) + Templates.ApiExplorer.path(opt_data, null, opt_ijData) + Templates.ApiExplorer.params(opt_data, null, opt_ijData) + '<div class="app-explorer-try-it-header">Try it out:</div>' + Templates.ApiExplorer.runParams(opt_data, null, opt_ijData) + Templates.ApiExplorer.tryIt(opt_data, null, opt_ijData) + Templates.ApiExplorer.response(opt_data, null, opt_ijData) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="explorer component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiExplorer.title(opt_data, null, opt_ijData) + Templates.ApiExplorer.description(opt_data, null, opt_ijData) + Templates.ApiExplorer.authentication(opt_data, null, opt_ijData) + Templates.ApiExplorer.params(opt_data, null, opt_ijData) + '<p class="api-section-title">Try it out</p><div class="explorer-section-try"><form>' + Templates.ApiExplorer.tryParams(opt_data, null, opt_ijData) + Templates.ApiExplorer.tryIt(opt_data, null, opt_ijData) + '</form>' + Templates.ApiExplorer.tryResponse(opt_data, null, opt_ijData) + '</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.content.soyTemplateName = 'Templates.ApiExplorer.content';
@@ -33,19 +33,11 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiExplorer.nameAndMethods = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-nameAndMethods">' + soy.$$escapeHtml(opt_data.name);
-  var currMethodList113 = opt_data.method;
-  var currMethodListLen113 = currMethodList113.length;
-  for (var currMethodIndex113 = 0; currMethodIndex113 < currMethodListLen113; currMethodIndex113++) {
-    var currMethodData113 = currMethodList113[currMethodIndex113];
-    output += ' <span class="label label-default">' + soy.$$escapeHtml(currMethodData113) + '</span>';
-  }
-  output += '</div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<p id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="explorer-title"><span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(opt_data.method[0]) + '-bg">' + soy.$$escapeHtml(opt_data.method[0]) + '</span><span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>');
 };
 if (goog.DEBUG) {
-  Templates.ApiExplorer.nameAndMethods.soyTemplateName = 'Templates.ApiExplorer.nameAndMethods';
+  Templates.ApiExplorer.title.soyTemplateName = 'Templates.ApiExplorer.title';
 }
 
 
@@ -57,7 +49,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.description = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="text-muted">' + soy.$$escapeHtml(opt_data.description) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<p id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="explorer-description">' + soy.$$escapeHtml(opt_data.description) + '</p>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.description.soyTemplateName = 'Templates.ApiExplorer.description';
@@ -71,11 +63,29 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiExplorer.path = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path">' + soy.$$escapeHtml(opt_data.path) + '</div>');
+Templates.ApiExplorer.authentication = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-authentication"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
+  if (opt_data.authentication.roles) {
+    var roleList135 = opt_data.authentication.roles;
+    var roleListLen135 = roleList135.length;
+    for (var roleIndex135 = 0; roleIndex135 < roleListLen135; roleIndex135++) {
+      var roleData135 = roleList135[roleIndex135];
+      output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData135) + '</span>';
+    }
+  }
+  if (opt_data.authentication.permissions) {
+    var permissionList142 = opt_data.authentication.permissions;
+    var permissionListLen142 = permissionList142.length;
+    for (var permissionIndex142 = 0; permissionIndex142 < permissionListLen142; permissionIndex142++) {
+      var permissionData142 = permissionList142[permissionIndex142];
+      output += '<span class="label label-success"><span class="label-icon icon-12-check"></span> ' + soy.$$escapeHtml(permissionData142) + '</span>';
+    }
+  }
+  output += '</div></div>';
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
-  Templates.ApiExplorer.path.soyTemplateName = 'Templates.ApiExplorer.path';
+  Templates.ApiExplorer.authentication.soyTemplateName = 'Templates.ApiExplorer.authentication';
 }
 
 
@@ -87,14 +97,14 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.params = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params" class="api-explorer-params row"><div class="col-xs-4"><strong>Name</strong></div><div class="col-xs-4"><strong>Type</strong></div><div class="col-xs-4"><strong>Description</strong></div>';
-  var paramList135 = opt_data.parameters;
-  var paramListLen135 = paramList135.length;
-  for (var paramIndex135 = 0; paramIndex135 < paramListLen135; paramIndex135++) {
-    var paramData135 = paramList135[paramIndex135];
-    output += '<div class="col-xs-4">' + soy.$$escapeHtml(paramData135.name) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData135.type) + '</div><div class="col-xs-4">' + soy.$$escapeHtml(paramData135.description) + '</div>';
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="explorer-section-params"><table class="table"><thead><tr><th>Name</th><th>Description</th><th class="text-center">Type</th><th class="text-center">Value</th><th class="text-center">Required</th></tr></thead><tbody>';
+  var paramList152 = opt_data.parameters;
+  var paramListLen152 = paramList152.length;
+  for (var paramIndex152 = 0; paramIndex152 < paramListLen152; paramIndex152++) {
+    var paramData152 = paramList152[paramIndex152];
+    output += '<tr><td>' + soy.$$escapeHtml(paramData152.name) + '</td><td>' + soy.$$escapeHtml(paramData152.description ? paramData152.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData152.type) + '</td><td class="text-center">' + soy.$$escapeHtml(paramData152.value ? paramData152.value : '') + '</td><td class="text-center">' + ((paramData152.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
   }
-  output += '</div>';
+  output += '</tbody></table></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -109,21 +119,19 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiExplorer.runParams = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-runParams" class="form-inline"><div class="form-group">';
-  var paramList149 = opt_data.parameters;
-  var paramListLen149 = paramList149.length;
-  for (var paramIndex149 = 0; paramIndex149 < paramListLen149; paramIndex149++) {
-    var paramData149 = paramList149[paramIndex149];
-    output += '<span class="app-explorer-try-it-param">';
-    var value__soy151 = paramData149.value ? paramData149.value : '';
-    output += '<label>' + soy.$$escapeHtml(paramData149.name) + '</label> <input type="text" placeholder="' + soy.$$escapeHtmlAttribute(value__soy151) + '" class="app-explorer-try-it-param-input" /></span>';
+Templates.ApiExplorer.tryParams = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryParams" class="row">';
+  var paramList172 = opt_data.parameters;
+  var paramListLen172 = paramList172.length;
+  for (var paramIndex172 = 0; paramIndex172 < paramListLen172; paramIndex172++) {
+    var paramData172 = paramList172[paramIndex172];
+    output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData172.name) + ' ' + ((paramData172.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData172.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData172.value ? paramData172.value : '') + '"></div>';
   }
-  output += '</div></div>';
+  output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
-  Templates.ApiExplorer.runParams.soyTemplateName = 'Templates.ApiExplorer.runParams';
+  Templates.ApiExplorer.tryParams.soyTemplateName = 'Templates.ApiExplorer.tryParams';
 }
 
 
@@ -135,15 +143,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.tryIt = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryIt"><select class="form-control app-explorer-try-it-methods">';
-  var currMethodList163 = opt_data.method;
-  var currMethodListLen163 = currMethodList163.length;
-  for (var currMethodIndex163 = 0; currMethodIndex163 < currMethodListLen163; currMethodIndex163++) {
-    var currMethodData163 = currMethodList163[currMethodIndex163];
-    output += '<option value="' + soy.$$escapeHtmlAttribute(currMethodData163) + '">' + soy.$$escapeHtml(currMethodData163) + '</option>';
-  }
-  output += '</select><input type="text" class="form-control app-explorer-try-it-path" value="' + soy.$$escapeHtmlAttribute(opt_data.path) + '" disabled><button type="button" class="btn btn-primary app-explorer-try-it-button" data-onclick="handleClickRun_">Run</button></div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryIt" class="row"><div class="col-md-12"><div class="input-group"><div class="input-group-btn">' + soy.$$escapeHtml(Templates.Select.content({id: opt_data.id + '-methodSelect', items: opt_data.method, buttonClass: 'btn btn-default btn-sm dropdown-select-group-left', hiddenFieldName: 'method'}, null, opt_ijData)) + '</div><input class="input-btn-right form-control" type="text" value="' + soy.$$escapeHtmlAttribute(opt_data.host) + soy.$$escapeHtmlAttribute(opt_data.path) + '" readonly><div class="input-group-btn"><button class="btn btn-sm btn-success explorer-section-try-button" type="button" data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleClickRun_">Try It!</button></div></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.tryIt.soyTemplateName = 'Templates.ApiExplorer.tryIt';
@@ -157,20 +157,20 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiExplorer.response = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-response" class="api-explorer-response">' + ((opt_data.response) ? '<div class="api-explorer-response-status">' + soy.$$escapeHtml(opt_data.response.statusCode) + ' ' + soy.$$escapeHtml(opt_data.response.statusText) + '</div>' + ((opt_data.response.bodyString) ? '<div class="api-explorer-response-body">' + soy.$$escapeHtml(opt_data.response.bodyString) + '</div>' : '') : '') + '</div>');
+Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) {
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse">' + ((opt_data.response) ? '<div class="explorer-section-response"><div class="explorer-status-container"><span class="explorer-status">' + soy.$$escapeHtml(opt_data.response.statusCode) + ' ' + soy.$$escapeHtml(opt_data.response.statusText) + '</span></div>' + ((opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div>' : '') + '</div>');
 };
 if (goog.DEBUG) {
-  Templates.ApiExplorer.response.soyTemplateName = 'Templates.ApiExplorer.response';
+  Templates.ApiExplorer.tryResponse.soyTemplateName = 'Templates.ApiExplorer.tryResponse';
 }
 
 Templates.ApiExplorer.content.params = ["id"];
-Templates.ApiExplorer.nameAndMethods.params = ["id","method","name"];
+Templates.ApiExplorer.title.params = ["data","id","method","path"];
 Templates.ApiExplorer.description.params = ["id","description"];
-Templates.ApiExplorer.path.params = ["id","path"];
+Templates.ApiExplorer.authentication.params = ["id","authentication"];
 Templates.ApiExplorer.params.params = ["id","parameters"];
-Templates.ApiExplorer.runParams.params = ["id","parameters"];
-Templates.ApiExplorer.tryIt.params = ["id","method","path"];
-Templates.ApiExplorer.response.params = ["id","response"];
+Templates.ApiExplorer.tryParams.params = ["id","parameters"];
+Templates.ApiExplorer.tryIt.params = ["host","id","method","path"];
+Templates.ApiExplorer.tryResponse.params = ["id","response"];
 export default Templates.ApiExplorer;
 /* jshint ignore:end */

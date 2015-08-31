@@ -20,12 +20,13 @@ describe('ApiExplorer', function() {
 		this.xhr.restore();
 	});
 
-	it('should send request to given path', function() {
+	it('should send request to given host and path', function() {
 		explorer = new ApiExplorer({
-			path: 'foo.org/data/'
+			host: 'foo.org',
+			path: '/data/'
 		}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
 		assert.strictEqual('foo.org/data/', requests[0].url);
 	});
@@ -35,15 +36,15 @@ describe('ApiExplorer', function() {
 			method: ['get', 'post']
 		}).render();
 
-		var selectElement = explorer.element.querySelector('.app-explorer-try-it-methods');
-		selectElement.value = 'post';
+		var methodSelect = explorer.components[explorer.element.id + '-methodSelect'];
+		methodSelect.selectedIndex = 1;
 
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
 		assert.strictEqual('POST', requests[0].method);
 
-		selectElement.value = 'get';
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		methodSelect.selectedIndex = 0;
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(2, requests.length);
 		assert.strictEqual('GET', requests[1].method);
 	});
@@ -65,16 +66,17 @@ describe('ApiExplorer', function() {
 			]
 		}).render();
 
-		var inputs = explorer.element.querySelectorAll('.app-explorer-try-it-param-input');
+		var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
 		assert.strictEqual(3, inputs.length);
 
 		inputs[1].value = 12;
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.deepEqual('{"name":"foo","age":"12"}', requests[0].requestBody);
 	});
 
 	it('should send request with chosen url params', function() {
 		explorer = new ApiExplorer({
+			host: 'foo.org',
 			parameters: [
 				{
 					name: 'name',
@@ -90,28 +92,28 @@ describe('ApiExplorer', function() {
 					in: 'url'
 				}
 			],
-			path: 'foo.org/data/'
+			path: '/data/'
 		}).render();
 
-		var inputs = explorer.element.querySelectorAll('.app-explorer-try-it-param-input');
+		var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
 		assert.strictEqual(3, inputs.length);
 
 		inputs[1].value = 12;
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual('foo.org/data/?name=foo&age=12', requests[0].url);
 	});
 
 	it('should render the response status code and text', function(done) {
 		explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		requests[0].respond(200);
 
 		explorer.once('attrsChanged', function() {
 			assert.ok(explorer.response);
 			assert.strictEqual(200, explorer.response.statusCode);
 			assert.strictEqual('OK', explorer.response.statusText);
-			assert.strictEqual('200 OK', explorer.element.querySelector('.api-explorer-response-status').textContent);
+			assert.strictEqual('200 OK', explorer.element.querySelector('.explorer-status').textContent);
 			done();
 		});
 	});
@@ -119,7 +121,7 @@ describe('ApiExplorer', function() {
 	it('should render the response json body', function(done) {
 		explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		requests[0].respond(
 			200,
 			{
@@ -131,7 +133,7 @@ describe('ApiExplorer', function() {
 		explorer.once('attrsChanged', function() {
 			assert.ok(explorer.response);
 			assert.strictEqual('{"foo":"bar"}', explorer.response.bodyString);
-			assert.strictEqual('{"foo":"bar"}', explorer.element.querySelector('.api-explorer-response-body').textContent);
+			assert.strictEqual('{"foo":"bar"}', explorer.element.querySelector('.explorer-code-container').textContent);
 			done();
 		});
 	});
@@ -139,7 +141,7 @@ describe('ApiExplorer', function() {
 	it('should not render non json body', function(done) {
 		explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.app-explorer-try-it-button'), 'click');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		requests[0].respond(
 			200,
 			{
@@ -151,7 +153,7 @@ describe('ApiExplorer', function() {
 		explorer.once('attrsChanged', function() {
 			assert.ok(explorer.response);
 			assert.ok(!explorer.response.bodyString);
-			assert.ok(!explorer.element.querySelector('.api-explorer-response-body'));
+			assert.ok(!explorer.element.querySelector('.explorer-code-container'));
 			done();
 		});
 	});

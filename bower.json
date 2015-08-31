@@ -20,6 +20,7 @@
 		"metal": "metal/metal.js#master",
 		"metal-jquery-adapter": "metal/metal-jquery-adapter#master",
 		"steel-bootstrap": "metal/steel-bootstrap#master",
-		"steel-button-group": "metal/steel-button-group#master"
+		"steel-button-group": "metal/steel-button-group#master",
+		"steel-select": "metal/steel-select#master"
 	}
 }

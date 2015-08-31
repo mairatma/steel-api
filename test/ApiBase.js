@@ -9,6 +9,11 @@ describe('ApiBase', function() {
 		api.dispose();
 	});
 
+	it('should set "authentication" attr to empty objet by default', function() {
+		api = new ApiBase();
+		assert.deepEqual({}, api.authentication);
+	});
+
 	it('should set "method" attr to "get" by default', function() {
 		api = new ApiBase();
 		assert.deepEqual(['get'], api.method);
@@ -59,6 +64,10 @@ describe('ApiBase', function() {
 
 	it('should return JSON object with only the attrs relating to the constructed api', function() {
 		api = new ApiBase({
+			authentication: {
+				permissions: ['Edit', 'Invite'],
+				roles: ['Admin', 'Member']
+			},
 			description: 'Description',
 			name: 'Name',
 			handler: 'Handler',
@@ -71,6 +80,11 @@ describe('ApiBase', function() {
 		});
 
 		var expectedJson = {
+			authentication: {
+				permissions: ['Edit', 'Invite'],
+				roles: ['Admin', 'Member']
+			},
+			data: true,
 			description: 'Description',
 			name: 'Name',
 			handler: 'Handler',
