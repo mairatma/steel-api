@@ -101,7 +101,7 @@
 						<tr>
 							<td>{$param.name}</td>
 							<td>{$param.description ? $param.description : ''}</td>
-							<td class="text-center">{$param.type}</td>
+							<td class="text-center">{$param.type ? $param.type : ''}</td>
 							<td class="text-center">{$param.value ? $param.value : ''}</td>
 							<td class="text-center">
 								{if $param.required}

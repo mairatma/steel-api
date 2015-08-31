@@ -102,7 +102,7 @@ Templates.ApiExplorer.params = function(opt_data, opt_ignored, opt_ijData) {
   var paramListLen149 = paramList149.length;
   for (var paramIndex149 = 0; paramIndex149 < paramListLen149; paramIndex149++) {
     var paramData149 = paramList149[paramIndex149];
-    output += '<tr><td>' + soy.$$escapeHtml(paramData149.name) + '</td><td>' + soy.$$escapeHtml(paramData149.description ? paramData149.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData149.type) + '</td><td class="text-center">' + soy.$$escapeHtml(paramData149.value ? paramData149.value : '') + '</td><td class="text-center">' + ((paramData149.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
+    output += '<tr><td>' + soy.$$escapeHtml(paramData149.name) + '</td><td>' + soy.$$escapeHtml(paramData149.description ? paramData149.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData149.type ? paramData149.type : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData149.value ? paramData149.value : '') + '</td><td class="text-center">' + ((paramData149.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
   }
   output += '</tbody></table></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
