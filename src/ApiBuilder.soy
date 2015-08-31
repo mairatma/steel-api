@@ -165,36 +165,49 @@
  */
 {template .param private="true"}
 	<div
-		class="row builder-param-item"
+		class="builder-param-item"
 		data-index="{$index}"
 		data-oninput="handleInputParam_">
-		<div class="col-md-4">
-			<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
+		<div class="row builder-param-item-row">
+			<div class="col-md-4">
+				<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
+			</div>
+			<div class="col-md-4">
+				{let $typesMap: quoteKeysIfJs(['number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4]) /}
+				{call Templates.Select.content}
+					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
+					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
+					{param id: $id + '-typeSelect' + $index /}
+					{param items: ['Number', 'String', 'Boolean', 'Array', 'Object'] /}
+					{param label: 'Type' /}
+					{param selectedIndex: $param.type ? $typesMap[$param.type] : -1 /}
+				{/call}
+			</div>
+			<div class="col-md-3">
+				<span class="builder-param-label">Required</span>
+				{call Templates.Switcher.content}
+					{param checked: $param.required /}
+					{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
+					{param elementClasses: 'builder-param-switcher' /}
+					{param id: $id + '-requiredSwitcher' + $index /}
+				{/call}
+			</div>
+			<div class="col-md-1">
+				<button class="btn-transparent">
+					<span class="builder-param-ellipsis icon-16-ellipsis"></span>
+				</button>
+			</div>
 		</div>
-		<div class="col-md-4">
-			{let $typesMap: quoteKeysIfJs(['number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4]) /}
-			{call Templates.Select.content}
-				{param buttonClass: 'btn btn-default form-control dropdown-select' /}
-				{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
-				{param id: $id + '-typeSelect' + $index /}
-				{param items: ['Number', 'String', 'Boolean', 'Array', 'Object'] /}
-				{param label: 'Type' /}
-				{param selectedIndex: $param.type ? $typesMap[$param.type] : -1 /}
-			{/call}
-		</div>
-		<div class="col-md-3">
-			<span class="builder-param-label">Required</span>
-			{call Templates.Switcher.content}
-				{param checked: $param.required /}
-				{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
-				{param elementClasses: 'builder-param-switcher' /}
-				{param id: $id + '-requiredSwitcher' + $index /}
-			{/call}
-		</div>
-		<div class="col-md-1">
-			<button class="btn-transparent">
-				<span class="builder-param-ellipsis icon-16-ellipsis"></span>
-			</button>
+		<div class="row builder-param-item-row">
+			<div class="col-md-8">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Description"
+					value="{$param.description ? $param.description : ''}"
+					data-name="description"
+				/>
+			</div>
 		</div>
 	</div>
 {/template}

@@ -175,6 +175,29 @@ describe('ApiBuilder', function() {
 			assert.ok(builder.toJson().parameters.foo.required);
 		});
 
+		it('should update "parameters" when description of a param is changed via input', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						description: 'desc1'
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="description"]');
+			element.value = 'desc2';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, listener.callCount);
+				assert.strictEqual('desc2', builder.parameters[0].description);
+				assert.strictEqual('desc2', builder.toJson().parameters.foo.description);
+				done();
+			});
+		});
+
 		it('should not update "parameters" twice if input event is triggered but value doesn\'t change', function() {
 			builder = new ApiBuilder({
 				parameters: {
