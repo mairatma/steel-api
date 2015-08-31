@@ -374,6 +374,60 @@ describe('ApiBuilder', function() {
 		});
 	});
 
+	describe('Auth', function() {
+		beforeEach(function() {
+			builder = new ApiBuilder({
+				auth: {
+					permissions: ['Edit', 'Delete'],
+					roles: ['Admin', 'Member']
+				},
+				permissions: ['Edit', 'Delete', 'Add'],
+				roles: ['Owner', 'Admin', 'Member']
+			}).render();
+		});
+
+		it('should initially select the roles/permissions switchers defined by the `auth` attr', function() {
+			assert.strictEqual(
+				3,
+				builder.element.querySelectorAll('.builder-section-auth-roles .builder-param-switcher').length
+			);
+
+			assert.ok(builder.components[builder.id + '-permissionsSwitcherEdit'].checked);
+			assert.ok(builder.components[builder.id + '-permissionsSwitcherDelete'].checked);
+			assert.ok(!builder.components[builder.id + '-permissionsSwitcherAdd'].checked);
+			assert.ok(!builder.components[builder.id + '-rolesSwitcherOwner'].checked);
+			assert.ok(builder.components[builder.id + '-rolesSwitcherAdmin'].checked);
+			assert.ok(builder.components[builder.id + '-rolesSwitcherMember'].checked);
+		});
+
+		it('should update "auth" when permission switcher value changes', function() {
+			builder.components[builder.id + '-permissionsSwitcherEdit'].checked = false;
+
+			var expected = {
+				Delete: true
+			};
+			assert.deepEqual(expected, builder.auth.permissions);
+		});
+
+		it('should update "auth" when role switcher value changes', function() {
+			builder.components[builder.id + '-rolesSwitcherOwner'].checked = true;
+
+			var expected = {
+				Owner: true,
+				Admin: true,
+				Member: true
+			};
+			assert.deepEqual(expected, builder.auth.roles);
+		});
+
+		it('should update "auth" when validator is changed via input', function() {
+			var element = builder.element.querySelector('.builder-section-auth input');
+			element.value = 'validator';
+			dom.triggerEvent(element, 'input');
+			assert.strictEqual('validator', builder.auth.validator);
+		});
+	});
+
 	it('should update "title" when value is changed via input', function() {
 		builder = new ApiBuilder().render();
 

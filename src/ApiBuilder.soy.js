@@ -19,7 +19,7 @@ if (typeof Templates.ApiBuilder == 'undefined') { Templates.ApiBuilder = {}; }
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.content = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="builder component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.title(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="builder component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.title(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + Templates.ApiBuilder.auth(opt_data, null, opt_ijData) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.content.soyTemplateName = 'Templates.ApiBuilder.content';
@@ -110,11 +110,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="builder-section-params">';
-  var paramList61 = opt_data.parameters;
-  var paramListLen61 = paramList61.length;
-  for (var paramIndex61 = 0; paramIndex61 < paramListLen61; paramIndex61++) {
-    var paramData61 = paramList61[paramIndex61];
-    output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex61, param: paramData61}, null, opt_ijData);
+  var paramList62 = opt_data.parameters;
+  var paramListLen62 = paramList62.length;
+  for (var paramIndex62 = 0; paramIndex62 < paramListLen62; paramIndex62++) {
+    var paramData62 = paramList62[paramIndex62];
+    output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex62, param: paramData62}, null, opt_ijData);
   }
   output += '<div class="builder-param-more row"><div class="col-md-12"><button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_"><span class="icon-16-plus"></span> Add Parameter</button></div></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -133,14 +133,44 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div class="builder-param-item" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-oninput="handleInputParam_"><div class="row builder-param-item-row"><div class="col-md-4"><input type="text" class="form-control" placeholder="Parameter" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div><div class="col-md-4">';
-  var typesMap__soy74 = {'number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4};
-  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, id: opt_data.id + '-typeSelect' + opt_data.index, items: ['Number', 'String', 'Boolean', 'Array', 'Object'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap__soy74[opt_data.param.type] : -1}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + opt_data.index}, null, opt_ijData)) + '</div><div class="col-md-1 builder-param-actions">' + soy.$$escapeHtml(Templates.Dropdown.content({body: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleDuplicateParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Duplicate</a></li><li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleRemoveParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Remove</a></li>'), header: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="btn-transparent" data-onclick="toggle"><span class="builder-param-ellipsis icon-16-ellipsis"></span></button>'), id: opt_data.id + '-menu' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div><div class="builder-param-item-advanced"><a href="#" class="api-section-title" data-onclick="handleAdvancedSetupClick_">Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span></a><div class="row builder-param-item-row"><div class="col-md-4"><input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(opt_data.param.value ? opt_data.param.value : '') + '" data-name="value" /></div><div class="col-md-4">';
-  var typesMap__soy108 = {'param': 0, 'path': 1};
-  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleInSelectedIndexChanged_'}, id: opt_data.id + '-inSelect' + opt_data.index, items: ['Param', 'Path'], selectedIndex: opt_data.param['in'] ? typesMap__soy108[opt_data.param['in']] : 0}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Multiple</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.multiple ? opt_data.param.multiple : false, events: {checkedChanged: opt_data.id + ':handleMultipleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-multipleSwitcher' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.param.validator ? opt_data.param.validator : '') + '" data-name="validator" /></div></div></div></div>';
+  var typesMap__soy75 = {'number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4};
+  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, id: opt_data.id + '-typeSelect' + opt_data.index, items: ['Number', 'String', 'Boolean', 'Array', 'Object'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap__soy75[opt_data.param.type] : -1}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + opt_data.index}, null, opt_ijData)) + '</div><div class="col-md-1 builder-param-actions">' + soy.$$escapeHtml(Templates.Dropdown.content({body: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleDuplicateParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Duplicate</a></li><li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleRemoveParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Remove</a></li>'), header: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="btn-transparent" data-onclick="toggle"><span class="builder-param-ellipsis icon-16-ellipsis"></span></button>'), id: opt_data.id + '-menu' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div><div class="builder-param-item-advanced"><a href="#" class="api-section-title" data-onclick="handleAdvancedSetupClick_">Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span></a><div class="row builder-param-item-row"><div class="col-md-4"><input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(opt_data.param.value ? opt_data.param.value : '') + '" data-name="value" /></div><div class="col-md-4">';
+  var typesMap__soy109 = {'param': 0, 'path': 1};
+  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleInSelectedIndexChanged_'}, id: opt_data.id + '-inSelect' + opt_data.index, items: ['Param', 'Path'], selectedIndex: opt_data.param['in'] ? typesMap__soy109[opt_data.param['in']] : 0}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Multiple</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.multiple ? opt_data.param.multiple : false, events: {checkedChanged: opt_data.id + ':handleMultipleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-multipleSwitcher' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.param.validator ? opt_data.param.validator : '') + '" data-name="validator" /></div></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.param.soyTemplateName = 'Templates.ApiBuilder.param';
+}
+
+
+/**
+ * @param {Object.<string, *>=} opt_data
+ * @param {(null|undefined)=} opt_ignored
+ * @param {Object.<string, *>=} opt_ijData
+ * @return {!soydata.SanitizedHtml}
+ * @suppress {checkTypes}
+ */
+Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication</p><div class="builder-section-auth"><div class="row"><div class="builder-section-auth-roles col-md-6"><p class="api-section-title">Roles</p>';
+  var roleList129 = opt_data.roles;
+  var roleListLen129 = roleList129.length;
+  for (var roleIndex129 = 0; roleIndex129 < roleListLen129; roleIndex129++) {
+    var roleData129 = roleList129[roleIndex129];
+    output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData129], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData129}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData129) + '</span></div>';
+  }
+  output += '</div><div class="builder-section-auth-permissions col-md-6"><p class="api-section-title">Permissions</p>';
+  var permissionList141 = opt_data.permissions;
+  var permissionListLen141 = permissionList141.length;
+  for (var permissionIndex141 = 0; permissionIndex141 < permissionListLen141; permissionIndex141++) {
+    var permissionData141 = permissionList141[permissionIndex141];
+    output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData141], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData141}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData141) + '</span></div>';
+  }
+  output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" data-oninput="handleAuthValidatorInput_">' + soy.$$escapeHtml(opt_data.auth.validator ? opt_data.auth.validator : '') + '</input></div></div></div>';
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+};
+if (goog.DEBUG) {
+  Templates.ApiBuilder.auth.soyTemplateName = 'Templates.ApiBuilder.auth';
 }
 
 Templates.ApiBuilder.content.params = ["id"];
@@ -151,5 +181,6 @@ Templates.ApiBuilder.path.params = ["host","id","path"];
 Templates.ApiBuilder.handler.params = ["id","handler"];
 Templates.ApiBuilder.params.params = ["id","parameters"];
 Templates.ApiBuilder.param.private = true;
+Templates.ApiBuilder.auth.params = ["auth","id","permissions","roles"];
 export default Templates.ApiBuilder;
 /* jshint ignore:end */

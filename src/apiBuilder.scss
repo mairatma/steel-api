@@ -94,9 +94,24 @@
 	font-weight: 400;
 }
 
+.builder-section-auth,
+.builder-section-auth-roles,
+.builder-section-auth-permissions,
 .builder-section-handler {
 	border: 1px solid rgba($primary, .2);
 	border-radius: $border-radius-base;
 	padding: 0 30px;
 	margin-bottom: 20px;
+}
+
+.builder-section-auth {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+
+.builder-section-auth-roles,
+.builder-section-auth-permissions {
+	margin-bottom: 0;
+	padding-bottom: 50px;
 }

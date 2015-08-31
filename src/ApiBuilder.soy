@@ -13,6 +13,7 @@
 		{call .path data="all" /}
 		{call .params data="all" /}
 		{call .handler data="all" /}
+		{call .auth data="all" /}
 	</div>
 {/template}
 
@@ -262,6 +263,59 @@
 						data-name="validator"
 					/>
 				</div>
+			</div>
+		</div>
+	</div>
+{/template}
+
+/**
+ * @param auth
+ * @param id
+ * @param permissions
+ * @param roles
+ */
+{template .auth}
+	<div id="{$id}-auth" class="form-group">
+		<p class="api-section-title">Authentication</p>
+		<div class="builder-section-auth">
+			<div class="row">
+				<div class="builder-section-auth-roles col-md-6">
+					<p class="api-section-title">Roles</p>
+					{foreach $role in $roles}
+						<div>
+							{call Templates.Switcher.content}
+								{param checked: $auth.roles[$role] /}
+								{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
+								{param elementClasses: 'builder-param-switcher' /}
+								{param id: $id + '-rolesSwitcher' + $role /}
+							{/call}
+							<span class="builder-param-label"> {$role}</span>
+						</div>
+					{/foreach}
+				</div>
+				<div class="builder-section-auth-permissions col-md-6">
+					<p class="api-section-title">Permissions</p>
+					{foreach $permission in $permissions}
+						<div>
+							{call Templates.Switcher.content}
+								{param checked: $auth.permissions[$permission] /}
+								{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
+								{param elementClasses: 'builder-param-switcher' /}
+								{param id: $id + '-permissionsSwitcher' + $permission /}
+							{/call}
+							<span class="builder-param-label"> {$permission}</span>
+						</div>
+					{/foreach}
+				</div>
+			</div>
+			<div class="row">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Validator"
+					data-oninput="handleAuthValidatorInput_">
+					{$auth.validator ? $auth.validator : ''}
+				</input>
 			</div>
 		</div>
 	</div>

@@ -16,6 +16,10 @@
 	<h1>ApiBuilder</h1>
 	<script type="text/javascript">
 		window.builder = new steel.ApiBuilder({
+			auth: {
+				permissions: ['Admin', 'Member'],
+				roles: ['Edit', 'Add']
+			},
 			host: 'facebook.appland.com/email',
 			parameters: {
 				id: {
@@ -28,7 +32,9 @@
 					description: 'Talented',
 					required: true
 				}
-			}
+			},
+			permissions: ['Owner', 'Admin', 'Member'],
+			roles: ['Edit', 'Invite',  'Delete', 'Add']
 		}).render();
 	</script>
 </body>

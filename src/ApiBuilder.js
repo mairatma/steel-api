@@ -34,8 +34,8 @@ class ApiBuilder extends ApiBase {
 	 * @return {!Object}
 	 * @protected
 	 */
-	convertToObj_(parameters) {
-		var obj = super.convertToObj_(parameters);
+	convertParametersToObj_(parameters) {
+		var obj = super.convertParametersToObj_(parameters);
 		this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
 			if (!obj[name]) {
 				obj[name] = {};
@@ -74,6 +74,18 @@ class ApiBuilder extends ApiBase {
 			// text field, but we want it to be at the end.
 			input.value = input.value;
 		}
+	}
+
+	/**
+	 * Handles an `input` event on auth validator text field. Updates the `auth` attr with the
+	 * new value.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleAuthValidatorInput_(event) {
+		this.auth.validator = event.delegateTarget.value;
+		this.auth = this.auth;
+		this.skipSurfaceUpdateForAttr_ = 'auth';
 	}
 
 	/**
@@ -215,6 +227,21 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Handles a `checkedChanged` event from a `Switcher` instance for an auth permissions
+	 * flag. Updates the `auth` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handlePermissionCheckedChanged_(data, event) {
+		this.updateAuthDataFromComponentEvent_(
+			event,
+			this.id + '-permissionsSwitcher',
+			'permissions'
+		);
+	}
+
+	/**
 	 * Handles a `click` event on the menu item for removing a param.
 	 * @param {!Event} event
 	 * @protected
@@ -260,6 +287,21 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Handles a `checkedChanged` event from a `Switcher` instance for an auth roles flag
+	 * Updates the `auth` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleRoleCheckedChanged_(data, event) {
+		this.updateAuthDataFromComponentEvent_(
+			event,
+			this.id + '-rolesSwitcher',
+			'roles'
+		);
+	}
+
+	/**
 	 * Handles a `selectedIndexChanged` event from a `Select` instance for param type. Updates
 	 * the affected param inside the `parameters` attr with the new value.
 	 * @param {!Object} data
@@ -289,8 +331,30 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Updates the `auth` attribute from an `input` or `change` event.
+	 * @param {!Event} event
+	 * @param {string} prefix
+	 * @param {string} type
+	 * @protected
+	 */
+	updateAuthDataFromComponentEvent_(event, prefix, type) {
+		var component = event.target;
+		var name = component.id.substr(prefix.length);
+		if (event.target.checked) {
+			this.auth[type][name] = true;
+		} else {
+			delete this.auth[type][name];
+		}
+		this.auth = this.auth;
+		this.skipSurfaceUpdateForAttr_ = 'auth';
+	}
+
+	/**
 	 * Updates a param's data from an `input` or `change` event.
 	 * @param {!Event} event
+	 * @param {string} prefix
+	 * @param {string} name
+	 * @param {*} value
 	 * @protected
 	 */
 	updateParamDataFromComponentEvent_(event, prefix, name, value) {
@@ -317,6 +381,37 @@ class ApiBuilder extends ApiBase {
 		}
 	}
 }
+
+/**
+ * Attributes definition.
+ * @type {!Object}
+ * @static
+ */
+ApiBuilder.ATTRS = {
+	/**
+	 * All permissions that can be picked by the user in the Authentication section.
+	 * @type {!Array<string>}
+	 * @default []
+	 */
+	permissions: {
+		validator: val => val instanceof Array,
+		valueFn: function() {
+			return [];
+		}
+	},
+
+	/**
+	 * All roles that can be picked by the user in the Authentication section.
+	 * @type {!Array<string>}
+	 * @default []
+	 */
+	roles: {
+		validator: val => val instanceof Array,
+		valueFn: function() {
+			return [];
+		}
+	}
+};
 
 /**
  * Default element classes.

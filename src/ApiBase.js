@@ -9,18 +9,50 @@ import SoyComponent from 'bower:metal/src/soy/SoyComponent';
  */
 class ApiBase extends SoyComponent {
 	/**
+	 * Converts the given array of strings into a map.
+	 * @param {!Array<string>} arr
+	 * @return {!Object<string, boolean>}
+	 * @protected
+	 */
+	convertToMap_(arr) {
+		var obj = {};
+		for (var i = 0; i < arr.length; i++) {
+			obj[arr[i]] = true;
+		}
+		return obj;
+	}
+
+	/**
 	 * Converts the given parameters from the array to the object format.
 	 * @param {!Array} parameters
 	 * @return {!Object}
 	 * @protected
 	 */
-	convertToObj_(parameters) {
+	convertParametersToObj_(parameters) {
 		var obj = {};
 		for (var i = 0; i < parameters.length; i++) {
 			obj[parameters[i].name] = object.mixin({}, parameters[i]);
 			delete obj[parameters[i].name].name;
 		}
 		return obj;
+	}
+
+	/**
+	 * Setter for the `auth` attribute. If its "permissions" and "roles" keys are
+	 * given as arrays, they will be converted to maps instead. The `toJson` method will
+	 * return the array format for these keys though.
+	 * @param {!Object} auth
+	 * @return {!Object}
+	 * @protected
+	 */
+	setterAuthFn_(auth) {
+		if (auth.roles instanceof Array) {
+			auth.roles = this.convertToMap_(auth.roles);
+		}
+		if (auth.permissions instanceof Array) {
+			auth.permissions = this.convertToMap_(auth.permissions);
+		}
+		return auth;
 	}
 
 	/**
@@ -54,7 +86,15 @@ class ApiBase extends SoyComponent {
 			var name = ApiBase.API_ATTRS[i];
 			var val = this[name];
 			if (name === 'parameters') {
-				val = this.convertToObj_(val);
+				val = this.convertParametersToObj_(val);
+			} else if (name === 'auth') {
+				val = object.mixin({}, val);
+				if (val.roles) {
+					val.roles = Object.keys(val.roles);
+				}
+				if (val.permissions) {
+					val.permissions = Object.keys(val.permissions);
+				}
 			}
 			json[name] = val;
 		}
@@ -77,10 +117,11 @@ ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'parame
 ApiBase.ATTRS = {
 	/**
 	 * Object with the authentication roles and permissions for this API.
-	 * @type {!{roles: Array<string>=, permissions: Array<string>=}}
+	 * @type {!Object}
 	 * @default {}
 	 */
 	auth: {
+		setter: 'setterAuthFn_',
 		validator: core.isObject,
 		valueFn: function() {
 			return {};

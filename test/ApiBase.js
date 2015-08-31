@@ -9,9 +9,30 @@ describe('ApiBase', function() {
 		api.dispose();
 	});
 
-	it('should set "auth" attr to empty objet by default', function() {
+	it('should set "auth" attr to empty object by default', function() {
 		api = new ApiBase();
 		assert.deepEqual({}, api.auth);
+	});
+
+	it('should convert "auth" array keys to map format', function() {
+		api = new ApiBase({
+			auth: {
+				permissions: ['Admin', 'Member'],
+				roles: ['Edit', 'Remove']
+			}
+		});
+
+		var expected = {
+			permissions: {
+				Admin: true,
+				Member: true
+			},
+			roles: {
+				Edit: true,
+				Remove: true
+			}
+		};
+		assert.deepEqual(expected, api.auth);
 	});
 
 	it('should set "method" attr to "get" by default', function() {

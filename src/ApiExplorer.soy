@@ -61,14 +61,14 @@
 		<p class="api-section-title">Authentication</p>
 		<div class="explorer-section-auth">
 			{if $auth.roles}
-				{foreach $role in $auth.roles}
+				{foreach $role in keys($auth.roles)}
 					<span class="label label-primary">
 						<span class="label-icon icon-12-person"></span> {$role}
 					</span>
 				{/foreach}
 			{/if}
 			{if $auth.permissions}
-				{foreach $permission in $auth.permissions}
+				{foreach $permission in keys($auth.permissions)}
 					<span class="label label-success">
 						<span class="label-icon icon-12-check"></span> {$permission}
 					</span>
