@@ -1,10 +1,86 @@
 @import "steel-bootstrap/src/variables";
 @import "steel-bootstrap/src/mixins";
+@import "steel-switcher/src/switcher";
 
 /* API Builder
 	 ========================================================================== */
-.api-builder {
-	.api-builder-methods {
-		text-transform: uppercase
-	}
+.builder-title {
+	margin: 60px 0 32px;
+}
+
+.builder-title .form-control-borderless {
+	color: rgba($primary, .8);
+	font-size: 20px;
+	width: 620px;
+}
+
+.builder-data {
+	float: right;
+	position: relative;
+}
+
+.builder-data-label {
+	color: rgba($primary, .7);
+	font-size: 12px;
+	position: relative;
+	top: -5px;
+}
+
+.builder-data-switcher {
+	display: inline-block;
+	margin-left: 8px;
+	position: relative;
+	top: 3px;
+}
+
+.builder-description .form-control-borderless {
+	color: rgba($primary, .8);
+	width: 100%;
+}
+
+.builder-section-params {
+	border: 1px solid rgba($primary, .2);
+	border-radius: $border-radius-base;
+}
+
+.builder-param-label {
+	color: rgba($primary, .4);
+	position: relative;
+	top: 10px;
+}
+
+.builder-param-switcher {
+	display: inline-block;
+	margin-left: 8px;
+	position: relative;
+	top: 15px;
+}
+
+.builder-param-ellipsis {
+	color: rgba($primary, .3);
+	position: relative;
+	top: 18px;
+}
+
+.builder-param-item {
+	border-bottom: 1px solid rgba($primary, .2);
+	padding: 45px 15px;
+	margin: 0;
+}
+
+.builder-param-more {
+	padding: 45px 15px;
+	margin: 0;
+}
+
+.builder-param-more .btn,
+.builder-param-more .icon-16-plus {
+	font-weight: 400;
+}
+
+.builder-section-handler {
+	border: 1px solid rgba($primary, .2);
+	border-radius: $border-radius-base;
+	padding: 0 30px;
+	margin-bottom: 20px;
 }

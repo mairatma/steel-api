@@ -90,10 +90,10 @@ ApiBase.ATTRS = {
 	/**
 	 * Flag indicating if data is enabled or not.
 	 * @type {boolean}
-	 * @default true
+	 * @default false
 	 */
 	data: {
-		value: true
+		value: false
 	},
 
 	/**

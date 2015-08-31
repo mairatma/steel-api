@@ -68,6 +68,7 @@ describe('ApiBase', function() {
 				permissions: ['Edit', 'Invite'],
 				roles: ['Admin', 'Member']
 			},
+			data: true,
 			description: 'Description',
 			name: 'Name',
 			handler: 'Handler',

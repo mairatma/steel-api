@@ -19,7 +19,7 @@ if (typeof Templates.ApiBuilder == 'undefined') { Templates.ApiBuilder = {}; }
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.content = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="api-builder component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.name(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + '<div class="form-group"><a href="#" class="text-muted api-builder-param-add" data-onclick="handleClickAddParam_">add param...</a></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="builder component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.title(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.content.soyTemplateName = 'Templates.ApiBuilder.content';
@@ -33,11 +33,11 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.name = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-name" class="form-group"><input type="text" class="form-control" name="name" placeholder="Name" value="' + soy.$$escapeHtmlAttribute(opt_data.name) + '" data-oninput="handleInputName_" /></div>');
+Templates.ApiBuilder.title = function(opt_data, opt_ignored, opt_ijData) {
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-name" class="builder-title"><input type="text" class="form-control-borderless" name="name" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.name) + '" data-oninput="handleInputName_" /><div class="builder-data"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
 };
 if (goog.DEBUG) {
-  Templates.ApiBuilder.name.soyTemplateName = 'Templates.ApiBuilder.name';
+  Templates.ApiBuilder.title.soyTemplateName = 'Templates.ApiBuilder.title';
 }
 
 
@@ -49,7 +49,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.description = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="form-group"><textarea class="form-control" name="description" placeholder="Description" data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description) + '</textarea></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description) + '</textarea></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.description.soyTemplateName = 'Templates.ApiBuilder.description';
@@ -64,7 +64,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.methods = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods">' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default btn-get-bg'}, {label: 'head', cssClass: 'btn btn-default btn-head-bg'}, {label: 'post', cssClass: 'btn btn-default btn-post-bg'}, {label: 'put', cssClass: 'btn btn-default btn-put-bg'}, {label: 'patch', cssClass: 'btn btn-default btn-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default btn-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method}, null, opt_ijData)) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method</p>' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default btn-get-bg'}, {label: 'head', cssClass: 'btn btn-default btn-head-bg'}, {label: 'post', cssClass: 'btn btn-default btn-post-bg'}, {label: 'put', cssClass: 'btn btn-default btn-put-bg'}, {label: 'patch', cssClass: 'btn btn-default btn-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default btn-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method}, null, opt_ijData)) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.methods.soyTemplateName = 'Templates.ApiBuilder.methods';
@@ -79,7 +79,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.path = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path" class="form-group"><input type="text" class="form-control" name="path" placeholder="Path" value="' + soy.$$escapeHtmlAttribute(opt_data.path) + '" data-oninput="handleInputPath_" /></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint</p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host) + '</div><div class="input-inner-addon input-inner-addon-left"><span class="icon-16-info"></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path) + '" data-oninput="handleInputPath_" /></div></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.path.soyTemplateName = 'Templates.ApiBuilder.path';
@@ -94,7 +94,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><textarea class="form-control" name="handler" placeholder="Handler" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler) + '</textarea></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler</p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) {return \'Hello World\';}" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler) + '</textarea></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';
@@ -109,14 +109,14 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><label>Params</label>';
-  var paramList54 = opt_data.parameters;
-  var paramListLen54 = paramList54.length;
-  for (var paramIndex54 = 0; paramIndex54 < paramListLen54; paramIndex54++) {
-    var paramData54 = paramList54[paramIndex54];
-    output += Templates.ApiBuilder.param({index: paramIndex54, param: paramData54}, null, opt_ijData);
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="builder-section-params">';
+  var paramList61 = opt_data.parameters;
+  var paramListLen61 = paramList61.length;
+  for (var paramIndex61 = 0; paramIndex61 < paramListLen61; paramIndex61++) {
+    var paramData61 = paramList61[paramIndex61];
+    output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex61, param: paramData61}, null, opt_ijData);
   }
-  output += '</div>';
+  output += '<div class="builder-param-more row"><div class="col-md-12"><button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_"><span class="icon-16-plus"></span> Add Parameter</button></div></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -132,20 +132,9 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div class="row form-group api-builder-param" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-onchange="handleChangeParam_" data-oninput="handleInputParam_"><div class="col-xs-2"><input type="text" class="form-control" placeholder="Param" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div><div class="col-xs-2">';
-  var types__soy66 = ['number', 'string', 'boolean', 'array', 'object'];
-  output += '<select type="text" class="form-control" data-name="type">';
-  var typeList68 = types__soy66;
-  var typeListLen68 = typeList68.length;
-  for (var typeIndex68 = 0; typeIndex68 < typeListLen68; typeIndex68++) {
-    var typeData68 = typeList68[typeIndex68];
-    output += '<option value="' + soy.$$escapeHtmlAttribute(typeData68) + '"' + soy.$$filterHtmlAttributes(typeData68 == opt_data.param.type ? 'selected' : '') + '>' + soy.$$escapeHtml(typeData68) + '</option>';
-  }
-  output += '</select></div><div class="col-xs-2">';
-  var value__soy78 = opt_data.param.value ? opt_data.param.value : '';
-  output += '<input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(value__soy78) + '" data-name="value" /></div><div class="col-xs-2"><select type="text" class="form-control" data-name="in"><option value="body">Body</option><option value="url"' + soy.$$filterHtmlAttributes(opt_data.param['in'] == 'url' ? 'selected' : '') + '>URL Param</option></select></div><div class="col-xs-2">';
-  var description__soy84 = opt_data.param.description ? opt_data.param.description : '';
-  output += '<input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(description__soy84) + '" data-name="description" /></div><div class="col-xs-2"><label><input type="checkbox" ' + soy.$$filterHtmlAttributes(opt_data.param.required ? 'checked' : '') + ' data-name="required" /> Required</label><button type="button" class="close" data-onclick="handleClickRemoveParam_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><span aria-hidden="true">&times;</span></button></div></div>';
+  var output = '<div class="row builder-param-item" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-oninput="handleInputParam_"><div class="col-md-4"><input type="text" class="form-control" placeholder="Parameter" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div><div class="col-md-4">';
+  var typesMap__soy74 = {'number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4};
+  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, id: opt_data.id + '-typeSelect' + opt_data.index, items: ['Number', 'String', 'Boolean', 'Array', 'Object'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap__soy74[opt_data.param.type] : -1}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.required, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + opt_data.index}, null, opt_ijData)) + '</div><div class="col-md-1"><button class="btn-transparent"><span class="builder-param-ellipsis icon-16-ellipsis"></span></button></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -153,10 +142,10 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiBuilder.content.params = ["id"];
-Templates.ApiBuilder.name.params = ["id","name"];
+Templates.ApiBuilder.title.params = ["data","id","name"];
 Templates.ApiBuilder.description.params = ["id","description"];
 Templates.ApiBuilder.methods.params = ["id","method"];
-Templates.ApiBuilder.path.params = ["id","path"];
+Templates.ApiBuilder.path.params = ["host","id","path"];
 Templates.ApiBuilder.handler.params = ["id","handler"];
 Templates.ApiBuilder.params.params = ["id","parameters"];
 Templates.ApiBuilder.param.private = true;

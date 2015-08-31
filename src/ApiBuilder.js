@@ -4,6 +4,8 @@ import ApiBase from './ApiBase';
 import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import 'bower:steel-button-group/src/ButtonGroup';
+import 'bower:steel-select/src/Select';
+import 'bower:steel-switcher/src/Switcher';
 import './ApiBuilder.soy';
 
 /**
@@ -21,16 +23,6 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles a `change` event on one of the param fields. Updates the changed
-	 * param with the new value.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	handleChangeParam_(event) {
-		this.updateParamDataFromEvent_(event);
-	}
-
-	/**
 	 * Handles a `click` event on the button for adding more params.
 	 * @param {!Event} event
 	 * @protected
@@ -44,14 +36,14 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles a `click` event on the button for removing a param.
-	 * @param {!Event} event
+	 * Handles a `checkedChanged` event on the `Switcher` instance used to control
+	 * the `data` attr.
+	 * @param {!Object} event
 	 * @protected
 	 */
-	handleClickRemoveParam_(event) {
-		var index = event.delegateTarget.getAttribute('data-index');
-		this.parameters.splice(index, 1);
-		this.parameters = this.parameters;
+	handleDataSwitcherCheckedChanged_(event) {
+		this.data = event.newVal;
+		this.skipSurfaceUpdateForAttr_ = 'data';
 	}
 
 	/**
@@ -91,7 +83,7 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleInputParam_(event) {
-		this.updateParamDataFromEvent_(event);
+		this.updateParamDataFromDomEvent_(event);
 	}
 
 	/**
@@ -138,6 +130,38 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Handles a `checkedChanged` event from a `Switcher` instance for a param required flag.
+	 * Updates the affected param inside the `parameters` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleRequiredCheckedChanged_(data, event) {
+		this.updateParamDataFromComponentEvent_(
+			event,
+			this.id + '-requiredSwitcher',
+			'required',
+			event.target.checked
+		);
+	}
+
+	/**
+	 * Handles a `selectedIndexChanged` event from a `Select` instance for param type. Updates
+	 * the affected param inside the `parameters` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleTypeSelectedIndexChanged_(data, event) {
+		this.updateParamDataFromComponentEvent_(
+			event,
+			this.id + '-typeSelect',
+			'type',
+			event.target.items[data.newVal].name.toLowerCase()
+		);
+	}
+
+	/**
 	 * Updates an attribute's value from an `input` event.
 	 * @param {!Event} event
 	 * @param {string} attrName
@@ -154,13 +178,23 @@ class ApiBuilder extends ApiBase {
 	 * @param {!Event} event
 	 * @protected
 	 */
-	updateParamDataFromEvent_(event) {
+	updateParamDataFromComponentEvent_(event, prefix, name, value) {
+		var component = event.target;
+		var index = parseInt(component.id.substr(prefix.length), 10);
+		this.parameters[index][name] = value;
+		this.parameters = this.parameters;
+		this.skipSurfaceUpdateForAttr_ = 'parameters';
+	}
+
+	/**
+	 * Updates a param's data from an `input` or `change` event.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	updateParamDataFromDomEvent_(event) {
 		var param = this.parameters[event.delegateTarget.getAttribute('data-index')];
 		var name = event.target.getAttribute('data-name');
 		var value = event.target.value;
-		if (event.target.type === 'checkbox') {
-			value = event.target.checked;
-		}
 		if (param[name] !== value) {
 			param[name] = value;
 			this.parameters = this.parameters;
@@ -174,7 +208,7 @@ class ApiBuilder extends ApiBase {
  * @type {string}
  * @static
  */
-ApiBuilder.ELEMENT_CLASSES = 'api-builder';
+ApiBuilder.ELEMENT_CLASSES = 'builder';
 
 ComponentRegistry.register('ApiBuilder', ApiBuilder);
 
