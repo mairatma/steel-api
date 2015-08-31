@@ -67,7 +67,7 @@ class ApiBase extends SoyComponent {
  * @type {!Array<string>}
  * @static
  */
-ApiBase.API_ATTRS = ['authentication', 'data', 'description', 'handler', 'method', 'name', 'parameters', 'path'];
+ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'name', 'parameters', 'path'];
 
 /**
  * Attributes definition.
@@ -80,7 +80,7 @@ ApiBase.ATTRS = {
 	 * @type {!{roles: Array<string>=, permissions: Array<string>=}}
 	 * @default {}
 	 */
-	authentication: {
+	auth: {
 		validator: core.isObject,
 		valueFn: function() {
 			return {};

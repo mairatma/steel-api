@@ -9,7 +9,7 @@
 	<div id="{$id}" class="explorer component{$elementClasses ? ' ' + $elementClasses : ''}">
 		{call .title data="all" /}
 		{call .description data="all" /}
-		{call .authentication data="all" /}
+		{call .auth data="all" /}
 		{call .params data="all" /}
 
 		<p class="api-section-title">Try it out</p>
@@ -54,21 +54,21 @@
 
 /**
  * @param id
- * @param authentication
+ * @param auth
  */
-{template .authentication}
-	<div id="{$id}-authentication">
+{template .auth}
+	<div id="{$id}-auth">
 		<p class="api-section-title">Authentication</p>
 		<div class="explorer-section-auth">
-			{if $authentication.roles}
-				{foreach $role in $authentication.roles}
+			{if $auth.roles}
+				{foreach $role in $auth.roles}
 					<span class="label label-primary">
 						<span class="label-icon icon-12-person"></span> {$role}
 					</span>
 				{/foreach}
 			{/if}
-			{if $authentication.permissions}
-				{foreach $permission in $authentication.permissions}
+			{if $auth.permissions}
+				{foreach $permission in $auth.permissions}
 					<span class="label label-success">
 						<span class="label-icon icon-12-check"></span> {$permission}
 					</span>

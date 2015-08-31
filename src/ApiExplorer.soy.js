@@ -19,7 +19,7 @@ if (typeof Templates.ApiExplorer == 'undefined') { Templates.ApiExplorer = {}; }
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.content = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="explorer component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiExplorer.title(opt_data, null, opt_ijData) + Templates.ApiExplorer.description(opt_data, null, opt_ijData) + Templates.ApiExplorer.authentication(opt_data, null, opt_ijData) + Templates.ApiExplorer.params(opt_data, null, opt_ijData) + '<p class="api-section-title">Try it out</p><div class="explorer-section-try"><form>' + Templates.ApiExplorer.tryParams(opt_data, null, opt_ijData) + Templates.ApiExplorer.tryIt(opt_data, null, opt_ijData) + '</form>' + Templates.ApiExplorer.tryResponse(opt_data, null, opt_ijData) + '</div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="explorer component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiExplorer.title(opt_data, null, opt_ijData) + Templates.ApiExplorer.description(opt_data, null, opt_ijData) + Templates.ApiExplorer.auth(opt_data, null, opt_ijData) + Templates.ApiExplorer.params(opt_data, null, opt_ijData) + '<p class="api-section-title">Try it out</p><div class="explorer-section-try"><form>' + Templates.ApiExplorer.tryParams(opt_data, null, opt_ijData) + Templates.ApiExplorer.tryIt(opt_data, null, opt_ijData) + '</form>' + Templates.ApiExplorer.tryResponse(opt_data, null, opt_ijData) + '</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.content.soyTemplateName = 'Templates.ApiExplorer.content';
@@ -63,18 +63,18 @@ if (goog.DEBUG) {
  * @return {!soydata.SanitizedHtml}
  * @suppress {checkTypes}
  */
-Templates.ApiExplorer.authentication = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-authentication"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
-  if (opt_data.authentication.roles) {
-    var roleList132 = opt_data.authentication.roles;
+Templates.ApiExplorer.auth = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
+  if (opt_data.auth.roles) {
+    var roleList132 = opt_data.auth.roles;
     var roleListLen132 = roleList132.length;
     for (var roleIndex132 = 0; roleIndex132 < roleListLen132; roleIndex132++) {
       var roleData132 = roleList132[roleIndex132];
       output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData132) + '</span>';
     }
   }
-  if (opt_data.authentication.permissions) {
-    var permissionList139 = opt_data.authentication.permissions;
+  if (opt_data.auth.permissions) {
+    var permissionList139 = opt_data.auth.permissions;
     var permissionListLen139 = permissionList139.length;
     for (var permissionIndex139 = 0; permissionIndex139 < permissionListLen139; permissionIndex139++) {
       var permissionData139 = permissionList139[permissionIndex139];
@@ -85,7 +85,7 @@ Templates.ApiExplorer.authentication = function(opt_data, opt_ignored, opt_ijDat
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
-  Templates.ApiExplorer.authentication.soyTemplateName = 'Templates.ApiExplorer.authentication';
+  Templates.ApiExplorer.auth.soyTemplateName = 'Templates.ApiExplorer.auth';
 }
 
 
@@ -167,7 +167,7 @@ if (goog.DEBUG) {
 Templates.ApiExplorer.content.params = ["id"];
 Templates.ApiExplorer.title.params = ["data","id","method","path"];
 Templates.ApiExplorer.description.params = ["id","description"];
-Templates.ApiExplorer.authentication.params = ["id","authentication"];
+Templates.ApiExplorer.auth.params = ["id","auth"];
 Templates.ApiExplorer.params.params = ["id","parameters"];
 Templates.ApiExplorer.tryParams.params = ["id","parameters"];
 Templates.ApiExplorer.tryIt.params = ["host","id","method","path"];
