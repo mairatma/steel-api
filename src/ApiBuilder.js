@@ -160,6 +160,22 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Handles a `checkedChanged` event from a `Switcher` instance for a param multiple flag.
+	 * Updates the affected param inside the `parameters` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleMultipleCheckedChanged_(data, event) {
+		this.updateParamDataFromComponentEvent_(
+			event,
+			this.id + '-multipleSwitcher',
+			'multiple',
+			event.target.checked
+		);
+	}
+
+	/**
 	 * Handles a `renderSurface` event. Prevents rerendering surfaces caused by render attr
 	 * changes that should be skipped (because they were caused by ui change, and so the screen
 	 * has already been updated).

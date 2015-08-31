@@ -268,6 +268,25 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('path', builder.toJson().parameters.foo.in);
 		});
 
+		it('should update "parameters" when "multiple" field of a param is changed via input', function() {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						multiple: false
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+			var switcher = builder.components[builder.id + '-multipleSwitcher0'];
+			switcher.checked = true;
+			assert.strictEqual(1, listener.callCount);
+			assert.ok(builder.parameters[0].multiple);
+			assert.ok(builder.toJson().parameters.foo.multiple);
+		});
+
 		it('should update "parameters" when validator of a param is changed via input', function(done) {
 			builder = new ApiBuilder({
 				parameters: {
