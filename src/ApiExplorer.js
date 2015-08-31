@@ -138,14 +138,6 @@ class ApiExplorer extends ApiBase {
  */
 ApiExplorer.ATTRS = {
 	/**
-	 * The host url for this api.
-	 * @type {string}
-	 */
-	host: {
-		validator: core.isString
-	},
-
-	/**
 	 * The given path with all params replaced with the values to be used.
 	 * @type {string}
 	 */

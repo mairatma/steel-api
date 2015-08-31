@@ -115,6 +115,14 @@ ApiBase.ATTRS = {
 	},
 
 	/**
+	 * The host url for this api.
+	 * @type {string}
+	 */
+	host: {
+		validator: core.isString
+	},
+
+	/**
 	 * The api's HTTP method. Has to be one of the values listed in `ApiBase.Methods`.
 	 * @type {!Array<string>}
 	 * @default ['get']

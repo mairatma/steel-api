@@ -70,14 +70,14 @@ describe('ApiBase', function() {
 			},
 			data: true,
 			description: 'Description',
-			title: 'Title',
 			handler: 'Handler',
 			parameters: {
 				id: {
 					value: 1
 				}
 			},
-			path: 'foo.com/data'
+			path: '/data',
+			title: 'Title'
 		});
 
 		var expectedJson = {
@@ -87,7 +87,6 @@ describe('ApiBase', function() {
 			},
 			data: true,
 			description: 'Description',
-			title: 'Title',
 			handler: 'Handler',
 			method: ['get'],
 			parameters: {
@@ -95,7 +94,8 @@ describe('ApiBase', function() {
 					value: 1
 				}
 			},
-			path: 'foo.com/data'
+			path: '/data',
+			title: 'Title'
 		};
 		assert.deepEqual(expectedJson, api.toJson());
 	});
