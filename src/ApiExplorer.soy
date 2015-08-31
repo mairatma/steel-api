@@ -31,7 +31,8 @@
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
-		<span class="explorer-title-label label label-sm http-{$method[0]}-bg">{$method[0]}</span>
+		{let $methodNames: keys($method) /}
+		<span class="explorer-title-label label label-sm http-{$methodNames[0]}-bg">{$methodNames[0]}</span>
 		<span class="explorer-title-name">{$path}</span>
 		{if $data}
 			<span class="explorer-data">
@@ -152,7 +153,7 @@
 				<div class="input-group-btn">
 					{call Templates.Select.content}
 						{param id: $id + '-methodSelect' /}
-						{param items: $method /}
+						{param items: keys($method) /}
 						{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
 						{param hiddenFieldName: 'method' /}
 					{/call}

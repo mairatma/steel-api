@@ -37,20 +37,52 @@ describe('ApiBase', function() {
 
 	it('should set "method" attr to "get" by default', function() {
 		api = new ApiBase();
-		assert.deepEqual(['get'], api.method);
+
+		var expected = {
+			get: true
+		};
+		assert.deepEqual(expected, api.method);
 	});
 
-	it('should only accept array values for "method" attr', function() {
+	it('should convert "method" array to map format', function() {
 		api = new ApiBase({
 			method: ['get', 'post']
 		});
-		assert.deepEqual(['get', 'post'], api.method);
+
+		var expected = {
+			get: true,
+			post: true
+		};
+		assert.deepEqual(expected, api.method);
+	});
+
+	it('should only accept array and object values for "method" attr', function() {
+		api = new ApiBase({
+			method: ['get', 'post']
+		});
+
+		var expected = {
+			get: true,
+			post: true
+		};
+		assert.deepEqual(expected, api.method);
 
 		api.method = ['patch'];
-		assert.deepEqual(['patch'], api.method);
+		expected = {
+			patch: true
+		};
+		assert.deepEqual(expected, api.method);
 
-		api.method = 'put';
-		assert.deepEqual(['patch'], api.method);
+		api.method = {
+			put: true
+		};
+		expected = {
+			put: true
+		};
+		assert.deepEqual(expected, api.method);
+
+		api.method = 'delete';
+		assert.deepEqual(expected, api.method);
 	});
 
 	it('should set "parameters" attr to empty array by default', function() {

@@ -199,11 +199,11 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleMethodsSelectedChanged_() {
-		var newMethods = [];
+		var newMethods = {};
 		var methodButtonGroup = this.components[this.id + '-methodButtonGroup'];
 		for (var i = 0; i < methodButtonGroup.buttons.length; i++) {
 			if (methodButtonGroup.selected[i]) {
-				newMethods.push(methodButtonGroup.buttons[i].label);
+				newMethods[methodButtonGroup.buttons[i].label] = true;
 			}
 		}
 		this.method = newMethods;

@@ -56,6 +56,20 @@ class ApiBase extends SoyComponent {
 	}
 
 	/**
+	 * Setter for the `method` attribute. If it's given as an array, it will be converted
+	 * to a map instead. The `toJson` method will return the array format for this though.
+	 * @param {!Array|Object} auth
+	 * @return {!Object}
+	 * @protected
+	 */
+	setterMethodFn_(method) {
+		if (method instanceof Array) {
+			method = this.convertToMap_(method);
+		}
+		return method;
+	}
+
+	/**
 	 * Setter for the `parameters` attribute. If given as an object, the value will
 	 * be converted into an array format for internal use. The `toJson` method will
 	 * return the object format for the `parameters` attribute though.
@@ -85,16 +99,21 @@ class ApiBase extends SoyComponent {
 		for (var i = 0; i < ApiBase.API_ATTRS.length; i++) {
 			var name = ApiBase.API_ATTRS[i];
 			var val = this[name];
-			if (name === 'parameters') {
-				val = this.convertParametersToObj_(val);
-			} else if (name === 'auth') {
-				val = object.mixin({}, val);
-				if (val.roles) {
-					val.roles = Object.keys(val.roles);
-				}
-				if (val.permissions) {
-					val.permissions = Object.keys(val.permissions);
-				}
+			switch (name) {
+				case 'parameters':
+					val = this.convertParametersToObj_(val);
+					break;
+				case 'method':
+					val = Object.keys(val);
+					break;
+				case 'auth':
+					val = object.mixin({}, val);
+					if (val.roles) {
+						val.roles = Object.keys(val.roles);
+					}
+					if (val.permissions) {
+						val.permissions = Object.keys(val.permissions);
+					}
 			}
 			json[name] = val;
 		}
@@ -169,9 +188,12 @@ ApiBase.ATTRS = {
 	 * @default ['get']
 	 */
 	method: {
-		validator: val => val instanceof Array,
+		setter: 'setterMethodFn_',
+		validator: core.isObject,
 		valueFn: function() {
-			return ['get'];
+			return {
+				get: true
+			};
 		}
 	},
 

@@ -462,10 +462,17 @@ describe('ApiBuilder', function() {
 
 		var buttons = builder.element.querySelectorAll('.btn-group button');
 		dom.triggerEvent(buttons[5], 'click');
-		assert.deepEqual(['get', 'delete'], builder.method);
+		var expectedMethod = {
+			delete: true,
+			get: true
+		};
+		assert.deepEqual(expectedMethod, builder.method);
 
 		dom.triggerEvent(buttons[0], 'click');
-		assert.deepEqual(['delete'], builder.method);
+		expectedMethod = {
+			delete: true
+		};
+		assert.deepEqual(expectedMethod, builder.method);
 	});
 
 	it('should not allow deselecting all method buttons', function() {
@@ -473,13 +480,19 @@ describe('ApiBuilder', function() {
 
 		var buttons = builder.element.querySelectorAll('.btn-group button');
 		dom.triggerEvent(buttons[0], 'click');
-		assert.deepEqual(['get'], builder.method);
+		var expectedMethod = {
+			get: true
+		};
+		assert.deepEqual(expectedMethod, builder.method);
 		assert.ok(dom.hasClass(buttons[0], 'btn-group-selected'));
 
 		dom.triggerEvent(buttons[5], 'click');
 		dom.triggerEvent(buttons[0], 'click');
 		dom.triggerEvent(buttons[5], 'click');
-		assert.deepEqual(['delete'], builder.method);
+		expectedMethod = {
+			delete: true
+		};
+		assert.deepEqual(expectedMethod, builder.method);
 		assert.ok(dom.hasClass(buttons[5], 'btn-group-selected'));
 	});
 
