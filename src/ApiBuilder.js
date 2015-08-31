@@ -1,5 +1,6 @@
 'use strict';
 
+import dom from 'bower:metal/src/dom/dom';
 import ApiBase from './ApiBase';
 import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
@@ -21,6 +22,20 @@ class ApiBuilder extends ApiBase {
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
 		this.on('attrsChanged', this.handleAttrsChanged_);
+	}
+
+	/**
+	 * Handles a `click` event on one of the buttons for expanding/collapsing the
+	 * advanced setup for a param.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleAdvancedSetupClick_(event) {
+		var arrow = event.delegateTarget.querySelector('.builder-param-item-advanced-arrow');
+		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
+		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
+		dom.toggleClasses(event.delegateTarget.parentNode, 'expanded');
+		event.preventDefault();
 	}
 
 	/**
@@ -109,6 +124,22 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleInputTitle_(event) {
 		this.updateAttrFromInput_(event, 'title');
+	}
+
+	/**
+	 * Handles a `selectedIndexChanged` event from a `Select` instance for param "in" option.
+	 * Updates the affected param inside the `parameters` attr with the new value.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleInSelectedIndexChanged_(data, event) {
+		this.updateParamDataFromComponentEvent_(
+			event,
+			this.id + '-inSelect',
+			'in',
+			event.target.items[data.newVal].name.toLowerCase()
+		);
 	}
 
 	/**

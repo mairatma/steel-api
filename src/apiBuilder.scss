@@ -72,6 +72,18 @@
 	margin-bottom: 10px;
 }
 
+.builder-param-item-advanced {
+	.builder-param-item-row {
+		display: none;
+	}
+}
+
+.builder-param-item-advanced.expanded {
+	.builder-param-item-row {
+		display: block;
+	}
+}
+
 .builder-param-more {
 	padding: 45px 15px;
 	margin: 0;

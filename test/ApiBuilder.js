@@ -61,12 +61,13 @@ describe('ApiBuilder', function() {
 					foo: {
 						type: 'string',
 						value: 'value',
-						in: 'url',
+						in: 'path',
 						description: 'desc',
 						required: true
 					},
 					bar: {
-						type: 'boolean'
+						type: 'boolean',
+						validator: 'validator'
 					}
 				}
 			}).render();
@@ -76,10 +77,18 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
 			assert.strictEqual(1, builder.components[builder.id + '-typeSelect0'].selectedIndex);
 			assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
+			assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
+			assert.strictEqual('value', paramRows[0].querySelector('input[data-name="value"]').value);
+			assert.strictEqual(1, builder.components[builder.id + '-inSelect0'].selectedIndex);
+			assert.strictEqual('', paramRows[0].querySelector('input[data-name="validator"]').value);
 
 			assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
 			assert.strictEqual(2, builder.components[builder.id + '-typeSelect1'].selectedIndex);
 			assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
+			assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
+			assert.strictEqual('', paramRows[1].querySelector('input[data-name="value"]').value);
+			assert.strictEqual(0, builder.components[builder.id + '-inSelect1'].selectedIndex);
+			assert.strictEqual('validator', paramRows[1].querySelector('input[data-name="validator"]').value);
 		});
 	});
 
@@ -194,6 +203,90 @@ describe('ApiBuilder', function() {
 				assert.strictEqual(1, listener.callCount);
 				assert.strictEqual('desc2', builder.parameters[0].description);
 				assert.strictEqual('desc2', builder.toJson().parameters.foo.description);
+				done();
+			});
+		});
+
+		it('should expand/collapse advanced setup when link is clicked', function() {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+					}
+				}
+			}).render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+
+			dom.triggerEvent(advancedElement.querySelector('a'), 'click');
+			assert.ok(dom.hasClass(advancedElement, 'expanded'));
+
+			dom.triggerEvent(advancedElement.querySelector('a'), 'click');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+		});
+
+		it('should update "parameters" when value of a param is changed via input', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						value: 'value1'
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="value"]');
+			element.value = 'value2';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, listener.callCount);
+				assert.strictEqual('value2', builder.parameters[0].value);
+				assert.strictEqual('value2', builder.toJson().parameters.foo.value);
+				done();
+			});
+		});
+
+		it('should update "parameters" when "in" value of a param is changed via input', function() {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						in: 'param'
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+
+			var select = builder.components[builder.id + '-inSelect0'];
+			select.selectedIndex = 1;
+			assert.strictEqual(1, listener.callCount);
+			assert.strictEqual('path', builder.parameters[0].in);
+			assert.strictEqual('path', builder.toJson().parameters.foo.in);
+		});
+
+		it('should update "parameters" when validator of a param is changed via input', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						validator: 'validator1'
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="validator"]');
+			element.value = 'validator2';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, listener.callCount);
+				assert.strictEqual('validator2', builder.parameters[0].validator);
+				assert.strictEqual('validator2', builder.toJson().parameters.foo.validator);
 				done();
 			});
 		});

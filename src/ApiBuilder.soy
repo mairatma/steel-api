@@ -209,5 +209,42 @@
 				/>
 			</div>
 		</div>
+		<div class="builder-param-item-advanced">
+			<a href="#" class="api-section-title" data-onclick="handleAdvancedSetupClick_">
+				Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span>
+			</a>
+			<div class="row builder-param-item-row">
+				<div class="col-md-4">
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Value"
+						value="{$param.value ? $param.value : ''}"
+						data-name="value"
+					/>
+				</div>
+				<div class="col-md-4">
+					{let $typesMap: quoteKeysIfJs(['param': 0, 'path': 1]) /}
+					{call Templates.Select.content}
+						{param buttonClass: 'btn btn-default form-control dropdown-select' /}
+						{param events: ['selectedIndexChanged': $id + ':handleInSelectedIndexChanged_'] /}
+						{param id: $id + '-inSelect' + $index /}
+						{param items: ['Param', 'Path'] /}
+						{param selectedIndex: $param.in ? $typesMap[$param.in] : 0 /}
+					{/call}
+				</div>
+			</div>
+			<div class="row builder-param-item-row">
+				<div class="col-md-8">
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Validator"
+						value="{$param.validator ? $param.validator : ''}"
+						data-name="validator"
+					/>
+				</div>
+			</div>
+		</div>
 	</div>
 {/template}
