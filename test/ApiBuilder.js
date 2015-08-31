@@ -100,6 +100,19 @@ describe('ApiBuilder', function() {
 			});
 		});
 
+		it('should automatically focus newly added parameter row', function(done) {
+			builder = new ApiBuilder().render();
+
+			assert.strictEqual(0, builder.element.querySelectorAll('.builder-param-item').length);
+			dom.triggerEvent(builder.element.querySelector('.builder-param-more button'), 'click');
+
+			builder.once('attrsChanged', function() {
+				var paramInput = builder.element.querySelector('.builder-param-item input');
+				assert.strictEqual(document.activeElement, paramInput);
+				done();
+			});
+		});
+
 		it('should update "parameters" when name of a param is changed via input', function(done) {
 			builder = new ApiBuilder({
 				parameters: {

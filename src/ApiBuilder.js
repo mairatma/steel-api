@@ -20,6 +20,20 @@ class ApiBuilder extends ApiBase {
 
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
+		this.on('attrsChanged', this.handleAttrsChanged_);
+	}
+
+	/**
+	 * Handles an `attrsChanged` event on this component. Makes sure that new params
+	 * are automatically focused when created.
+	 * @protected
+	 */
+	handleAttrsChanged_() {
+		if (this.hasAddedParam_) {
+			this.hasAddedParam_ = false;
+			var selector = '.builder-param-item:nth-child(' + this.parameters.length + ') input';
+			this.element.querySelector(selector).focus();
+		}
 	}
 
 	/**
@@ -33,6 +47,7 @@ class ApiBuilder extends ApiBase {
 			name: ''
 		});
 		this.parameters = this.parameters;
+		this.hasAddedParam_ = true;
 	}
 
 	/**
