@@ -186,16 +186,25 @@
 			<div class="col-md-3">
 				<span class="builder-param-label">Required</span>
 				{call Templates.Switcher.content}
-					{param checked: $param.required /}
+					{param checked: $param.required ? $param.required : false /}
 					{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
 					{param elementClasses: 'builder-param-switcher' /}
 					{param id: $id + '-requiredSwitcher' + $index /}
 				{/call}
 			</div>
-			<div class="col-md-1">
-				<button class="btn-transparent">
-					<span class="builder-param-ellipsis icon-16-ellipsis"></span>
-				</button>
+			<div class="col-md-1 builder-param-actions">
+				{call Templates.Dropdown.content}
+					{param body kind="html"}
+						<li data-onclick="{$id}:handleDuplicateParamClick_" data-index="{$index}"><a href="#">Duplicate</a></li>
+						<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
+					{/param}
+					{param header kind="html"}
+						<button class="btn-transparent" data-onclick="toggle">
+							<span class="builder-param-ellipsis icon-16-ellipsis"></span>
+						</button>
+					{/param}
+					{param id: $id + '-menu' + $index /}
+				{/call}
 			</div>
 		</div>
 		<div class="row builder-param-item-row">
@@ -236,7 +245,7 @@
 				<div class="col-md-3">
 					<span class="builder-param-label">Multiple</span>
 					{call Templates.Switcher.content}
-						{param checked: $param.multiple /}
+						{param checked: $param.multiple ? $param.multiple : false /}
 						{param events: ['checkedChanged': $id + ':handleMultipleCheckedChanged_'] /}
 						{param elementClasses: 'builder-param-switcher' /}
 						{param id: $id + '-multipleSwitcher' + $index /}

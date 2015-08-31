@@ -1,10 +1,12 @@
 'use strict';
 
 import dom from 'bower:metal/src/dom/dom';
+import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
 import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import 'bower:steel-button-group/src/ButtonGroup';
+import 'bower:steel-dropdown/src/Dropdown';
 import 'bower:steel-select/src/Select';
 import 'bower:steel-switcher/src/Switcher';
 import './ApiBuilder.soy';
@@ -66,7 +68,11 @@ class ApiBuilder extends ApiBase {
 		if (this.hasAddedParam_) {
 			this.hasAddedParam_ = false;
 			var selector = '.builder-param-item:nth-child(' + this.parameters.length + ') input';
-			this.element.querySelector(selector).focus();
+			var input = this.element.querySelector(selector);
+			input.focus();
+			// This is important because otherwise the key cursor will be at the beginning of the
+			// text field, but we want it to be at the end.
+			input.value = input.value;
 		}
 	}
 
@@ -93,6 +99,20 @@ class ApiBuilder extends ApiBase {
 	handleDataSwitcherCheckedChanged_(event) {
 		this.data = event.newVal;
 		this.skipSurfaceUpdateForAttr_ = 'data';
+	}
+
+	/**
+	 * Handles a `click` event on the menu item for duplicating a param.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleDuplicateParamClick_(event) {
+		var index = event.delegateTarget.getAttribute('data-index');
+		this.parameters.push(object.mixin({}, this.parameters[index]));
+		this.parameters = this.parameters;
+		this.hasAddedParam_ = true;
+		this.components[this.id + '-menu' + index].close();
+		event.preventDefault();
 	}
 
 	/**
@@ -195,6 +215,19 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Handles a `click` event on the menu item for removing a param.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleRemoveParamClick_(event) {
+		var index = event.delegateTarget.getAttribute('data-index');
+		this.parameters.splice(index, 1);
+		this.parameters = this.parameters;
+		this.components[this.id + '-menu' + index].close();
+		event.preventDefault();
+	}
+
+	/**
 	 * Handles a `renderSurface` event. Prevents rerendering surfaces caused by render attr
 	 * changes that should be skipped (because they were caused by ui change, and so the screen
 	 * has already been updated).
@@ -234,11 +267,12 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleTypeSelectedIndexChanged_(data, event) {
+		var item = event.target.items[data.newVal];
 		this.updateParamDataFromComponentEvent_(
 			event,
 			this.id + '-typeSelect',
 			'type',
-			event.target.items[data.newVal].name.toLowerCase()
+			item ? item.name.toLowerCase() : null
 		);
 	}
 

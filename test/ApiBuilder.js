@@ -122,6 +122,49 @@ describe('ApiBuilder', function() {
 			});
 		});
 
+		it('should duplicate a parameter row when button is clicked', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						description: 'desc'
+					}
+				}
+			}).render();
+
+			dom.triggerEvent(builder.element.querySelectorAll('.builder-param-actions li')[0], 'click');
+
+			builder.once('attrsChanged', function() {
+				var paramRows = builder.element.querySelectorAll('.builder-param-item');
+				assert.strictEqual(2, paramRows.length);
+				assert.strictEqual('desc', builder.parameters[0].description);
+				assert.strictEqual('desc', builder.parameters[1].description);
+				assert.ok(!dom.hasClass(builder.components[builder.id + '-menu0'].element, 'open'));
+				done();
+			});
+		});
+
+		it('should remove a parameter row when button is clicked', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						type: 'boolean',
+						in: 'path'
+					},
+					bar: {
+
+					}
+				}
+			}).render();
+
+			dom.triggerEvent(builder.element.querySelectorAll('.builder-param-actions li')[1], 'click');
+
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, builder.element.querySelectorAll('.builder-param-item').length);
+				assert.ok(!dom.hasClass(builder.components[builder.id + '-menu0'].element, 'open'));
+				done();
+			});
+		});
+
 		it('should update "parameters" when name of a param is changed via input', function(done) {
 			builder = new ApiBuilder({
 				parameters: {

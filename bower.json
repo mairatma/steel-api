@@ -21,6 +21,7 @@
 		"metal-jquery-adapter": "metal/metal-jquery-adapter#master",
 		"steel-bootstrap": "metal/steel-bootstrap#master",
 		"steel-button-group": "metal/steel-button-group#master",
+		"steel-dropdown": "metal/steel-dropdown#master",
 		"steel-select": "metal/steel-select#master",
 		"steel-switcher": "metal/steel-switcher#master"
 	}
