@@ -19,17 +19,17 @@
 /**
  * @param data
  * @param id
- * @param name
+ * @param title
  */
 {template .title}
-	<div id="{$id}-name" class="builder-title">
+	<div id="{$id}-title" class="builder-title">
 		<input
 			type="text"
 			class="form-control-borderless"
-			name="name"
+			name="title"
 			placeholder="add a title..."
-			value="{$name}"
-			data-oninput="handleInputName_"
+			value="{$title}"
+			data-oninput="handleInputTitle_"
 		/>
 		<div class="builder-data">
 			<span class="builder-data-label">Data</span>

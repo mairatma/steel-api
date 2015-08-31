@@ -11,12 +11,12 @@ describe('ApiBuilder', function() {
 	});
 
 	describe('Render', function() {
-		it('should fill name text field with given name', function() {
+		it('should fill title text field with given title', function() {
 			builder = new ApiBuilder({
 				id: 'builder',
-				name: 'foo'
+				title: 'foo'
 			}).render();
-			assert.strictEqual('foo', builder.element.querySelector('#builder-name input').value);
+			assert.strictEqual('foo', builder.element.querySelector('#builder-title input').value);
 		});
 
 		it('should fill description text field with given description', function() {
@@ -183,13 +183,13 @@ describe('ApiBuilder', function() {
 		});
 	});
 
-	it('should update "name" when value is changed via input', function() {
+	it('should update "title" when value is changed via input', function() {
 		builder = new ApiBuilder().render();
 
-		var element = builder.element.querySelector('[name="name"]');
+		var element = builder.element.querySelector('[name="title"]');
 		element.value = 'foo';
 		dom.triggerEvent(element, 'input');
-		assert.strictEqual('foo', builder.name);
+		assert.strictEqual('foo', builder.title);
 	});
 
 	it('should update "data" when value is changed via switcher', function() {

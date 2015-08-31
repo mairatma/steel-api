@@ -67,7 +67,7 @@ class ApiBase extends SoyComponent {
  * @type {!Array<string>}
  * @static
  */
-ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'name', 'parameters', 'path'];
+ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'parameters', 'path', 'title'];
 
 /**
  * Attributes definition.
@@ -127,15 +127,6 @@ ApiBase.ATTRS = {
 	},
 
 	/**
-	 * The api's name.
-	 * @type {string}
-	 */
-	name: {
-		validator: core.isString,
-		value: ''
-	},
-
-	/**
 	 * An object with the api's parameters. Both body and url parameters should
 	 * be listed here, distinguished by the `in` key. Note that the parameters
 	 * can be given either as an array or as an object (in which case each key
@@ -155,6 +146,15 @@ ApiBase.ATTRS = {
 	 * @type {string}
 	 */
 	path: {
+		validator: core.isString,
+		value: ''
+	},
+
+	/**
+	 * The api's title.
+	 * @type {string}
+	 */
+	title: {
 		validator: core.isString,
 		value: ''
 	}

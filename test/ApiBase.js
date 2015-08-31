@@ -70,7 +70,7 @@ describe('ApiBase', function() {
 			},
 			data: true,
 			description: 'Description',
-			name: 'Name',
+			title: 'Title',
 			handler: 'Handler',
 			parameters: {
 				id: {
@@ -87,7 +87,7 @@ describe('ApiBase', function() {
 			},
 			data: true,
 			description: 'Description',
-			name: 'Name',
+			title: 'Title',
 			handler: 'Handler',
 			method: ['get'],
 			parameters: {

@@ -34,7 +34,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.title = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-name" class="builder-title"><input type="text" class="form-control-borderless" name="name" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.name) + '" data-oninput="handleInputName_" /><div class="builder-data"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title) + '" data-oninput="handleInputTitle_" /><div class="builder-data"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.title.soyTemplateName = 'Templates.ApiBuilder.title';
@@ -142,7 +142,7 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiBuilder.content.params = ["id"];
-Templates.ApiBuilder.title.params = ["data","id","name"];
+Templates.ApiBuilder.title.params = ["data","id","title"];
 Templates.ApiBuilder.description.params = ["id","description"];
 Templates.ApiBuilder.methods.params = ["id","method"];
 Templates.ApiBuilder.path.params = ["host","id","path"];

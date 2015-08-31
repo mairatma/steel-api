@@ -67,16 +67,6 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles an `input` event on the name text field. Updates the `name` attr
-	 * with the new value.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	handleInputName_(event) {
-		this.updateAttrFromInput_(event, 'name');
-	}
-
-	/**
 	 * Handles an `input` event on one of the param fields. Updates the changed
 	 * param with the new value.
 	 * @param {!Event} event
@@ -94,6 +84,16 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleInputPath_(event) {
 		this.updateAttrFromInput_(event, 'path');
+	}
+
+	/**
+	 * Handles an `input` event on the title text field. Updates the `title` attr
+	 * with the new value.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleInputTitle_(event) {
+		this.updateAttrFromInput_(event, 'title');
 	}
 
 	/**
