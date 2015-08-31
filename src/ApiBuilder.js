@@ -25,6 +25,25 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Overrides the original method from `ApiBase` so this can add any attributes
+	 * that are defined on the API's path but were not explicitly added to the
+	 * parameters list.
+	 * @param {!Array} parameters
+	 * @return {!Object}
+	 * @protected
+	 */
+	convertToObj_(parameters) {
+		var obj = super.convertToObj_(parameters);
+		this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
+			if (!obj[name]) {
+				obj[name] = {};
+			}
+			return match;
+		});
+		return obj;
+	}
+
+	/**
 	 * Handles a `click` event on one of the buttons for expanding/collapsing the
 	 * advanced setup for a param.
 	 * @param {!Event} event

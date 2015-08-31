@@ -114,7 +114,7 @@ class ApiExplorer extends ApiBase {
 	replacePathParams_() {
 		this.pathParams_ = {};
 		var paramValues = this.getParamValues_();
-		return this.path.replace(ApiExplorer.PATH_PARAMS_REGEX, function(match, name) {
+		return this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
 			this.pathParams_[name] = true;
 			return core.isDef(paramValues[name]) ? '/' + paramValues[name] : '/:' + name;
 		}.bind(this));
@@ -161,13 +161,6 @@ ApiExplorer.ATTRS = {
  * @static
  */
 ApiExplorer.ELEMENT_CLASSES = 'explorer';
-
-/**
- * The regex used to search for params in the API's path.
- * @type {!RegExp}
- * @static
- */
-ApiExplorer.PATH_PARAMS_REGEX = /\/:(\w+)(?:\([^\)]+\))?/g;
 
 ComponentRegistry.register('ApiExplorer', ApiExplorer);
 

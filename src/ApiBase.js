@@ -168,4 +168,11 @@ ApiBase.ATTRS = {
 	}
 };
 
+/**
+ * The regex used to search for params in the API's path.
+ * @type {!RegExp}
+ * @static
+ */
+ApiBase.PATH_PARAMS_REGEX = /\/:(\w+)(?:\([^\)]+\))?/g;
+
 export default ApiBase;

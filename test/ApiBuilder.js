@@ -403,4 +403,21 @@ describe('ApiBuilder', function() {
 		dom.triggerEvent(element, 'input');
 		assert.strictEqual('foo', builder.handler);
 	});
+
+	it('should add missing parameters from the path to the final parameters list', function() {
+		builder = new ApiBuilder({
+			parameters: {
+				extra: {
+				},
+				id: {
+					description: 'ID'
+				}
+			},
+			path: '/data/:id/:foo'
+		}).render();
+
+		var params = builder.toJson().parameters;
+		assert.deepEqual(['extra', 'foo', 'id'], Object.keys(params).sort());
+		assert.strictEqual('ID', params.id.description);
+	});
 });
