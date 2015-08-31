@@ -12,27 +12,54 @@ import './ApiExplorer.soy';
  */
 class ApiExplorer extends ApiBase {
 	/**
-	 * Gets all params that were set on their input fields, separating them between
-	 * body and url params.
-	 * @return {!{body: !Object, url: !Object}}
+	 * @inheritDoc
+	 */
+	constructor(opt_config) {
+		super(opt_config);
+
+		/**
+		 * The values that will be sent for each param with the API request.
+		 * @type {Object}
+		 * @protected
+		 */
+		this.paramValues_ = null;
+
+		/**
+		 * The params that should be sent with the path, instead of with the body.
+		 * @type {!Object<string, boolean>}
+		 * @protected
+		 */
+		this.pathParams_ = {};
+	}
+
+	/**
+	 * Gets the values of the params that should be sent via the body of the API request.
+	 * @return {!Object}
 	 * @protected
 	 */
-	getParamsFromInputs_() {
-		var params = {
-			body: {},
-			url: {}
-		};
-		var paramNodes = this.element.querySelectorAll('.explorer-section-try-param');
-		for (var i = 0; i < paramNodes.length; i++) {
-			var value = paramNodes[i].value;
-			if (value.trim() === '') {
-				value = this.parameters[i].value;
-			}
-			if (core.isDef(value)) {
-				params[this.parameters[i].in || 'body'][this.parameters[i].name] = value;
+	getBodyParams_() {
+		var bodyParams = {};
+		var paramValues = this.getParamValues_();
+		for (var i = 0; i < this.parameters.length; i++) {
+			var name = this.parameters[i].name;
+			if (core.isDef(paramValues[name]) && !this.pathParams_[name]) {
+				bodyParams[name] = paramValues[name];
 			}
 		}
-		return params;
+		return bodyParams;
+	}
+
+	/**
+	 * Gets the chosen values for this API's parameters.
+	 * @return {!Object}
+	 * @protected
+	 */
+	getParamValues_() {
+		if (!this.paramValues_) {
+			this.paramValues_ = {};
+			this.parameters.forEach(param => this.paramValues_[param.name] = param.value);
+		}
+		return this.paramValues_;
 	}
 
 	/**
@@ -42,11 +69,23 @@ class ApiExplorer extends ApiBase {
 	handleClickRun_() {
 		var methodSelect = this.components[this.id + '-methodSelect'];
 		var method = methodSelect.items[methodSelect.selectedIndex].name;
-		var params = this.getParamsFromInputs_();
 
-		var launchpad = Launchpad.url(this.host + this.path);
-		this.setLaunchpadParams_(launchpad, params.url);
-		launchpad[method](params.body).then(this.handleResponse_.bind(this));
+		var launchpad = Launchpad.url(this.host + this.replacedPath);
+		launchpad[method](this.getBodyParams_()).then(this.handleResponse_.bind(this));
+	}
+
+	/**
+	 * Handles a `input` event on one of the param's value input fields.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleParamInput_(event) {
+		var inputElement = event.delegateTarget;
+		var name = inputElement.getAttribute('name');
+		var value = inputElement.value.trim();
+		var index = inputElement.getAttribute('data-index');
+		this.getParamValues_()[name] = value === '' ? this.parameters[index].value : value;
+		this.replacedPath = this.replacePathParams_();
 	}
 
 	/**
@@ -68,15 +107,26 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
-	 * Sets the given params on the given `Launchpad` instance.
-	 * @param {!Launchpad} launchpad
-	 * @param {!Object} params
+	 * Replaces the params present in this API's path with their chosen or
+	 * default values.
 	 * @protected
 	 */
-	setLaunchpadParams_(launchpad, params) {
-		var paramNames = Object.keys(params);
-		for (var i = 0; i < paramNames.length; i++) {
-			launchpad.param(paramNames[i], params[paramNames[i]]);
+	replacePathParams_() {
+		this.pathParams_ = {};
+		var paramValues = this.getParamValues_();
+		return this.path.replace(ApiExplorer.PATH_PARAMS_REGEX, function(match, name) {
+			this.pathParams_[name] = true;
+			return core.isDef(paramValues[name]) ? '/' + paramValues[name] : '/:' + name;
+		}.bind(this));
+	}
+
+	/**
+	 * This is called automatically on the first render and when the `sync`
+	 * attr's value changes.
+	 */
+	syncPath() {
+		if (this.wasRendered) {
+			this.replacedPath = this.replacePathParams_();
 		}
 	}
 }
@@ -96,6 +146,15 @@ ApiExplorer.ATTRS = {
 	},
 
 	/**
+	 * The given path with all params replaced with the values to be used.
+	 * @type {string}
+	 */
+	replacedPath: {
+		validator: core.isString,
+		valueFn: 'replacePathParams_'
+	},
+
+	/**
 	 * The last obtained JSON response, if any.
 	 * @type {!Object}
 	 */
@@ -110,6 +169,13 @@ ApiExplorer.ATTRS = {
  * @static
  */
 ApiExplorer.ELEMENT_CLASSES = 'explorer';
+
+/**
+ * The regex used to search for params in the API's path.
+ * @type {!RegExp}
+ * @static
+ */
+ApiExplorer.PATH_PARAMS_REGEX = /\/:(\w+)(?:\([^\)]+\))?/g;
 
 ComponentRegistry.register('ApiExplorer', ApiExplorer);
 

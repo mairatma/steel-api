@@ -130,7 +130,10 @@
 					class="form-control explorer-section-try-param"
 					type="text"
 					autocomplete="off"
-					placeholder="{$param.value ? $param.value : ''}">
+					placeholder="{$param.value ? $param.value : ''}"
+					data-index="{index($param)}"
+					data-oninput="handleParamInput_"
+				>
 			</div>
 		{/foreach}
 	</div>
@@ -140,7 +143,7 @@
  * @param host
  * @param id
  * @param method
- * @param path
+ * @param replacedPath
  */
 {template .tryIt}
 	<div id="{$id}-tryIt" class="row">
@@ -154,7 +157,7 @@
 						{param hiddenFieldName: 'method' /}
 					{/call}
 				</div>
-				<input class="input-btn-right form-control" type="text" value="{$host}{$path}" readonly>
+				<input class="input-btn-right form-control" type="text" value="{$host}{$replacedPath}" readonly>
 				<div class="input-group-btn">
 					<button
 						class="btn btn-sm btn-success explorer-section-try-button"

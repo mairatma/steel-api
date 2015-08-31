@@ -22,7 +22,7 @@
 			},
 			description: 'Email API',
 			host: 'http://localhost:3000/email',
-			path: '/',
+			path: '/:from/:to',
 			method: ['post', 'put'],
 			handler: 'com.liferay.launchpad.email.EmailAction#post',
 			parameters: {
@@ -31,7 +31,8 @@
 					required: true,
 					multiple: false,
 					type: 'string',
-					validator: 'new RegExp($config.emailRegex).test($from)'
+					validator: 'new RegExp($config.emailRegex).test($from)',
+					value: 'liferay'
 				},
 				message: {
 					description: 'HTML content of your email message. Up to 5MB',

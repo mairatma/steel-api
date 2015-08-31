@@ -70,37 +70,100 @@ describe('ApiExplorer', function() {
 		assert.strictEqual(3, inputs.length);
 
 		inputs[1].value = 12;
+		dom.triggerEvent(inputs[1], 'input');
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.deepEqual('{"name":"foo","age":"12"}', requests[0].requestBody);
+		assert.strictEqual('{"name":"foo","age":"12"}', requests[0].requestBody);
 	});
 
-	it('should send request with chosen url params', function() {
+	it('should send request with chosen path params', function() {
 		explorer = new ApiExplorer({
 			host: 'foo.org',
 			parameters: [
 				{
 					name: 'name',
-					in: 'url',
 					value: 'foo'
 				},
 				{
-					name: 'age',
-					in: 'url'
+					name: 'age'
 				},
 				{
-					name: 'extra',
-					in: 'url'
+					name: 'extra'
 				}
 			],
-			path: '/data/'
+			path: '/data/:name/:age'
 		}).render();
 
 		var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
 		assert.strictEqual(3, inputs.length);
 
 		inputs[1].value = 12;
+		dom.triggerEvent(inputs[1], 'input');
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual('foo.org/data/?name=foo&age=12', requests[0].url);
+		assert.strictEqual('foo.org/data/foo/12/', requests[0].url);
+	});
+
+	it('should send request with default value if param chosen value is deleted', function() {
+		explorer = new ApiExplorer({
+			method: ['post'],
+			parameters: [
+				{
+					name: 'name',
+					value: 'foo'
+				},
+				{
+					name: 'age'
+				},
+				{
+					name: 'extra'
+				}
+			]
+		}).render();
+
+		var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
+
+		inputs[0].value = 'bar';
+		dom.triggerEvent(inputs[0], 'input');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual('{"name":"bar"}', requests[0].requestBody);
+
+		inputs[0].value = '';
+		dom.triggerEvent(inputs[0], 'input');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual('{"name":"foo"}', requests[1].requestBody);
+	});
+
+	it('should send request with chosen path params after path is changed', function(done) {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			method: ['post'],
+			parameters: [
+				{
+					name: 'name',
+					value: 'foo'
+				},
+				{
+					name: 'age'
+				},
+				{
+					name: 'extra'
+				}
+			],
+			path: '/data/:name/:age'
+		}).render();
+
+		var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
+		assert.strictEqual(3, inputs.length);
+
+		inputs[1].value = 12;
+		dom.triggerEvent(inputs[1], 'input');
+		explorer.path = '/another/:age';
+
+		explorer.once('attrsChanged', function() {
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual('foo.org/another/12/', requests[0].url);
+			assert.strictEqual('{"name":"foo"}', requests[0].requestBody);
+			done();
+		});
 	});
 
 	it('should render the response status code and text', function(done) {

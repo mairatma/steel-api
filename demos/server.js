@@ -1,43 +1,22 @@
+var bodyParser = require('body-parser');
 var express = require('express');
 var path = require('path');
 
 var app = express();
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..')));
 
-var response = [
-	{
-		"id": 1,
-		"description": "Go to the grocery store",
-		"creator": {
-			"id": 2,
-			"name": "Eduardo Lundgren"
-		},
-		"assignee": {
-			"id": 3,
-			"name": "Zeno Rocha"
-		},
-		"checked": true
-	},
-	{
-		"id": 2,
-		"description": "Watch Interstellar",
-		"creator": {
-			"id": 1,
-			"name": "Brian Chan"
-		},
-		"assignee": {
-			"id": 3,
-			"name": "Zeno Rocha"
-		},
-		"checked": false
-	}
-];
-
-app.post('/email', function(req, res) {
-	res.json(response);
+app.post('/email/:from/:to', function(req, res) {
+	res.json({
+		body: req.body,
+		params: req.params
+	});
 });
-app.put('/email', function(req, res) {
-	res.json(response);
+app.put('/email/:from/:to', function(req, res) {
+	res.json({
+		body: req.body,
+		params: req.params
+	});
 });
 
 app.listen(3000);
