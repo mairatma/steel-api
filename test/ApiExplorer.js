@@ -23,12 +23,12 @@ describe('ApiExplorer', function() {
 	it('should send request to given host and path', function() {
 		explorer = new ApiExplorer({
 			host: 'foo.org',
-			path: '/data/'
+			path: '/data'
 		}).render();
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
-		assert.strictEqual('foo.org/data/', requests[0].url);
+		assert.strictEqual('foo.org/data', requests[0].url);
 	});
 
 	it('should send request with chosen method', function() {
@@ -99,7 +99,7 @@ describe('ApiExplorer', function() {
 		inputs[1].value = 12;
 		dom.triggerEvent(inputs[1], 'input');
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual('foo.org/data/foo/12/', requests[0].url);
+		assert.strictEqual('foo.org/data/foo/12', requests[0].url);
 	});
 
 	it('should send request with default value if param chosen value is deleted', function() {
@@ -160,7 +160,7 @@ describe('ApiExplorer', function() {
 
 		explorer.once('attrsChanged', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-			assert.strictEqual('foo.org/another/12/', requests[0].url);
+			assert.strictEqual('foo.org/another/12', requests[0].url);
 			assert.strictEqual('{"name":"foo"}', requests[0].requestBody);
 			done();
 		});
