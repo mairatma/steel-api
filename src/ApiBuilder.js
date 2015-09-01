@@ -3,7 +3,6 @@
 import dom from 'bower:metal/src/dom/dom';
 import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
-import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import 'bower:steel-button-group/src/ButtonGroup';
 import 'bower:steel-dropdown/src/Dropdown';
@@ -264,7 +263,7 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleRenderSurface_(data, event) {
 		if (data.renderAttrs && data.renderAttrs.indexOf(this.skipSurfaceUpdateForAttr_) !== -1) {
-			this.getSurface(data.surfaceElementId).cacheState = Component.Cache.NOT_INITIALIZED;
+			this.clearSurfaceCache(data.surfaceId);
 			event.preventDefault();
 		}
 		this.skipSurfaceUpdateForAttr_ = null;
