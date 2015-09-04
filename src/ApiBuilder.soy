@@ -181,14 +181,14 @@
 				<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
 			</div>
 			<div class="col-md-4">
-				{let $typesMap: quoteKeysIfJs(['number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4]) /}
+				{let $typesMap0: quoteKeysIfJs(['number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4]) /}
 				{call Templates.Select.content}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
 					{param id: $id + '-typeSelect' + $index /}
 					{param items: ['Number', 'String', 'Boolean', 'Array', 'Object'] /}
 					{param label: 'Type' /}
-					{param selectedIndex: $param.type ? $typesMap[$param.type] : -1 /}
+					{param selectedIndex: $param.type ? $typesMap0[$param.type] : -1 /}
 				{/call}
 			</div>
 			<div class="col-md-3">
@@ -241,13 +241,13 @@
 					/>
 				</div>
 				<div class="col-md-4">
-					{let $typesMap: quoteKeysIfJs(['param': 0, 'path': 1]) /}
+					{let $typesMap1: quoteKeysIfJs(['param': 0, 'path': 1]) /}
 					{call Templates.Select.content}
 						{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 						{param events: ['selectedIndexChanged': $id + ':handleInSelectedIndexChanged_'] /}
 						{param id: $id + '-inSelect' + $index /}
 						{param items: ['Param', 'Path'] /}
-						{param selectedIndex: $param.in ? $typesMap[$param.in] : 0 /}
+						{param selectedIndex: $param.in ? $typesMap1[$param.in] : 0 /}
 					{/call}
 				</div>
 				<div class="col-md-3">
