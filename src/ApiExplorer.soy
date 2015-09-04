@@ -153,9 +153,11 @@
 				<div class="input-group-btn">
 					{call Templates.Select.content}
 						{param id: $id + '-methodSelect' /}
+						{param label: '' /}
 						{param items: keys($method) /}
 						{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
 						{param hiddenFieldName: 'method' /}
+						{param selectedIndex: 0 /}
 					{/call}
 				</div>
 				<input class="input-btn-right form-control" type="text" value="{$host}{$replacedPath}" readonly>
