@@ -246,6 +246,7 @@
 						{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 						{param events: ['selectedIndexChanged': $id + ':handleInSelectedIndexChanged_'] /}
 						{param id: $id + '-inSelect' + $index /}
+						{param label: '' /}
 						{param items: ['Param', 'Path'] /}
 						{param selectedIndex: $param.in ? $typesMap1[$param.in] : 0 /}
 					{/call}
