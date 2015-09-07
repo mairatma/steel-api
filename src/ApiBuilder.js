@@ -188,7 +188,7 @@ class ApiBuilder extends ApiBase {
 			event,
 			this.id + '-inSelect',
 			'in',
-			event.target.items[data.newVal].name.toLowerCase()
+			event.target.items[data.newVal].toLowerCase()
 		);
 	}
 
@@ -313,7 +313,7 @@ class ApiBuilder extends ApiBase {
 			event,
 			this.id + '-typeSelect',
 			'type',
-			item ? item.name.toLowerCase() : null
+			item ? item.toLowerCase() : null
 		);
 	}
 
