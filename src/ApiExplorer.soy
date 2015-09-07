@@ -57,25 +57,27 @@
  * @param auth
  */
 {template .auth}
-	<div id="{$id}-auth">
-		<p class="api-section-title">Authentication</p>
-		<div class="explorer-section-auth">
-			{if $auth.roles}
-				{foreach $role in keys($auth.roles)}
-					<span class="label label-primary">
-						<span class="label-icon icon-12-person"></span> {$role}
-					</span>
-				{/foreach}
-			{/if}
-			{if $auth.permissions}
-				{foreach $permission in keys($auth.permissions)}
-					<span class="label label-success">
-						<span class="label-icon icon-12-check"></span> {$permission}
-					</span>
-				{/foreach}
-			{/if}
+	{if length(keys($auth.roles))}
+		<div id="{$id}-auth">
+			<p class="api-section-title">Authentication</p>
+			<div class="explorer-section-auth">
+				{if $auth.roles}
+					{foreach $role in keys($auth.roles)}
+						<span class="label label-primary">
+							<span class="label-icon icon-12-person"></span> {$role}
+						</span>
+					{/foreach}
+				{/if}
+				{if $auth.permissions}
+					{foreach $permission in keys($auth.permissions)}
+						<span class="label label-success">
+							<span class="label-icon icon-12-check"></span> {$permission}
+						</span>
+					{/foreach}
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 {/template}
 
 /**
@@ -83,37 +85,39 @@
  * @param parameters
  */
 {template .params}
-	<div id="{$id}-params">
-		<p class="api-section-title">Parameters</p>
-		<div class="explorer-section-params">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th class="text-center">Type</th>
-						<th class="text-center">Value</th>
-						<th class="text-center">Required</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach $param in $parameters}
+	{if length($parameters)}
+		<div id="{$id}-params">
+			<p class="api-section-title">Parameters</p>
+			<div class="explorer-section-params">
+				<table class="table">
+					<thead>
 						<tr>
-							<td>{$param.name}</td>
-							<td>{$param.description ? $param.description : ''}</td>
-							<td class="text-center">{$param.type ? $param.type : ''}</td>
-							<td class="text-center">{$param.value ? $param.value : ''}</td>
-							<td class="text-center">
-								{if $param.required}
-									<span class="explorer-icon-required icon-16-confirm"></span>
-								{/if}
-							</td>
+							<th>Name</th>
+							<th>Description</th>
+							<th class="text-center">Type</th>
+							<th class="text-center">Value</th>
+							<th class="text-center">Required</th>
 						</tr>
-					{/foreach}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{foreach $param in $parameters}
+							<tr>
+								<td>{$param.name}</td>
+								<td>{$param.description ? $param.description : ''}</td>
+								<td class="text-center">{$param.type ? $param.type : ''}</td>
+								<td class="text-center">{$param.value ? $param.value : ''}</td>
+								<td class="text-center">
+									{if $param.required}
+										<span class="explorer-icon-required icon-16-confirm"></span>
+									{/if}
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
+	{/if}
 {/template}
 
 /**

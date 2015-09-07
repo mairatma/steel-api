@@ -342,7 +342,8 @@ class ApiBuilder extends ApiBase {
 		if (event.target.checked) {
 			this.auth[type][name] = true;
 		} else {
-			delete this.auth[type][name];
+			delete this.auth[type][name]
+			;
 		}
 		this.auth = this.auth;
 		this.skipSurfaceUpdateForAttr_ = 'auth';
