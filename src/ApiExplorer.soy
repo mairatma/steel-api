@@ -57,7 +57,7 @@
  * @param auth
  */
 {template .auth}
-	{if length(keys($auth.roles))}
+	{if $auth and length(keys($auth.roles))}
 		<div id="{$id}-auth">
 			<p class="api-section-title">Authentication</p>
 			<div class="explorer-section-auth">

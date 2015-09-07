@@ -65,7 +65,7 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.auth = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
-  if (soy.$$getMapKeys(opt_data.auth.roles).length) {
+  if (opt_data.auth && soy.$$getMapKeys(opt_data.auth.roles).length) {
     output += '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
     if (opt_data.auth.roles) {
       var roleList201 = soy.$$getMapKeys(opt_data.auth.roles);
