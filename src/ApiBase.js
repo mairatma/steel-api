@@ -56,20 +56,6 @@ class ApiBase extends SoyComponent {
 	}
 
 	/**
-	 * Setter for the `method` attribute. If it's given as an array, it will be converted
-	 * to a map instead. The `toJson` method will return the array format for this though.
-	 * @param {!Array|Object} auth
-	 * @return {!Object}
-	 * @protected
-	 */
-	setterMethodFn_(method) {
-		if (method instanceof Array) {
-			method = this.convertToMap_(method);
-		}
-		return method;
-	}
-
-	/**
 	 * Setter for the `parameters` attribute. If given as an object, the value will
 	 * be converted into an array format for internal use. The `toJson` method will
 	 * return the object format for the `parameters` attribute though.
@@ -102,9 +88,6 @@ class ApiBase extends SoyComponent {
 			switch (name) {
 				case 'parameters':
 					val = this.convertParametersToObj_(val);
-					break;
-				case 'method':
-					val = Object.keys(val);
 					break;
 				case 'auth':
 					val = object.mixin({}, val);
@@ -188,12 +171,9 @@ ApiBase.ATTRS = {
 	 * @default ['get']
 	 */
 	method: {
-		setter: 'setterMethodFn_',
-		validator: core.isObject,
+		validator: val => val instanceof Array,
 		valueFn: function() {
-			return {
-				get: true
-			};
+			return ['get'];
 		}
 	},
 

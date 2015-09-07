@@ -462,16 +462,11 @@ describe('ApiBuilder', function() {
 
 		var buttons = builder.element.querySelectorAll('.btn-group button');
 		dom.triggerEvent(buttons[5], 'click');
-		var expectedMethod = {
-			delete: true,
-			get: true
-		};
+		var expectedMethod = ['get', 'delete'];
 		assert.deepEqual(expectedMethod, builder.method);
 
 		dom.triggerEvent(buttons[0], 'click');
-		expectedMethod = {
-			delete: true
-		};
+		expectedMethod = ['delete'];
 		assert.deepEqual(expectedMethod, builder.method);
 	});
 
@@ -480,18 +475,14 @@ describe('ApiBuilder', function() {
 
 		var buttons = builder.element.querySelectorAll('.btn-group button');
 		dom.triggerEvent(buttons[0], 'click');
-		var expectedMethod = {
-			get: true
-		};
+		var expectedMethod = ['get'];
 		assert.deepEqual(expectedMethod, builder.method);
 		assert.ok(dom.hasClass(buttons[0], 'btn-group-selected'));
 
 		dom.triggerEvent(buttons[5], 'click');
 		dom.triggerEvent(buttons[0], 'click');
 		dom.triggerEvent(buttons[5], 'click');
-		expectedMethod = {
-			delete: true
-		};
+		expectedMethod = ['delete'];
 		assert.deepEqual(expectedMethod, builder.method);
 		assert.ok(dom.hasClass(buttons[5], 'btn-group-selected'));
 	});

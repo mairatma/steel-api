@@ -80,14 +80,7 @@
 			{param events: ['selectedChanged': $id + ':handleMethodsSelectedChanged_'] /}
 			{param id: $id + '-methodButtonGroup' /}
 			{param minSelected: 1 /}
-			{param selected: quoteKeysIfJs([
-				'0': $method.get,
-				'1': $method.head,
-				'2': $method.post,
-				'3': $method.put,
-				'4': $method.patch,
-				'5': $method.delete
-			])/}
+			{param selected: $method /}
 		{/call}
 	</div>
 {/template}

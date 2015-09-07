@@ -138,18 +138,6 @@ class ApiExplorer extends ApiBase {
  */
 ApiExplorer.ATTRS = {
 	/**
-	 * All methods that can be used.
-	 * @type {!Array<string>}
-	 * @default []
-	 */
-	method: {
-		validator: val => val instanceof Array,
-		valueFn: function() {
-			return ['get'];
-		}
-	},
-
-	/**
 	 * The given path with all params replaced with the values to be used.
 	 * @type {string}
 	 */

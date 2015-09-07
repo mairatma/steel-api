@@ -38,9 +38,7 @@ describe('ApiBase', function() {
 	it('should set "method" attr to "get" by default', function() {
 		api = new ApiBase();
 
-		var expected = {
-			get: true
-		};
+		var expected = ['get'];
 		assert.deepEqual(expected, api.method);
 	});
 
@@ -49,10 +47,7 @@ describe('ApiBase', function() {
 			method: ['get', 'post']
 		});
 
-		var expected = {
-			get: true,
-			post: true
-		};
+		var expected = ['get', 'post'];
 		assert.deepEqual(expected, api.method);
 	});
 
@@ -61,24 +56,15 @@ describe('ApiBase', function() {
 			method: ['get', 'post']
 		});
 
-		var expected = {
-			get: true,
-			post: true
-		};
+		var expected = ['get', 'post'];
 		assert.deepEqual(expected, api.method);
 
 		api.method = ['patch'];
-		expected = {
-			patch: true
-		};
+		expected = ['patch'];
 		assert.deepEqual(expected, api.method);
 
-		api.method = {
-			put: true
-		};
-		expected = {
-			put: true
-		};
+		api.method = ['put'];
+		expected = ['put'];
 		assert.deepEqual(expected, api.method);
 
 		api.method = 'delete';
