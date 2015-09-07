@@ -34,10 +34,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<p id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="explorer-title">';
-  var methodNames__soy177 = soy.$$getMapKeys(opt_data.method);
-  output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNames__soy177[0]) + '-bg">' + soy.$$escapeHtml(methodNames__soy177[0]) + '</span><span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<p id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="explorer-title"><span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(opt_data.method[0]) + '-bg">' + soy.$$escapeHtml(opt_data.method[0]) + '</span><span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.title.soyTemplateName = 'Templates.ApiExplorer.title';
@@ -69,19 +66,19 @@ if (goog.DEBUG) {
 Templates.ApiExplorer.auth = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
   if (opt_data.auth.roles) {
-    var roleList201 = soy.$$getMapKeys(opt_data.auth.roles);
-    var roleListLen201 = roleList201.length;
-    for (var roleIndex201 = 0; roleIndex201 < roleListLen201; roleIndex201++) {
-      var roleData201 = roleList201[roleIndex201];
-      output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData201) + '</span>';
+    var roleList199 = soy.$$getMapKeys(opt_data.auth.roles);
+    var roleListLen199 = roleList199.length;
+    for (var roleIndex199 = 0; roleIndex199 < roleListLen199; roleIndex199++) {
+      var roleData199 = roleList199[roleIndex199];
+      output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData199) + '</span>';
     }
   }
   if (opt_data.auth.permissions) {
-    var permissionList208 = soy.$$getMapKeys(opt_data.auth.permissions);
-    var permissionListLen208 = permissionList208.length;
-    for (var permissionIndex208 = 0; permissionIndex208 < permissionListLen208; permissionIndex208++) {
-      var permissionData208 = permissionList208[permissionIndex208];
-      output += '<span class="label label-success"><span class="label-icon icon-12-check"></span> ' + soy.$$escapeHtml(permissionData208) + '</span>';
+    var permissionList206 = soy.$$getMapKeys(opt_data.auth.permissions);
+    var permissionListLen206 = permissionList206.length;
+    for (var permissionIndex206 = 0; permissionIndex206 < permissionListLen206; permissionIndex206++) {
+      var permissionData206 = permissionList206[permissionIndex206];
+      output += '<span class="label label-success"><span class="label-icon icon-12-check"></span> ' + soy.$$escapeHtml(permissionData206) + '</span>';
     }
   }
   output += '</div></div>';
@@ -101,11 +98,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="explorer-section-params"><table class="table"><thead><tr><th>Name</th><th>Description</th><th class="text-center">Type</th><th class="text-center">Value</th><th class="text-center">Required</th></tr></thead><tbody>';
-  var paramList218 = opt_data.parameters;
-  var paramListLen218 = paramList218.length;
-  for (var paramIndex218 = 0; paramIndex218 < paramListLen218; paramIndex218++) {
-    var paramData218 = paramList218[paramIndex218];
-    output += '<tr><td>' + soy.$$escapeHtml(paramData218.name) + '</td><td>' + soy.$$escapeHtml(paramData218.description ? paramData218.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData218.type ? paramData218.type : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData218.value ? paramData218.value : '') + '</td><td class="text-center">' + ((paramData218.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
+  var paramList216 = opt_data.parameters;
+  var paramListLen216 = paramList216.length;
+  for (var paramIndex216 = 0; paramIndex216 < paramListLen216; paramIndex216++) {
+    var paramData216 = paramList216[paramIndex216];
+    output += '<tr><td>' + soy.$$escapeHtml(paramData216.name) + '</td><td>' + soy.$$escapeHtml(paramData216.description ? paramData216.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData216.type ? paramData216.type : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData216.value ? paramData216.value : '') + '</td><td class="text-center">' + ((paramData216.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
   }
   output += '</tbody></table></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -124,11 +121,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.tryParams = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryParams" class="row">';
-  var paramList238 = opt_data.parameters;
-  var paramListLen238 = paramList238.length;
-  for (var paramIndex238 = 0; paramIndex238 < paramListLen238; paramIndex238++) {
-    var paramData238 = paramList238[paramIndex238];
-    output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData238.name) + ' ' + ((paramData238.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData238.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData238.value ? paramData238.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex238) + '" data-oninput="handleParamInput_" ></div>';
+  var paramList236 = opt_data.parameters;
+  var paramListLen236 = paramList236.length;
+  for (var paramIndex236 = 0; paramIndex236 < paramListLen236; paramIndex236++) {
+    var paramData236 = paramList236[paramIndex236];
+    output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData236.name) + ' ' + ((paramData236.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData236.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData236.value ? paramData236.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex236) + '" data-oninput="handleParamInput_" ></div>';
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -146,7 +143,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.tryIt = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryIt" class="row"><div class="col-md-12"><div class="input-group"><div class="input-group-btn">' + soy.$$escapeHtml(Templates.Select.content({id: opt_data.id + '-methodSelect', label: '', items: soy.$$getMapKeys(opt_data.method), buttonClass: 'btn btn-default btn-sm dropdown-select-group-left', hiddenFieldName: 'method', selectedIndex: 0}, null, opt_ijData)) + '</div><input class="input-btn-right form-control" type="text" value="' + soy.$$escapeHtmlAttribute(opt_data.host) + soy.$$escapeHtmlAttribute(opt_data.replacedPath) + '" readonly><div class="input-group-btn"><button class="btn btn-sm btn-success explorer-section-try-button" type="button" data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleClickRun_">Try It!</button></div></div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryIt" class="row"><div class="col-md-12"><div class="input-group"><div class="input-group-btn">' + soy.$$escapeHtml(Templates.Select.content({id: opt_data.id + '-methodSelect', label: '', items: opt_data.method, buttonClass: 'btn btn-default btn-sm dropdown-select-group-left', hiddenFieldName: 'method', selectedIndex: 0}, null, opt_ijData)) + '</div><input class="input-btn-right form-control" type="text" value="' + soy.$$escapeHtmlAttribute(opt_data.host) + soy.$$escapeHtmlAttribute(opt_data.replacedPath) + '" readonly><div class="input-group-btn"><button class="btn btn-sm btn-success explorer-section-try-button" type="button" data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleClickRun_">Try It!</button></div></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.tryIt.soyTemplateName = 'Templates.ApiExplorer.tryIt';
