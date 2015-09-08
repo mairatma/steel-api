@@ -126,7 +126,11 @@ ApiBase.ATTRS = {
 		setter: 'setterAuthFn_',
 		validator: core.isObject,
 		valueFn: function() {
-			return {};
+			return {
+				'roles': [],
+				'permissions': [],
+				'validator': ''
+			};
 		}
 	},
 
