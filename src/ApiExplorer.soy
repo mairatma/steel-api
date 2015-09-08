@@ -130,20 +130,22 @@
  */
 {template .tryParams}
 	<div id="{$id}-tryParams" class="row">
-		{foreach $param in $parameters}
-			<div class="col-md-3">
-				<label for="from">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
-				<input
-					name="{$param.name}"
-					class="form-control explorer-section-try-param"
-					type="text"
-					autocomplete="off"
-					placeholder="{$param.value ? $param.value : ''}"
-					data-index="{index($param)}"
-					data-oninput="handleParamInput_"
-				>
-			</div>
-		{/foreach}
+		{if $parameters}
+			{foreach $param in $parameters}
+				<div class="col-md-3">
+					<label for="from">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
+					<input
+						name="{$param.name}"
+						class="form-control explorer-section-try-param"
+						type="text"
+						autocomplete="off"
+						placeholder="{$param.value ? $param.value : ''}"
+						data-index="{index($param)}"
+						data-oninput="handleParamInput_"
+					>
+				</div>
+			{/foreach}
+		{/if}
 	</div>
 {/template}
 
