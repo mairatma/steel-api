@@ -123,9 +123,7 @@
 			<textarea
 				class="form-control handler"
 				name="handler"
-				placeholder="function(request, response) {lb}
-	return 'Hello World';
-{rb}"
+				placeholder="function(request, response) {lb} return 'Hello World'; {rb}"
 				data-oninput="handleInputHandler_">
 				{$handler ? $handler : ''}
 			</textarea>
@@ -300,9 +298,8 @@
 					type="text"
 					class="form-control"
 					placeholder="Validator"
-					data-oninput="handleAuthValidatorInput_">
-					{$auth.validator ? $auth.validator : ''}
-				</input>
+					value="{$auth.validator ? $auth.validator : ''}"
+					data-oninput="handleAuthValidatorInput_" />
 			</div>
 		</div>
 	</div>

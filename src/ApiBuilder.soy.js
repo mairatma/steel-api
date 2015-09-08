@@ -94,7 +94,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler</p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) {return \'Hello World\';}" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler ? opt_data.handler : '') + '</textarea></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler</p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) { return \'Hello World\'; }" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler ? opt_data.handler : '') + '</textarea></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';
@@ -170,7 +170,7 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
       output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions ? opt_data.auth.permissions[permissionData133] : false, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData133}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData133) + '</span></div>';
     }
   }
-  output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" data-oninput="handleAuthValidatorInput_">' + soy.$$escapeHtml(opt_data.auth.validator ? opt_data.auth.validator : '') + '</input></div></div></div>';
+  output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.auth.validator ? opt_data.auth.validator : '') + '" data-oninput="handleAuthValidatorInput_" /></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
