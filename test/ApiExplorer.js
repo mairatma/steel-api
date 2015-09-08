@@ -166,6 +166,33 @@ describe('ApiExplorer', function() {
 		});
 	});
 
+	it('should send request with chosen path params after method is changed', function(done) {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			method: ['post', 'put'],
+			parameters: [
+				{
+					name: 'name'
+				}
+			],
+			path: '/data/:name'
+		}).render();
+
+		var methodSelect = explorer.components[explorer.element.id + '-methodSelect'];
+		methodSelect.selectedIndex = 1;
+
+		var input = explorer.element.querySelector('.explorer-section-try-param');
+		input.value = 'foo';
+		dom.triggerEvent(input, 'input');
+
+		explorer.once('attrsChanged', function() {
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual('foo.org/data/foo', requests[0].url);
+			assert.strictEqual('PUT', requests[0].method);
+			done();
+		});
+	});
+
 	it('should render the response status code and text', function(done) {
 		explorer = new ApiExplorer().render();
 

@@ -148,6 +148,7 @@
  * @param id
  * @param method
  * @param replacedPath
+ * @param? selectedMethodIndex
  */
 {template .tryIt}
 	<div id="{$id}-tryIt" class="row">
@@ -155,12 +156,13 @@
 			<div class="input-group">
 				<div class="input-group-btn">
 					{call Templates.Select.content}
+						{param events: ['selectedIndexChanged': $id + ':handleMethodSelectedIndexChanged_'] /}
 						{param id: $id + '-methodSelect' /}
 						{param label: '' /}
 						{param items: $method /}
 						{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
 						{param hiddenFieldName: 'method' /}
-						{param selectedIndex: 0 /}
+						{param selectedIndex: $selectedMethodIndex ? $selectedMethodIndex : 0 /}
 					{/call}
 				</div>
 				<input class="input-btn-right form-control" type="text" value="{$host}{$replacedPath}" readonly>
