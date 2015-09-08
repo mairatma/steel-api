@@ -29,7 +29,7 @@
 			class="form-control-borderless"
 			name="title"
 			placeholder="add a title..."
-			value="{$title}"
+			value="{$title ? $title : ''}"
 			data-oninput="handleInputTitle_"
 		/>
 		<div class="builder-data">
@@ -56,7 +56,7 @@
 			name="description"
 			placeholder="add a description..."
 			data-oninput="handleInputDescription_">
-			{$description}
+			{$description ? $description : ''}
 		</textarea>
 	</div>
 {/template}
@@ -80,7 +80,7 @@
 			{param events: ['selectedChanged': $id + ':handleMethodsSelectedChanged_'] /}
 			{param id: $id + '-methodButtonGroup' /}
 			{param minSelected: 1 /}
-			{param selected: $method /}
+			{param selected: $method ? $method : ['get'] /}
 		{/call}
 	</div>
 {/template}
@@ -95,7 +95,7 @@
 		<p class="api-section-title">Endpoint</p>
 		<div class="form-group">
 			<div class="input-group">
-				<div class="input-group-addon">{$host}</div>
+				<div class="input-group-addon">{$host ? $host : ''}</div>
 				<div class="input-inner-addon input-inner-addon-left">
 					<span class="icon-16-info"></span>
 					<input
@@ -103,7 +103,7 @@
 						class="input-group-addon-input form-control"
 						name="path"
 						placeholder="/new-api"
-						value="{$path}"
+						value="{$path ? $path : ''}"
 						data-oninput="handleInputPath_"
 					/>
 				</div>
@@ -127,7 +127,7 @@
 	return 'Hello World';
 {rb}"
 				data-oninput="handleInputHandler_">
-				{$handler}
+				{$handler ? $handler : ''}
 			</textarea>
 		</div>
 	</div>
@@ -262,31 +262,35 @@
 			<div class="row">
 				<div class="builder-section-auth-roles col-md-6">
 					<p class="api-section-title">Roles</p>
-					{foreach $role in $roles}
-						<div>
-							{call Templates.Switcher.content}
-								{param checked: $auth.roles[$role] /}
-								{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
-								{param elementClasses: 'builder-param-switcher' /}
-								{param id: $id + '-rolesSwitcher' + $role /}
-							{/call}
-							<span class="builder-param-label"> {$role}</span>
-						</div>
-					{/foreach}
+					{if $roles}
+						{foreach $role in $roles}
+							<div>
+								{call Templates.Switcher.content}
+									{param checked: $auth.roles[$role] /}
+									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
+									{param elementClasses: 'builder-param-switcher' /}
+									{param id: $id + '-rolesSwitcher' + $role /}
+								{/call}
+								<span class="builder-param-label"> {$role}</span>
+							</div>
+						{/foreach}
+					{/if}
 				</div>
 				<div class="builder-section-auth-permissions col-md-6">
 					<p class="api-section-title">Permissions</p>
-					{foreach $permission in $permissions}
-						<div>
-							{call Templates.Switcher.content}
-								{param checked: $auth.permissions[$permission] /}
-								{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
-								{param elementClasses: 'builder-param-switcher' /}
-								{param id: $id + '-permissionsSwitcher' + $permission /}
-							{/call}
-							<span class="builder-param-label"> {$permission}</span>
-						</div>
-					{/foreach}
+					{if $permissions}
+						{foreach $permission in $permissions}
+							<div>
+								{call Templates.Switcher.content}
+									{param checked: $auth.permissions[$permission] /}
+									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
+									{param elementClasses: 'builder-param-switcher' /}
+									{param id: $id + '-permissionsSwitcher' + $permission /}
+								{/call}
+								<span class="builder-param-label"> {$permission}</span>
+							</div>
+						{/foreach}
+					{/if}
 				</div>
 			</div>
 			<div class="row">

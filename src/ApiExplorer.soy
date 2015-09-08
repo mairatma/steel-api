@@ -31,9 +31,11 @@
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
-		{foreach $methodName in $method}
-			<span class="explorer-title-label label label-sm http-{$methodName}-bg">{$methodName}</span>
-		{/foreach}
+		{if $method}
+			{foreach $methodName in $method}
+				<span class="explorer-title-label label label-sm http-{$methodName}-bg">{$methodName}</span>
+			{/foreach}
+		{/if}
 		<span class="explorer-title-name">{$path}</span>
 		{if $data}
 			<span class="explorer-data">
@@ -50,7 +52,7 @@
  */
 {template .description}
 	<p id="{$id}-description" class="explorer-description">
-		{$description}
+		{$description ? $description : ''}
 	</p>
 {/template}
 
@@ -59,7 +61,7 @@
  * @param auth
  */
 {template .auth}
-	{if $auth and length(keys($auth.roles))}
+	{if $auth and $auth.roles and length(keys($auth.roles))}
 		<div id="{$id}-auth">
 			<p class="api-section-title">Authentication</p>
 			<div class="explorer-section-auth">
@@ -161,13 +163,13 @@
 						{param events: ['selectedIndexChanged': $id + ':handleMethodSelectedIndexChanged_'] /}
 						{param id: $id + '-methodSelect' /}
 						{param label: '' /}
-						{param items: $method /}
+						{param items: $method ? $method : ['get'] /}
 						{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
 						{param hiddenFieldName: 'method' /}
 						{param selectedIndex: $selectedMethodIndex ? $selectedMethodIndex : 0 /}
 					{/call}
 				</div>
-				<input class="input-btn-right form-control" type="text" value="{$host}{$replacedPath}" readonly>
+				<input class="input-btn-right form-control" type="text" value="{$host ? $host : ''}{$replacedPath ? $replacedPath : ''}" readonly>
 				<div class="input-group-btn">
 					<button
 						class="btn btn-sm btn-success explorer-section-try-button"

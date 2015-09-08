@@ -34,7 +34,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.title = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title) + '" data-oninput="handleInputTitle_" /><div class="builder-data"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title ? opt_data.title : '') + '" data-oninput="handleInputTitle_" /><div class="builder-data"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.title.soyTemplateName = 'Templates.ApiBuilder.title';
@@ -49,7 +49,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.description = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description) + '</textarea></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description ? opt_data.description : '') + '</textarea></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.description.soyTemplateName = 'Templates.ApiBuilder.description';
@@ -64,7 +64,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.methods = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method</p>' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default btn-get-bg'}, {label: 'head', cssClass: 'btn btn-default btn-head-bg'}, {label: 'post', cssClass: 'btn btn-default btn-post-bg'}, {label: 'put', cssClass: 'btn btn-default btn-put-bg'}, {label: 'patch', cssClass: 'btn btn-default btn-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default btn-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method}, null, opt_ijData)) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method</p>' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default btn-get-bg'}, {label: 'head', cssClass: 'btn btn-default btn-head-bg'}, {label: 'post', cssClass: 'btn btn-default btn-post-bg'}, {label: 'put', cssClass: 'btn btn-default btn-put-bg'}, {label: 'patch', cssClass: 'btn btn-default btn-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default btn-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method ? opt_data.method : ['get']}, null, opt_ijData)) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.methods.soyTemplateName = 'Templates.ApiBuilder.methods';
@@ -79,7 +79,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.path = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint</p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host) + '</div><div class="input-inner-addon input-inner-addon-left"><span class="icon-16-info"></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path) + '" data-oninput="handleInputPath_" /></div></div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint</p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host ? opt_data.host : '') + '</div><div class="input-inner-addon input-inner-addon-left"><span class="icon-16-info"></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path ? opt_data.path : '') + '" data-oninput="handleInputPath_" /></div></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.path.soyTemplateName = 'Templates.ApiBuilder.path';
@@ -94,7 +94,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler</p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) {return \'Hello World\';}" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler) + '</textarea></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler</p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) {return \'Hello World\';}" data-oninput="handleInputHandler_">' + soy.$$escapeHtmlRcdata(opt_data.handler ? opt_data.handler : '') + '</textarea></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';
@@ -151,18 +151,22 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication</p><div class="builder-section-auth"><div class="row"><div class="builder-section-auth-roles col-md-6"><p class="api-section-title">Roles</p>';
-  var roleList115 = opt_data.roles;
-  var roleListLen115 = roleList115.length;
-  for (var roleIndex115 = 0; roleIndex115 < roleListLen115; roleIndex115++) {
-    var roleData115 = roleList115[roleIndex115];
-    output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData115], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData115}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData115) + '</span></div>';
+  if (opt_data.roles) {
+    var roleList117 = opt_data.roles;
+    var roleListLen117 = roleList117.length;
+    for (var roleIndex117 = 0; roleIndex117 < roleListLen117; roleIndex117++) {
+      var roleData117 = roleList117[roleIndex117];
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData117], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData117}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData117) + '</span></div>';
+    }
   }
   output += '</div><div class="builder-section-auth-permissions col-md-6"><p class="api-section-title">Permissions</p>';
-  var permissionList127 = opt_data.permissions;
-  var permissionListLen127 = permissionList127.length;
-  for (var permissionIndex127 = 0; permissionIndex127 < permissionListLen127; permissionIndex127++) {
-    var permissionData127 = permissionList127[permissionIndex127];
-    output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData127], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData127}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData127) + '</span></div>';
+  if (opt_data.permissions) {
+    var permissionList131 = opt_data.permissions;
+    var permissionListLen131 = permissionList131.length;
+    for (var permissionIndex131 = 0; permissionIndex131 < permissionListLen131; permissionIndex131++) {
+      var permissionData131 = permissionList131[permissionIndex131];
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData131], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData131}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData131) + '</span></div>';
+    }
   }
   output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" data-oninput="handleAuthValidatorInput_">' + soy.$$escapeHtml(opt_data.auth.validator ? opt_data.auth.validator : '') + '</input></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
