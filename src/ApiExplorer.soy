@@ -31,7 +31,9 @@
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
-		<span class="explorer-title-label label label-sm http-{$method[0]}-bg">{$method[0]}</span>
+		{foreach $methodName in $method}
+			<span class="explorer-title-label label label-sm http-{$methodName}-bg">{$methodName}</span>
+		{/foreach}
 		<span class="explorer-title-name">{$path}</span>
 		{if $data}
 			<span class="explorer-data">
