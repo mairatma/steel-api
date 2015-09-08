@@ -110,11 +110,13 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="builder-section-params">';
-  var paramList62 = opt_data.parameters;
-  var paramListLen62 = paramList62.length;
-  for (var paramIndex62 = 0; paramIndex62 < paramListLen62; paramIndex62++) {
-    var paramData62 = paramList62[paramIndex62];
-    output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex62, param: paramData62}, null, opt_ijData);
+  if (opt_data.parameters) {
+    var paramList64 = opt_data.parameters;
+    var paramListLen64 = paramList64.length;
+    for (var paramIndex64 = 0; paramIndex64 < paramListLen64; paramIndex64++) {
+      var paramData64 = paramList64[paramIndex64];
+      output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex64, param: paramData64}, null, opt_ijData);
+    }
   }
   output += '<div class="builder-param-more row"><div class="col-md-12"><button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_"><span class="icon-16-plus"></span> Add Parameter</button></div></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -133,8 +135,8 @@ if (goog.DEBUG) {
  */
 Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div class="builder-param-item" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-oninput="handleInputParam_"><div class="row builder-param-item-row"><div class="col-md-4"><input type="text" class="form-control" placeholder="Parameter" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div><div class="col-md-4">';
-  var typesMap0__soy75 = {'number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4};
-  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, id: opt_data.id + '-typeSelect' + opt_data.index, items: ['Number', 'String', 'Boolean', 'Array', 'Object'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap0__soy75[opt_data.param.type] : -1}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + opt_data.index}, null, opt_ijData)) + '</div><div class="col-md-1 builder-param-actions">' + soy.$$escapeHtml(Templates.Dropdown.content({body: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleDuplicateParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Duplicate</a></li><li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleRemoveParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Remove</a></li>'), header: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="btn-transparent" data-onclick="toggle"><span class="builder-param-ellipsis icon-16-ellipsis"></span></button>'), id: opt_data.id + '-menu' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div><div class="builder-param-item-advanced"><a href="#" class="api-section-title" data-onclick="handleAdvancedSetupClick_">Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span></a><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(opt_data.param.value ? opt_data.param.value : '') + '" data-name="value" /></div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.param.validator ? opt_data.param.validator : '') + '" data-name="validator" /></div></div></div></div>';
+  var typesMap0__soy77 = {'number': 0, 'string': 1, 'boolean': 2, 'array': 3, 'object': 4};
+  output += soy.$$escapeHtml(Templates.Select.content({buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, id: opt_data.id + '-typeSelect' + opt_data.index, items: ['Number', 'String', 'Boolean', 'Array', 'Object'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap0__soy77[opt_data.param.type] : -1}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + opt_data.index}, null, opt_ijData)) + '</div><div class="col-md-1 builder-param-actions">' + soy.$$escapeHtml(Templates.Dropdown.content({body: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleDuplicateParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Duplicate</a></li><li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleRemoveParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Remove</a></li>'), header: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="btn-transparent" data-onclick="toggle"><span class="builder-param-ellipsis icon-16-ellipsis"></span></button>'), id: opt_data.id + '-menu' + opt_data.index}, null, opt_ijData)) + '</div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Description" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div><div class="builder-param-item-advanced"><a href="#" class="api-section-title" data-onclick="handleAdvancedSetupClick_">Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span></a><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Value" value="' + soy.$$escapeHtmlAttribute(opt_data.param.value ? opt_data.param.value : '') + '" data-name="value" /></div></div><div class="row builder-param-item-row"><div class="col-md-8"><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.param.validator ? opt_data.param.validator : '') + '" data-name="validator" /></div></div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -152,20 +154,20 @@ if (goog.DEBUG) {
 Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication</p><div class="builder-section-auth"><div class="row"><div class="builder-section-auth-roles col-md-6"><p class="api-section-title">Roles</p>';
   if (opt_data.roles) {
-    var roleList117 = opt_data.roles;
-    var roleListLen117 = roleList117.length;
-    for (var roleIndex117 = 0; roleIndex117 < roleListLen117; roleIndex117++) {
-      var roleData117 = roleList117[roleIndex117];
-      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData117], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData117}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData117) + '</span></div>';
+    var roleList119 = opt_data.roles;
+    var roleListLen119 = roleList119.length;
+    for (var roleIndex119 = 0; roleIndex119 < roleListLen119; roleIndex119++) {
+      var roleData119 = roleList119[roleIndex119];
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData119], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData119}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData119) + '</span></div>';
     }
   }
   output += '</div><div class="builder-section-auth-permissions col-md-6"><p class="api-section-title">Permissions</p>';
   if (opt_data.permissions) {
-    var permissionList131 = opt_data.permissions;
-    var permissionListLen131 = permissionList131.length;
-    for (var permissionIndex131 = 0; permissionIndex131 < permissionListLen131; permissionIndex131++) {
-      var permissionData131 = permissionList131[permissionIndex131];
-      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData131], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData131}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData131) + '</span></div>';
+    var permissionList133 = opt_data.permissions;
+    var permissionListLen133 = permissionList133.length;
+    for (var permissionIndex133 = 0; permissionIndex133 < permissionListLen133; permissionIndex133++) {
+      var permissionData133 = permissionList133[permissionIndex133];
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData133], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData133}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData133) + '</span></div>';
     }
   }
   output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" data-oninput="handleAuthValidatorInput_">' + soy.$$escapeHtml(opt_data.auth.validator ? opt_data.auth.validator : '') + '</input></div></div></div>';

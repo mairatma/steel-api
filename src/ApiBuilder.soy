@@ -141,13 +141,15 @@
 	<div id="{$id}-params">
 		<p class="api-section-title">Parameters</p>
 		<div class="builder-section-params">
-			{foreach $param in $parameters}
-				{call .param}
-					{param id: $id /}
-					{param index: index($param) /}
-					{param param: $param /}
-				{/call}
-			{/foreach}
+			{if $parameters}
+				{foreach $param in $parameters}
+					{call .param}
+						{param id: $id /}
+						{param index: index($param) /}
+						{param param: $param /}
+					{/call}
+				{/foreach}
+			{/if}
 			<div class="builder-param-more row">
 				<div class="col-md-12">
 					<button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_">

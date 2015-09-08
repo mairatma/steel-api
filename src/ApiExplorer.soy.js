@@ -36,11 +36,11 @@ if (goog.DEBUG) {
 Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<p id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="explorer-title">';
   if (opt_data.method) {
-    var methodNameList168 = opt_data.method;
-    var methodNameListLen168 = methodNameList168.length;
-    for (var methodNameIndex168 = 0; methodNameIndex168 < methodNameListLen168; methodNameIndex168++) {
-      var methodNameData168 = methodNameList168[methodNameIndex168];
-      output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNameData168) + '-bg">' + soy.$$escapeHtml(methodNameData168) + '</span>';
+    var methodNameList170 = opt_data.method;
+    var methodNameListLen170 = methodNameList170.length;
+    for (var methodNameIndex170 = 0; methodNameIndex170 < methodNameListLen170; methodNameIndex170++) {
+      var methodNameData170 = methodNameList170[methodNameIndex170];
+      output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNameData170) + '-bg">' + soy.$$escapeHtml(methodNameData170) + '</span>';
     }
   }
   output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>';
@@ -78,19 +78,19 @@ Templates.ApiExplorer.auth = function(opt_data, opt_ignored, opt_ijData) {
   if (opt_data.auth && opt_data.auth.roles && soy.$$getMapKeys(opt_data.auth.roles).length) {
     output += '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth"><p class="api-section-title">Authentication</p><div class="explorer-section-auth">';
     if (opt_data.auth.roles) {
-      var roleList196 = soy.$$getMapKeys(opt_data.auth.roles);
-      var roleListLen196 = roleList196.length;
-      for (var roleIndex196 = 0; roleIndex196 < roleListLen196; roleIndex196++) {
-        var roleData196 = roleList196[roleIndex196];
-        output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData196) + '</span>';
+      var roleList198 = soy.$$getMapKeys(opt_data.auth.roles);
+      var roleListLen198 = roleList198.length;
+      for (var roleIndex198 = 0; roleIndex198 < roleListLen198; roleIndex198++) {
+        var roleData198 = roleList198[roleIndex198];
+        output += '<span class="label label-primary"><span class="label-icon icon-12-person"></span> ' + soy.$$escapeHtml(roleData198) + '</span>';
       }
     }
     if (opt_data.auth.permissions) {
-      var permissionList203 = soy.$$getMapKeys(opt_data.auth.permissions);
-      var permissionListLen203 = permissionList203.length;
-      for (var permissionIndex203 = 0; permissionIndex203 < permissionListLen203; permissionIndex203++) {
-        var permissionData203 = permissionList203[permissionIndex203];
-        output += '<span class="label label-success"><span class="label-icon icon-12-check"></span> ' + soy.$$escapeHtml(permissionData203) + '</span>';
+      var permissionList205 = soy.$$getMapKeys(opt_data.auth.permissions);
+      var permissionListLen205 = permissionList205.length;
+      for (var permissionIndex205 = 0; permissionIndex205 < permissionListLen205; permissionIndex205++) {
+        var permissionData205 = permissionList205[permissionIndex205];
+        output += '<span class="label label-success"><span class="label-icon icon-12-check"></span> ' + soy.$$escapeHtml(permissionData205) + '</span>';
       }
     }
     output += '</div></div>';
@@ -111,13 +111,13 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.params = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
-  if (opt_data.parameters.length) {
+  if (opt_data.parameters && opt_data.parameters.length) {
     output += '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params"><p class="api-section-title">Parameters</p><div class="explorer-section-params"><table class="table"><thead><tr><th>Name</th><th>Description</th><th class="text-center">Type</th><th class="text-center">Value</th><th class="text-center">Required</th></tr></thead><tbody>';
-    var paramList215 = opt_data.parameters;
-    var paramListLen215 = paramList215.length;
-    for (var paramIndex215 = 0; paramIndex215 < paramListLen215; paramIndex215++) {
-      var paramData215 = paramList215[paramIndex215];
-      output += '<tr><td>' + soy.$$escapeHtml(paramData215.name) + '</td><td>' + soy.$$escapeHtml(paramData215.description ? paramData215.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData215.type ? paramData215.type : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData215.value ? paramData215.value : '') + '</td><td class="text-center">' + ((paramData215.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
+    var paramList217 = opt_data.parameters;
+    var paramListLen217 = paramList217.length;
+    for (var paramIndex217 = 0; paramIndex217 < paramListLen217; paramIndex217++) {
+      var paramData217 = paramList217[paramIndex217];
+      output += '<tr><td>' + soy.$$escapeHtml(paramData217.name) + '</td><td>' + soy.$$escapeHtml(paramData217.description ? paramData217.description : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData217.type ? paramData217.type : '') + '</td><td class="text-center">' + soy.$$escapeHtml(paramData217.value ? paramData217.value : '') + '</td><td class="text-center">' + ((paramData217.required) ? '<span class="explorer-icon-required icon-16-confirm"></span>' : '') + '</td></tr>';
     }
     output += '</tbody></table></div></div>';
   }
@@ -137,11 +137,11 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.tryParams = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryParams" class="row">';
-  var paramList235 = opt_data.parameters;
-  var paramListLen235 = paramList235.length;
-  for (var paramIndex235 = 0; paramIndex235 < paramListLen235; paramIndex235++) {
-    var paramData235 = paramList235[paramIndex235];
-    output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData235.name) + ' ' + ((paramData235.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData235.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData235.value ? paramData235.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex235) + '" data-oninput="handleParamInput_" ></div>';
+  var paramList237 = opt_data.parameters;
+  var paramListLen237 = paramList237.length;
+  for (var paramIndex237 = 0; paramIndex237 < paramListLen237; paramIndex237++) {
+    var paramData237 = paramList237[paramIndex237];
+    output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData237.name) + ' ' + ((paramData237.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData237.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData237.value ? paramData237.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex237) + '" data-oninput="handleParamInput_" ></div>';
   }
   output += '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);

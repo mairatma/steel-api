@@ -89,7 +89,7 @@
  * @param parameters
  */
 {template .params}
-	{if length($parameters)}
+	{if $parameters and length($parameters)}
 		<div id="{$id}-params">
 			<p class="api-section-title">Parameters</p>
 			<div class="explorer-section-params">
