@@ -268,7 +268,7 @@
 						{foreach $role in $roles}
 							<div>
 								{call Templates.Switcher.content}
-									{param checked: $auth.roles[$role] /}
+									{param checked: $auth.roles ? $auth.roles[$role] : false /}
 									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
 									{param id: $id + '-rolesSwitcher' + $role /}
@@ -284,7 +284,7 @@
 						{foreach $permission in $permissions}
 							<div>
 								{call Templates.Switcher.content}
-									{param checked: $auth.permissions[$permission] /}
+									{param checked: $auth.permissions ? $auth.permissions[$permission] : false /}
 									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
 									{param id: $id + '-permissionsSwitcher' + $permission /}

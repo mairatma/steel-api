@@ -158,7 +158,7 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
     var roleListLen119 = roleList119.length;
     for (var roleIndex119 = 0; roleIndex119 < roleListLen119; roleIndex119++) {
       var roleData119 = roleList119[roleIndex119];
-      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles[roleData119], events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData119}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData119) + '</span></div>';
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles ? opt_data.auth.roles[roleData119] : false, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData119}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData119) + '</span></div>';
     }
   }
   output += '</div><div class="builder-section-auth-permissions col-md-6"><p class="api-section-title">Permissions</p>';
@@ -167,7 +167,7 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
     var permissionListLen133 = permissionList133.length;
     for (var permissionIndex133 = 0; permissionIndex133 < permissionListLen133; permissionIndex133++) {
       var permissionData133 = permissionList133[permissionIndex133];
-      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions[permissionData133], events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData133}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData133) + '</span></div>';
+      output += '<div>' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions ? opt_data.auth.permissions[permissionData133] : false, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData133}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData133) + '</span></div>';
     }
   }
   output += '</div></div><div class="row"><input type="text" class="form-control" placeholder="Validator" data-oninput="handleAuthValidatorInput_">' + soy.$$escapeHtml(opt_data.auth.validator ? opt_data.auth.validator : '') + '</input></div></div></div>';
