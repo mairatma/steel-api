@@ -224,7 +224,7 @@
 				Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span>
 			</a>
 			<div class="row builder-param-item-row">
-				<div class="col-md-4">
+				<div class="col-md-8">
 					<input
 						type="text"
 						class="form-control"
@@ -232,26 +232,6 @@
 						value="{$param.value ? $param.value : ''}"
 						data-name="value"
 					/>
-				</div>
-				<div class="col-md-4">
-					{let $typesMap1: quoteKeysIfJs(['param': 0, 'path': 1]) /}
-					{call Templates.Select.content}
-						{param buttonClass: 'btn btn-default form-control dropdown-select' /}
-						{param events: ['selectedIndexChanged': $id + ':handleInSelectedIndexChanged_'] /}
-						{param id: $id + '-inSelect' + $index /}
-						{param label: '' /}
-						{param items: ['Param', 'Path'] /}
-						{param selectedIndex: $param.in ? $typesMap1[$param.in] : 0 /}
-					{/call}
-				</div>
-				<div class="col-md-3">
-					<span class="builder-param-label">Multiple</span>
-					{call Templates.Switcher.content}
-						{param checked: $param.multiple ? $param.multiple : false /}
-						{param events: ['checkedChanged': $id + ':handleMultipleCheckedChanged_'] /}
-						{param elementClasses: 'builder-param-switcher' /}
-						{param id: $id + '-multipleSwitcher' + $index /}
-					{/call}
 				</div>
 			</div>
 			<div class="row builder-param-item-row">

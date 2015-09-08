@@ -177,22 +177,6 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles a `selectedIndexChanged` event from a `Select` instance for param "in" option.
-	 * Updates the affected param inside the `parameters` attr with the new value.
-	 * @param {!Object} data
-	 * @param {!Object} event
-	 * @protected
-	 */
-	handleInSelectedIndexChanged_(data, event) {
-		this.updateParamDataFromComponentEvent_(
-			event,
-			this.id + '-inSelect',
-			'in',
-			event.target.items[data.newVal].toLowerCase()
-		);
-	}
-
-	/**
 	 * Handles a `selectedChanged` event triggered by the methods `ButtonGroup` instance.
 	 * Updates the `method` attr with the new value.
 	 * @protected
@@ -207,22 +191,6 @@ class ApiBuilder extends ApiBase {
 		}
 		this.method = newMethods;
 		this.skipSurfaceUpdateForAttr_ = 'method';
-	}
-
-	/**
-	 * Handles a `checkedChanged` event from a `Switcher` instance for a param multiple flag.
-	 * Updates the affected param inside the `parameters` attr with the new value.
-	 * @param {!Object} data
-	 * @param {!Object} event
-	 * @protected
-	 */
-	handleMultipleCheckedChanged_(data, event) {
-		this.updateParamDataFromComponentEvent_(
-			event,
-			this.id + '-multipleSwitcher',
-			'multiple',
-			event.target.checked
-		);
 	}
 
 	/**

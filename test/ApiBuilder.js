@@ -61,7 +61,6 @@ describe('ApiBuilder', function() {
 					foo: {
 						type: 'string',
 						value: 'value',
-						in: 'path',
 						description: 'desc',
 						required: true
 					},
@@ -79,7 +78,6 @@ describe('ApiBuilder', function() {
 			assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
 			assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
 			assert.strictEqual('value', paramRows[0].querySelector('input[data-name="value"]').value);
-			assert.strictEqual(1, builder.components[builder.id + '-inSelect0'].selectedIndex);
 			assert.strictEqual('', paramRows[0].querySelector('input[data-name="validator"]').value);
 
 			assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
@@ -87,7 +85,6 @@ describe('ApiBuilder', function() {
 			assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
 			assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
 			assert.strictEqual('', paramRows[1].querySelector('input[data-name="value"]').value);
-			assert.strictEqual(0, builder.components[builder.id + '-inSelect1'].selectedIndex);
 			assert.strictEqual('validator', paramRows[1].querySelector('input[data-name="validator"]').value);
 		});
 	});
@@ -147,11 +144,9 @@ describe('ApiBuilder', function() {
 			builder = new ApiBuilder({
 				parameters: {
 					foo: {
-						type: 'boolean',
-						in: 'path'
+						type: 'boolean'
 					},
 					bar: {
-
 					}
 				}
 			}).render();
@@ -289,45 +284,6 @@ describe('ApiBuilder', function() {
 				assert.strictEqual('value2', builder.toJson().parameters.foo.value);
 				done();
 			});
-		});
-
-		it('should update "parameters" when "in" value of a param is changed via input', function() {
-			builder = new ApiBuilder({
-				parameters: {
-					foo: {
-						in: 'param'
-					}
-				}
-			}).render();
-
-			var listener = sinon.stub();
-			builder.once('parametersChanged', listener);
-
-
-			var select = builder.components[builder.id + '-inSelect0'];
-			select.selectedIndex = 1;
-			assert.strictEqual(1, listener.callCount);
-			assert.strictEqual('path', builder.parameters[0].in);
-			assert.strictEqual('path', builder.toJson().parameters.foo.in);
-		});
-
-		it('should update "parameters" when "multiple" field of a param is changed via input', function() {
-			builder = new ApiBuilder({
-				parameters: {
-					foo: {
-						multiple: false
-					}
-				}
-			}).render();
-
-			var listener = sinon.stub();
-			builder.once('parametersChanged', listener);
-
-			var switcher = builder.components[builder.id + '-multipleSwitcher0'];
-			switcher.checked = true;
-			assert.strictEqual(1, listener.callCount);
-			assert.ok(builder.parameters[0].multiple);
-			assert.ok(builder.toJson().parameters.foo.multiple);
 		});
 
 		it('should update "parameters" when validator of a param is changed via input', function(done) {

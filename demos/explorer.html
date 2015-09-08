@@ -29,7 +29,6 @@
 				from: {
 					description: 'Sender email address',
 					required: true,
-					multiple: false,
 					type: 'string',
 					validator: 'new RegExp($config.emailRegex).test($from)',
 					value: 'liferay'
@@ -37,13 +36,11 @@
 				message: {
 					description: 'HTML content of your email message. Up to 5MB',
 					required: true,
-					multiple: false,
 					type: 'string',
 					validator: '$message.length <= 5120'
 				},
 				subject: {
 					description: 'Subject of your email. Up to 1MB',
-					multiple: false,
 					type: 'string',
 					validator: '$subject.length <= 1024'
 				},
