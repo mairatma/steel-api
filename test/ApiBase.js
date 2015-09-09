@@ -101,6 +101,28 @@ describe('ApiBase', function() {
 		assert.deepEqual(expected, api.parameters);
 	});
 
+	it('should convert object values from "parameters" to strings', function() {
+		api = new ApiBase({
+			parameters: [
+				{
+					name: 'id',
+					value: {
+						foo: 1,
+						bar: 'bar'
+					}
+				}
+			]
+		});
+
+		var expected = [
+			{
+				name: 'id',
+				value: '{"foo":1,"bar":"bar"}'
+			}
+		];
+		assert.deepEqual(expected, api.parameters);
+	});
+
 	it('should get the names of all path params', function() {
 		api = new ApiBase({
 			path: '/data/:foo/:bar(someRegex)'
@@ -145,5 +167,47 @@ describe('ApiBase', function() {
 			title: 'Title'
 		};
 		assert.deepEqual(expectedJson, api.toJson());
+	});
+
+	it('should transform param object values to object format when returned by "toJson" call', function() {
+		api = new ApiBase({
+			parameters: {
+				arr: {
+					type: 'array',
+					value: [1, 2]
+				},
+				obj: {
+					type: 'object',
+					value: {
+						foo: 1,
+						bar: 'bar'
+					}
+				},
+				notObj: {
+					value: {
+						foo: 1,
+						bar: 'bar'
+					}
+				}
+			}
+		});
+
+		var expectedParams = {
+			arr: {
+				type: 'array',
+				value: [1, 2]
+			},
+			obj: {
+				type: 'object',
+				value: {
+					foo: 1,
+					bar: 'bar'
+				}
+			},
+			notObj: {
+				value: '{"foo":1,"bar":"bar"}'
+			}
+		};
+		assert.deepEqual(expectedParams, api.toJson().parameters);
 	});
 });

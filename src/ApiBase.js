@@ -51,6 +51,21 @@ class ApiBase extends SoyComponent {
 	}
 
 	/**
+	 * Parses all object param values to the correct object format.
+	 * @param {!Object} parameters
+	 * @protected
+	 */
+	parseObjectParamValues_(parameters) {
+		var names = Object.keys(parameters);
+		for (var i = 0; i < names.length; i++) {
+			var type = parameters[names[i]].type;
+			if (type === 'object' || type === 'array') {
+				parameters[names[i]].value = JSON.parse(parameters[names[i]].value);
+			}
+		}
+	}
+
+	/**
 	 * Setter for the `auth` attribute. If its "permissions" and "roles" keys are
 	 * given as arrays, they will be converted to maps instead. The `toJson` method will
 	 * return the array format for these keys though.
@@ -85,6 +100,11 @@ class ApiBase extends SoyComponent {
 				}, obj[name]);
 			});
 		}
+		val.forEach(param => {
+			if (core.isObject(param.value)) {
+				param.value = JSON.stringify(param.value);
+			}
+		});
 		return val;
 	}
 
@@ -101,6 +121,7 @@ class ApiBase extends SoyComponent {
 			switch (name) {
 				case 'parameters':
 					val = this.convertParametersToObj_(val);
+					this.parseObjectParamValues_(val);
 					break;
 				case 'auth':
 					val = object.mixin({}, val);
