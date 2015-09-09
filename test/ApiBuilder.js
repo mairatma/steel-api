@@ -382,6 +382,20 @@ describe('ApiBuilder', function() {
 			dom.triggerEvent(element, 'input');
 			assert.strictEqual('validator', builder.auth.validator);
 		});
+
+		it('should update "auth" without errors when first permission is added', function() {
+			builder.dispose();
+			builder = new ApiBuilder({
+				permissions: ['Edit', 'Delete', 'Add'],
+				roles: ['Owner', 'Admin', 'Member']
+			}).render();
+			builder.components[builder.id + '-permissionsSwitcherEdit'].checked = true;
+
+			var expected = {
+				Edit: true
+			};
+			assert.deepEqual(expected, builder.auth.permissions);
+		});
 	});
 
 	it('should update "title" when value is changed via input', function() {
