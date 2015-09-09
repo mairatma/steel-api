@@ -30,6 +30,30 @@ class ApiExplorer extends ApiBase {
 		 * @protected
 		 */
 		this.pathParams_ = {};
+
+		this.on('pathChanged', this.handlePathChanged_);
+	}
+
+	/**
+	 * Adds all parameters listed in the api's path that are not yet listed in the
+	 * given parameters Array.
+	 * @param {!Array<!Object>} parameters
+	 * @param {boolean} Flag indicating if any missing params were added.
+	 * @protected
+	 */
+	addMissingPathParams_(parameters) {
+		var added = false;
+		var paramMap = {};
+		parameters.forEach(param => paramMap[param.name] = true);
+		this.getPathParamNames().forEach(name => {
+			if (!paramMap[name]) {
+				added = true;
+				parameters.push({
+					name: name
+				});
+			}
+		});
+		return added;
 	}
 
 	/**
@@ -99,6 +123,17 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Handles a `pathChanged` event. Updates the `parameters` attr to include any missing
+	 * path params.
+	 * @protected
+	 */
+	handlePathChanged_() {
+		if (this.addMissingPathParams_(this.parameters)) {
+			this.parameters = this.parameters;
+		}
+	}
+
+	/**
 	 * Handles the HTTP response received after running the API.
 	 * @param {!ClientResponse} response
 	 * @protected
@@ -128,6 +163,19 @@ class ApiExplorer extends ApiBase {
 			this.pathParams_[name] = true;
 			return core.isDef(paramValues[name]) ? '/' + paramValues[name] : '/:' + name;
 		}.bind(this));
+	}
+
+	/**
+	 * Overrides the original method from `ApiBase` so any parameters from the `path`
+	 * attribute can be automatically added to `parameters`.
+	 * @param {!Object|Array} parameters
+	 * @return {!Array}
+	 * @protected
+	 */
+	setterParametersFn_(parameters) {
+		parameters = super.setterParametersFn_(parameters);
+		this.addMissingPathParams_(parameters);
+		return parameters;
 	}
 
 	/**

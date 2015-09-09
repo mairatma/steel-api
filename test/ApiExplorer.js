@@ -20,6 +20,44 @@ describe('ApiExplorer', function() {
 		this.xhr.restore();
 	});
 
+	it('should add missing path params to the "parameters" attr', function() {
+		explorer = new ApiExplorer({
+			parameters: [
+				{
+					name: 'bar',
+					value: 12
+				}
+			],
+			path: '/data/:foo/:bar'
+		}).render();
+
+		assert.strictEqual(2, explorer.parameters.length);
+		assert.strictEqual('bar', explorer.parameters[0].name);
+		assert.strictEqual(12, explorer.parameters[0].value);
+		assert.strictEqual('foo', explorer.parameters[1].name);
+		assert.ok(!explorer.parameters[1].value);
+	});
+
+	it('should add missing path params to the "parameters" attr when "path" changes', function() {
+		explorer = new ApiExplorer({
+			parameters: [
+				{
+					name: 'bar',
+					value: 12
+				}
+			],
+			path: '/data/:bar'
+		}).render();
+
+		explorer.path = '/data/:foo/:bar';
+
+		assert.strictEqual(2, explorer.parameters.length);
+		assert.strictEqual('bar', explorer.parameters[0].name);
+		assert.strictEqual(12, explorer.parameters[0].value);
+		assert.strictEqual('foo', explorer.parameters[1].name);
+		assert.ok(!explorer.parameters[1].value);
+	});
+
 	it('should send request to given host and path', function() {
 		explorer = new ApiExplorer({
 			host: 'foo.org',

@@ -101,6 +101,14 @@ describe('ApiBase', function() {
 		assert.deepEqual(expected, api.parameters);
 	});
 
+	it('should get the names of all path params', function() {
+		api = new ApiBase({
+			path: '/data/:foo/:bar(someRegex)'
+		});
+
+		assert.deepEqual(['bar', 'foo'], api.getPathParamNames().sort());
+	});
+
 	it('should return JSON object with only the attrs relating to the constructed api', function() {
 		api = new ApiBase({
 			auth: {

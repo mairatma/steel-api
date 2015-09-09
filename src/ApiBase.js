@@ -38,6 +38,19 @@ class ApiBase extends SoyComponent {
 	}
 
 	/**
+	 * Gets names of all parameters present in the API's path.
+	 * @return {!Array<string>}
+	 */
+	getPathParamNames() {
+		var names = [];
+		this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
+			names.push(name);
+			return match;
+		});
+		return names;
+	}
+
+	/**
 	 * Setter for the `auth` attribute. If its "permissions" and "roles" keys are
 	 * given as arrays, they will be converted to maps instead. The `toJson` method will
 	 * return the array format for these keys though.

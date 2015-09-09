@@ -35,11 +35,10 @@ class ApiBuilder extends ApiBase {
 	 */
 	convertParametersToObj_(parameters) {
 		var obj = super.convertParametersToObj_(parameters);
-		this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
+		this.getPathParamNames().forEach(name => {
 			if (!obj[name]) {
 				obj[name] = {};
 			}
-			return match;
 		});
 		return obj;
 	}
