@@ -145,7 +145,7 @@ Templates.ApiExplorer.tryParams = function(opt_data, opt_ignored, opt_ijData) {
       output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData239.name) + ' ' + ((paramData239.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData239.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData239.value ? paramData239.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex239) + '" data-oninput="handleParamInput_" ></div>';
     }
   }
-  output += '</div>';
+  output += ((('' + opt_data.path).indexOf('/*') != -1) ? '<div class="col-md-3"><label for="from">Wildcard <span class="explorer-icon-required">*</span></label><input name="Wildcard" class="form-control explorer-section-try-param" type="text" autocomplete="off" data-oninput="handleWildcardInput_" ></div>' : '') + '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -187,7 +187,7 @@ Templates.ApiExplorer.title.params = ["data","id","method","path"];
 Templates.ApiExplorer.description.params = ["id","description"];
 Templates.ApiExplorer.auth.params = ["id","auth"];
 Templates.ApiExplorer.params.params = ["id","parameters"];
-Templates.ApiExplorer.tryParams.params = ["id","parameters"];
+Templates.ApiExplorer.tryParams.params = ["id","parameters","path"];
 Templates.ApiExplorer.tryIt.params = ["host","id","method","replacedPath"];
 Templates.ApiExplorer.tryResponse.params = ["id","response"];
 export default Templates.ApiExplorer;

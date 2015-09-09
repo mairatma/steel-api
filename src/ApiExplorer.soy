@@ -127,6 +127,7 @@
 /**
  * @param id
  * @param parameters
+ * @param path
  */
 {template .tryParams}
 	<div id="{$id}-tryParams" class="row">
@@ -145,6 +146,18 @@
 					>
 				</div>
 			{/foreach}
+		{/if}
+		{if strContains($path, '/*')}
+			<div class="col-md-3">
+				<label for="from">Wildcard <span class="explorer-icon-required">*</span></label>
+				<input
+					name="Wildcard"
+					class="form-control explorer-section-try-param"
+					type="text"
+					autocomplete="off"
+					data-oninput="handleWildcardInput_"
+				>
+			</div>
 		{/if}
 	</div>
 {/template}

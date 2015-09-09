@@ -170,6 +170,19 @@ describe('ApiExplorer', function() {
 		assert.strictEqual('{"name":"foo"}', requests[1].requestBody);
 	});
 
+	it('should send request with chosen wildcard value', function() {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			path: '/data/*'
+		}).render();
+
+		var input = explorer.element.querySelector('.explorer-section-try-param');
+		input.value = 12;
+		dom.triggerEvent(input, 'input');
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual('foo.org/data/12', requests[0].url);
+	});
+
 	it('should send request with chosen path params after path is changed', function(done) {
 		explorer = new ApiExplorer({
 			host: 'foo.org',

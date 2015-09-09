@@ -152,6 +152,16 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Handles a `input` event for the wildcard param.
+	 * @return {!Event}
+	 * @protected
+	 */
+	handleWildcardInput_() {
+		this.wildcardValue_ = event.delegateTarget.value.trim();
+		this.replacedPath = this.replacePathParams_();
+	}
+
+	/**
 	 * Replaces the params present in this API's path with their chosen or
 	 * default values.
 	 * @protected
@@ -159,10 +169,14 @@ class ApiExplorer extends ApiBase {
 	replacePathParams_() {
 		this.pathParams_ = {};
 		var paramValues = this.getParamValues_();
-		return this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
+		var replacedPath = this.path.replace(ApiBase.PATH_PARAMS_REGEX, function(match, name) {
 			this.pathParams_[name] = true;
 			return core.isDef(paramValues[name]) ? '/' + paramValues[name] : '/:' + name;
 		}.bind(this));
+		if (this.wildcardValue_ && this.wildcardValue_ !== '') {
+			replacedPath = replacedPath.replace(/\/(\*)/, () => '/' + this.wildcardValue_);
+		}
+		return replacedPath;
 	}
 
 	/**
