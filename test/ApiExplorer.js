@@ -33,8 +33,10 @@ describe('ApiExplorer', function() {
 
 		assert.strictEqual(2, explorer.parameters.length);
 		assert.strictEqual('bar', explorer.parameters[0].name);
+		assert.ok(explorer.parameters[0].required);
 		assert.strictEqual(12, explorer.parameters[0].value);
 		assert.strictEqual('foo', explorer.parameters[1].name);
+		assert.ok(explorer.parameters[1].required);
 		assert.ok(!explorer.parameters[1].value);
 	});
 

@@ -44,12 +44,15 @@ class ApiExplorer extends ApiBase {
 	addMissingPathParams_(parameters) {
 		var added = false;
 		var paramMap = {};
-		parameters.forEach(param => paramMap[param.name] = true);
+		parameters.forEach(param => paramMap[param.name] = param);
 		this.getPathParamNames().forEach(name => {
-			if (!paramMap[name]) {
+			if (paramMap[name]) {
+				paramMap[name].required = true;
+			} else {
 				added = true;
 				parameters.push({
-					name: name
+					name: name,
+					required: true
 				});
 			}
 		});

@@ -29,7 +29,6 @@
 			parameters: {
 				from: {
 					description: 'Sender email address',
-					required: true,
 					type: 'string',
 					validator: 'new RegExp($config.emailRegex).test($from)',
 					value: 'liferay'
