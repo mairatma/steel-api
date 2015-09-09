@@ -298,4 +298,19 @@ describe('ApiExplorer', function() {
 			done();
 		});
 	});
+
+	it('should render path on header', function() {
+		explorer = new ApiExplorer({
+			path: '/data/:name'
+		}).render();
+		assert.strictEqual('/data/:name', explorer.element.querySelector('.explorer-title-name').textContent);
+	});
+
+	it('should render title when defined instead of path on header', function() {
+		explorer = new ApiExplorer({
+			path: '/data/:name',
+			title: 'My Title'
+		}).render();
+		assert.strictEqual('My Title', explorer.element.querySelector('.explorer-title-name').textContent);
+	});
 });

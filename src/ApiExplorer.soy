@@ -28,6 +28,7 @@
  * @param id
  * @param method
  * @param path
+ * @param title
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
@@ -36,7 +37,7 @@
 				<span class="explorer-title-label label label-sm http-{$methodName}-bg">{$methodName}</span>
 			{/foreach}
 		{/if}
-		<span class="explorer-title-name">{$path}</span>
+		<span class="explorer-title-name">{$title != '' ? $title : $path}</span>
 		{if $data}
 			<span class="explorer-data">
 				<span class="explorer-data-icon icon-12-check"></span>

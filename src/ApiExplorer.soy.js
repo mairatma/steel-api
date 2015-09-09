@@ -43,7 +43,7 @@ Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
       output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNameData170) + '-bg">' + soy.$$escapeHtml(methodNameData170) + '</span>';
     }
   }
-  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>';
+  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title != '' ? opt_data.title : opt_data.path) + '</span>' + ((opt_data.data) ? '<span class="explorer-data"><span class="explorer-data-icon icon-12-check"></span><span class="explorer-data-label">Data</span></span>' : '') + '</p>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -183,7 +183,7 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiExplorer.content.params = ["id"];
-Templates.ApiExplorer.title.params = ["data","id","method","path"];
+Templates.ApiExplorer.title.params = ["data","id","method","path","title"];
 Templates.ApiExplorer.description.params = ["id","description"];
 Templates.ApiExplorer.auth.params = ["id","auth"];
 Templates.ApiExplorer.params.params = ["id","parameters"];
