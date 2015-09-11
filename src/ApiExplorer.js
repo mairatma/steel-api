@@ -38,7 +38,7 @@ class ApiExplorer extends ApiBase {
 	 * Adds all parameters listed in the api's path that are not yet listed in the
 	 * given parameters Array.
 	 * @param {!Array<!Object>} parameters
-	 * @param {boolean} Flag indicating if any missing params were added.
+	 * @return {boolean} Flag indicating if any missing params were added.
 	 * @protected
 	 */
 	addMissingPathParams_(parameters) {
@@ -156,7 +156,6 @@ class ApiExplorer extends ApiBase {
 
 	/**
 	 * Handles a `input` event for the wildcard param.
-	 * @return {!Event}
 	 * @protected
 	 */
 	handleWildcardInput_() {
