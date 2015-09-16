@@ -94,8 +94,11 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		var methodSelect = this.components[this.id + '-methodSelect'];
-		var method = methodSelect.items[methodSelect.selectedIndex];
+		var method = this.method[0];
+		if (this.method.length > 1) {
+			var methodSelect = this.components[this.id + '-methodSelect'];
+			method = methodSelect.items[methodSelect.selectedIndex];
+		}
 
 		var launchpad = Launchpad.url(this.host + this.replacedPath);
 		launchpad[method](this.getBodyParams_()).then(this.handleResponse_.bind(this));
