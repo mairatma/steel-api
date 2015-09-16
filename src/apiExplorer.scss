@@ -90,10 +90,19 @@
 	margin-bottom: 25px;
 }
 
-.explorer-section-try .dropdown-menu,
-.explorer-section-try .dropdown-select,
+.explorer-section-try {
+	.dropdown-menu,
+	.dropdown-select,
+	.explorer-section-try-method {
+		text-transform: uppercase;
+	}
+}
+
 .explorer-section-try .explorer-section-try-method {
-	text-transform: uppercase;
+	padding: 0 20px;
+  border: 1px solid rgba($brand-primary, .2);
+  border-right: none;
+  color: rgba($primary, .6);
 }
 
 // Section / Response ----------------------------------------------------------
