@@ -105,16 +105,6 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
-	 * Handles a `selectedIndexChanged` event from the method `Select` instance. Updates
-	 * the `selectedMethodIndex` attr with the new value.
-	 * @param {!Object} event
-	 * @protected
-	 */
-	handleMethodSelectedIndexChanged_(event) {
-		this.selectedMethodIndex = event.newVal;
-	}
-
-	/**
 	 * Handles a `input` event on one of the param's value input fields.
 	 * @param {!Event} event
 	 * @protected
@@ -229,16 +219,6 @@ ApiExplorer.ATTRS = {
 	 */
 	response: {
 		validator: core.isObject
-	},
-
-	/**
-	 * The index of the currently select method in the `method` attr.
-	 * @type {number}
-	 * @default 0
-	 */
-	selectedMethodIndex: {
-		validator: core.isNumber,
-		value: 0
 	}
 };
 
