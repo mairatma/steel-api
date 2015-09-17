@@ -54,7 +54,6 @@ class ApiBuilder extends ApiBase {
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(event.delegateTarget.parentNode, 'expanded');
-		event.preventDefault();
 	}
 
 	/**

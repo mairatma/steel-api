@@ -68,7 +68,8 @@
 	top: 18px;
 }
 
-.builder-param-ellipsis:hover {
+.builder-param-ellipsis:hover,
+.builder-param-ellipsis:focus {
 	color: rgba($primary, .8);
 }
 
@@ -92,6 +93,19 @@
 	.builder-param-item-row {
 		display: block;
 	}
+}
+
+.builder-param-item-advanced-btn {
+	@include anim(color);
+	color: rgba(35, 50, 64, 0.4);
+	font-size: 11px;
+	margin: 20px 0 15px 15px;
+	text-transform: uppercase;
+}
+
+.builder-param-item-advanced-btn:hover,
+.builder-param-item-advanced-btn:focus {
+	color: rgba(35, 50, 64, 0.8);
 }
 
 .builder-param-actions .dropdown-menu {
