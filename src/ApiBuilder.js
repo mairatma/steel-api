@@ -102,13 +102,13 @@ class ApiBuilder extends ApiBase {
 
 	/**
 	 * Handles a `checkedChanged` event on the `Switcher` instance used to control
-	 * the `data` attr.
+	 * the `visibility` attr.
 	 * @param {!Object} event
 	 * @protected
 	 */
-	handleDataSwitcherCheckedChanged_(event) {
-		this.data = event.newVal;
-		this.skipSurfaceUpdateForAttr_ = 'data';
+	handleVisibilitySwitcherCheckedChanged_(event) {
+		this.visibility = event.newVal;
+		this.skipSurfaceUpdateForAttr_ = 'visibility';
 	}
 
 	/**

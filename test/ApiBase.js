@@ -146,7 +146,8 @@ describe('ApiBase', function() {
 				}
 			},
 			path: '/data',
-			title: 'Title'
+			title: 'Title',
+			visibility: true
 		});
 
 		var expectedJson = {
@@ -164,7 +165,8 @@ describe('ApiBase', function() {
 				}
 			},
 			path: '/data',
-			title: 'Title'
+			title: 'Title',
+			visibility: true
 		};
 		assert.deepEqual(expectedJson, api.toJson());
 	});

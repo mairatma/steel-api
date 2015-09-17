@@ -407,15 +407,15 @@ describe('ApiBuilder', function() {
 		assert.strictEqual('foo', builder.title);
 	});
 
-	it('should update "data" when value is changed via switcher', function() {
+	it('should update "visibility" when value is changed via switcher', function() {
 		builder = new ApiBuilder().render();
 
-		var switcher = builder.components[builder.id + '-dataSwitcher'];
+		var switcher = builder.components[builder.id + '-visibilitySwitcher'];
 		switcher.checked = true;
-		assert.ok(builder.data);
+		assert.ok(builder.visibility);
 
 		switcher.checked = false;
-		assert.ok(!builder.data);
+		assert.ok(!builder.visibility);
 	});
 
 	it('should update "description" when value is changed via input', function() {

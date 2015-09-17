@@ -19,9 +19,9 @@
 {/template}
 
 /**
- * @param data
  * @param id
  * @param title
+ * @param visibility
  */
 {template .title}
 	<div id="{$id}-title" class="builder-title">
@@ -33,13 +33,13 @@
 			value="{$title ? $title : ''}"
 			data-oninput="handleInputTitle_"
 		/>
-		<div class="builder-data">
-			<span class="builder-data-label">Data</span>
-			<div class="builder-data-switcher">
+		<div class="builder-visibility">
+			<span class="builder-visibility-label">Visibility</span>
+			<div class="builder-visibility-switcher">
 				{call Templates.Switcher.content}
-					{param checked: $data /}
-					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
-					{param id: $id + '-dataSwitcher' /}
+					{param checked: $visibility /}
+					{param events: ['checkedChanged': $id + ':handleVisibilitySwitcherCheckedChanged_'] /}
+					{param id: $id + '-visibilitySwitcher' /}
 				{/call}
 			</div>
 		</div>

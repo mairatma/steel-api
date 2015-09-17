@@ -143,7 +143,7 @@ class ApiBase extends SoyComponent {
  * @type {!Array<string>}
  * @static
  */
-ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'parameters', 'path', 'title'];
+ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'parameters', 'path', 'title', 'visibility'];
 
 /**
  * Attributes definition.
@@ -242,6 +242,15 @@ ApiBase.ATTRS = {
 	title: {
 		validator: core.isString,
 		value: ''
+	},
+
+	/**
+	 * Flag indicating if visibility is enabled or not.
+	 * @type {boolean}
+	 * @default false
+	 */
+	visibility: {
+		value: false
 	}
 };
 
