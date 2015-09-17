@@ -178,7 +178,7 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiBuilder.content.params = ["id"];
-Templates.ApiBuilder.title.params = ["id","title"];
+Templates.ApiBuilder.title.params = ["id","title","visibility"];
 Templates.ApiBuilder.description.params = ["id","description"];
 Templates.ApiBuilder.methods.params = ["id","method"];
 Templates.ApiBuilder.path.params = ["host","id","path"];
