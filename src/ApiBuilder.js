@@ -50,10 +50,12 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleAdvancedSetupClick_(event) {
+		var container = event.delegateTarget.parentNode;
 		var arrow = event.delegateTarget.querySelector('.builder-param-item-advanced-arrow');
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
-		dom.toggleClasses(event.delegateTarget.parentNode, 'expanded');
+		dom.toggleClasses(container, 'expanded');
+		container.querySelector('[data-name="value"]').focus();
 	}
 
 	/**

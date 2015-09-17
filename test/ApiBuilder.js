@@ -259,6 +259,7 @@ describe('ApiBuilder', function() {
 
 			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(dom.hasClass(advancedElement, 'expanded'));
+			assert.strictEqual(advancedElement.parentNode.querySelector('[data-name="value"]'), document.activeElement);
 
 			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
