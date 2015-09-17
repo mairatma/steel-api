@@ -25,11 +25,11 @@
 {/template}
 
 /**
- * @param data
  * @param id
  * @param method
  * @param path
  * @param title
+ * @param visibility
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
@@ -39,10 +39,10 @@
 			{/foreach}
 		{/if}
 		<span class="explorer-title-name">{$title ? $title : $path}</span>
-		{if $data}
-			<span class="explorer-data">
-				<span class="explorer-data-icon icon-12-check"></span>
-				<span class="explorer-data-label">Data</span>
+		{if $visibility}
+			<span class="explorer-visibility">
+				<span class="explorer-visibility-icon icon-12-check"></span>
+				<span class="explorer-visibility-label">Visibility</span>
 			</span>
 		{/if}
 	</p>

@@ -20,12 +20,12 @@
 	margin-left: 4px;
 }
 
-.explorer-data {
+.explorer-visibility {
 	float: right;
 	position: relative;
 }
 
-.explorer-data-icon {
+.explorer-visibility-icon {
 	background: $white;
 	border-radius: 50%;
 	border: 1px solid $brand-success;
@@ -34,7 +34,7 @@
 	position: relative;
 }
 
-.explorer-data-label {
+.explorer-visibility-label {
 	color: rgba($primary, .7);
 	font-size: 12px;
 	margin-left: 5px;

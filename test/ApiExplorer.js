@@ -61,6 +61,18 @@ describe('ApiExplorer', function() {
 		assert.ok(!explorer.parameters[1].value);
 	});
 
+	it('should render a check icon if "visibility" is true', function() {
+		explorer = new ApiExplorer({
+			visibility: true
+		}).render();
+		assert.ok(explorer.element.querySelector('.explorer-visibility'));
+	});
+
+	it('should not render a check icon if "visibility" is false or not set', function() {
+		explorer = new ApiExplorer().render();
+		assert.ok(!explorer.element.querySelector('.explorer-visibility'));
+	});
+
 	it('should send request to given host and path', function() {
 		explorer = new ApiExplorer({
 			host: 'foo.org',
