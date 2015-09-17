@@ -71,7 +71,9 @@
  */
 {template .methods}
 	<div id="{$id}-methods" class="api-builder-methods">
-		<p class="api-section-title">Method</p>
+		<p class="api-section-title">
+			Method <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
 		{call Templates.ButtonGroup.content}
 			{param buttons: [
 				['label': 'get', 'cssClass': 'btn btn-default btn-get-bg'],
@@ -96,7 +98,9 @@
  */
 {template .path}
 	<div id="{$id}-path">
-		<p class="api-section-title">Endpoint</p>
+		<p class="api-section-title">
+			Endpoint <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
 		<div class="form-group">
 			<div class="input-group">
 				<div class="input-group-addon">{$host ? $host : ''}</div>
@@ -122,7 +126,9 @@
  */
 {template .handler}
 	<div id="{$id}-handler" class="form-group">
-		<p class="api-section-title">Handler</p>
+		<p class="api-section-title">
+			Handler <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
 		<div class="builder-section-handler">
 			<textarea
 				class="form-control handler"
@@ -141,7 +147,9 @@
  */
 {template .params}
 	<div id="{$id}-params">
-		<p class="api-section-title">Parameters</p>
+		<p class="api-section-title">
+			Parameters <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
 		<div class="builder-section-params">
 			{if $parameters}
 				{foreach $param in $parameters}
@@ -259,7 +267,9 @@
  */
 {template .auth}
 	<div id="{$id}-auth" class="form-group">
-		<p class="api-section-title">Authentication</p>
+		<p class="api-section-title">
+			Authentication <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
 		<div class="builder-section-auth">
 			<div class="builder-section-auth-row">
 				<div class="builder-section-auth-roles">
