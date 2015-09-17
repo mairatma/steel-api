@@ -62,9 +62,14 @@
 }
 
 .builder-param-ellipsis {
-	color: rgba($primary, .3);
+	@include anim(color);
+	color: rgba($primary, .4);
 	position: relative;
 	top: 18px;
+}
+
+.builder-param-ellipsis:hover {
+	color: rgba($primary, .8);
 }
 
 .builder-param-item {

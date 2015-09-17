@@ -203,9 +203,7 @@
 						<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
 					{/param}
 					{param header kind="html"}
-						<button class="btn-transparent" type="button" data-onclick="toggle">
-							<span class="builder-param-ellipsis icon-16-ellipsis"></span>
-						</button>
+						<button class="builder-param-ellipsis btn-transparent icon-16-ellipsis" type="button" data-onclick="toggle"></button>
 					{/param}
 					{param id: $id + '-menu' + $index /}
 				{/call}
