@@ -520,7 +520,7 @@ describe('ApiBuilder', function() {
 			],
 			path: '/data',
 			permissions: ['Owner', 'Admin', 'Member'],
-			roles: ['Edit', 'Invite',  'Delete', 'Add'],
+			roles: ['Edit', 'Invite', 'Delete', 'Add'],
 			title: 'My API'
 		});
 
@@ -552,7 +552,7 @@ describe('ApiBuilder', function() {
 			],
 			path: '/data',
 			permissions: ['Owner', 'Admin', 'Member'],
-			roles: ['Edit', 'Invite',  'Delete', 'Add'],
+			roles: ['Edit', 'Invite', 'Delete', 'Add'],
 			title: 'My API'
 		}).decorate();
 
