@@ -15,6 +15,7 @@
 		{call .params data="all" /}
 		{call .handler data="all" /}
 		{call .auth data="all" /}
+		{call .save data="all" /}
 	</div>
 {/template}
 
@@ -305,5 +306,16 @@
 					data-oninput="handleAuthValidatorInput_" />
 			</div>
 		</div>
+	</div>
+{/template}
+
+/**
+ * @param id
+ */
+{template .save}
+	<div id="{$id}-save" class="form-group">
+		<button class="btn btn-success" type="submit">
+			<span class="icon-16-confirm"></span> Save
+		</button>
 	</div>
 {/template}
