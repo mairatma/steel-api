@@ -178,17 +178,11 @@ class ApiBuilder extends ApiBase {
 	/**
 	 * Handles a `selectedChanged` event triggered by the methods `ButtonGroup` instance.
 	 * Updates the `method` attr with the new value.
+	 * @param {!Object} data
 	 * @protected
 	 */
-	handleMethodsSelectedChanged_() {
-		var newMethods = [];
-		var methodButtonGroup = this.components[this.id + '-methodButtonGroup'];
-		for (var i = 0; i < methodButtonGroup.buttons.length; i++) {
-			if (methodButtonGroup.selected[i]) {
-				newMethods.push(methodButtonGroup.buttons[i].label);
-			}
-		}
-		this.method = newMethods;
+	handleMethodsSelectedChanged_(data) {
+		this.method = data.newVal;
 		this.skipSurfaceUpdateForAttr_ = 'method';
 	}
 
