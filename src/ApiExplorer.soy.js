@@ -183,7 +183,7 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiExplorer.content.params = ["id"];
-Templates.ApiExplorer.title.params = ["id","method","path","title","visibility"];
+Templates.ApiExplorer.title.params = ["id","method","path","title"];
 Templates.ApiExplorer.description.params = ["id","description"];
 Templates.ApiExplorer.auth.params = ["id","auth"];
 Templates.ApiExplorer.params.params = ["id","parameters"];
