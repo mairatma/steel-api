@@ -246,7 +246,7 @@ describe('ApiBuilder', function() {
 			});
 		});
 
-		it('should expand/collapse advanced setup when link is clicked', function() {
+		it('should expand/collapse advanced setup when element is clicked', function() {
 			builder = new ApiBuilder({
 				parameters: {
 					foo: {
@@ -257,10 +257,10 @@ describe('ApiBuilder', function() {
 			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 
-			dom.triggerEvent(advancedElement.querySelector('a'), 'click');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(dom.hasClass(advancedElement, 'expanded'));
 
-			dom.triggerEvent(advancedElement.querySelector('a'), 'click');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 		});
 
