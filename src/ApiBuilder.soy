@@ -268,7 +268,7 @@
 					<p class="api-section-title">Roles</p>
 					{if $roles}
 						{foreach $role in $roles}
-							<div>
+							<div class="builder-param-switcher-container">
 								{call Templates.Switcher.content}
 									{param checked: $auth.roles ? $auth.roles[$role] : false /}
 									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
@@ -284,7 +284,7 @@
 					<p class="api-section-title">Permissions</p>
 					{if $permissions}
 						{foreach $permission in $permissions}
-							<div>
+							<div class="builder-param-switcher-container">
 								{call Templates.Switcher.content}
 									{param checked: $auth.permissions ? $auth.permissions[$permission] : false /}
 									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
