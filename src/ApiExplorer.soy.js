@@ -43,7 +43,7 @@ Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
       output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNameData170) + '-bg">' + soy.$$escapeHtml(methodNameData170) + '</span>';
     }
   }
-  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title ? opt_data.title : opt_data.path) + '</span>' + ((opt_data.visibility) ? '<span class="explorer-visibility"><span class="explorer-visibility-icon icon-12-check"></span><span class="explorer-visibility-label">Visibility</span></span>' : '') + '</p>';
+  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title ? opt_data.title : opt_data.path) + '</span>' + ((opt_data.visibility || ! (opt_data.visibility != null)) ? '<span class="explorer-visibility"><span class="explorer-visibility-icon icon-12-check"></span><span class="explorer-visibility-label">Visibility</span></span>' : '') + '</p>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

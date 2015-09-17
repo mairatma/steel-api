@@ -520,8 +520,7 @@ describe('ApiBuilder', function() {
 			path: '/data',
 			permissions: ['Owner', 'Admin', 'Member'],
 			roles: ['Edit', 'Invite',  'Delete', 'Add'],
-			title: 'My API',
-			visibility: true
+			title: 'My API'
 		});
 
 		dom.append(document.body, markup.content);
@@ -553,8 +552,7 @@ describe('ApiBuilder', function() {
 			path: '/data',
 			permissions: ['Owner', 'Admin', 'Member'],
 			roles: ['Edit', 'Invite',  'Delete', 'Add'],
-			title: 'My API',
-			visibility: true
+			title: 'My API'
 		}).decorate();
 
 		assert.strictEqual(builder.element.outerHTML, outerHTML);

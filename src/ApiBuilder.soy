@@ -21,7 +21,7 @@
 /**
  * @param id
  * @param title
- * @param visibility
+ * @param? visibility
  */
 {template .title}
 	<div id="{$id}-title" class="builder-title">
@@ -38,7 +38,7 @@
 			<span class="builder-visibility-label">Visibility</span>
 			<div class="builder-visibility-switcher">
 				{call Templates.Switcher.content}
-					{param checked: $visibility /}
+					{param checked: isNonnull($visibility) ? $visibility : true /}
 					{param events: ['checkedChanged': $id + ':handleVisibilitySwitcherCheckedChanged_'] /}
 					{param id: $id + '-visibilitySwitcher' /}
 				{/call}

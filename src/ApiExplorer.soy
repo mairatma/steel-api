@@ -29,7 +29,7 @@
  * @param method
  * @param path
  * @param title
- * @param visibility
+ * @param? visibility
  */
 {template .title}
 	<p id="{$id}-title" class="explorer-title">
@@ -39,7 +39,7 @@
 			{/foreach}
 		{/if}
 		<span class="explorer-title-name">{$title ? $title : $path}</span>
-		{if $visibility}
+		{if $visibility or (not isNonnull($visibility))}
 			<span class="explorer-visibility">
 				<span class="explorer-visibility-icon icon-12-check"></span>
 				<span class="explorer-visibility-label">Visibility</span>

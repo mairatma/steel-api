@@ -61,15 +61,16 @@ describe('ApiExplorer', function() {
 		assert.ok(!explorer.parameters[1].value);
 	});
 
-	it('should render a check icon if "visibility" is true', function() {
-		explorer = new ApiExplorer({
-			visibility: true
-		}).render();
+	it('should render a check icon if "visibility" is true or not set', function() {
+		explorer = new ApiExplorer().render();
+		assert.ok(explorer.visibility);
 		assert.ok(explorer.element.querySelector('.explorer-visibility'));
 	});
 
 	it('should not render a check icon if "visibility" is false or not set', function() {
-		explorer = new ApiExplorer().render();
+		explorer = new ApiExplorer({
+			visibility: false
+		}).render();
 		assert.ok(!explorer.element.querySelector('.explorer-visibility'));
 	});
 

@@ -247,10 +247,10 @@ ApiBase.ATTRS = {
 	/**
 	 * Flag indicating if visibility is enabled or not.
 	 * @type {boolean}
-	 * @default false
+	 * @default true
 	 */
 	visibility: {
-		value: false
+		value: true
 	}
 };
 
