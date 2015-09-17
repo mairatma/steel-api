@@ -261,8 +261,8 @@
 	<div id="{$id}-auth" class="form-group">
 		<p class="api-section-title">Authentication</p>
 		<div class="builder-section-auth">
-			<div class="row">
-				<div class="builder-section-auth-roles col-md-6">
+			<div class="builder-section-auth-row">
+				<div class="builder-section-auth-roles">
 					<p class="api-section-title">Roles</p>
 					{if $roles}
 						{foreach $role in $roles}
@@ -278,7 +278,7 @@
 						{/foreach}
 					{/if}
 				</div>
-				<div class="builder-section-auth-permissions col-md-6">
+				<div class="builder-section-auth-permissions">
 					<p class="api-section-title">Permissions</p>
 					{if $permissions}
 						{foreach $permission in $permissions}
@@ -295,14 +295,12 @@
 					{/if}
 				</div>
 			</div>
-			<div class="row">
-				<input
+			<input
 					type="text"
 					class="form-control"
 					placeholder="Validator"
 					value="{$auth.validator ? $auth.validator : ''}"
 					data-oninput="handleAuthValidatorInput_" />
-			</div>
 		</div>
 	</div>
 {/template}

@@ -79,7 +79,7 @@
 }
 
 .builder-param-item-row {
-	margin-bottom: 10px;
+	margin: 0 0 10px;
 }
 
 .builder-param-item-advanced {
@@ -123,9 +123,17 @@
 	padding-bottom: 50px;
 }
 
+.builder-section-auth-row {
+	display: flex;
+}
 
 .builder-section-auth-roles,
 .builder-section-auth-permissions {
-	margin-bottom: 0;
+	margin-bottom: 20px;
 	padding-bottom: 50px;
+	width: calc(50% - 10px);
+}
+
+.builder-section-auth-permissions {
+	margin-left: 20px;
 }
