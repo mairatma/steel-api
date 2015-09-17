@@ -31,6 +31,7 @@
 			name="title"
 			placeholder="add a title..."
 			value="{$title ? $title : ''}"
+			autocomplete="off"
 			data-oninput="handleInputTitle_"
 		/>
 		<div class="builder-visibility">
@@ -56,6 +57,7 @@
 			class="form-control-borderless"
 			name="description"
 			placeholder="add a description..."
+			autocomplete="off"
 			data-oninput="handleInputDescription_">
 			{$description ? $description : ''}
 		</textarea>
