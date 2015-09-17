@@ -2,6 +2,7 @@
 
 import dom from 'bower:metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
+import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 
 describe('ApiExplorer', function() {
 	var explorer;
@@ -314,5 +315,77 @@ describe('ApiExplorer', function() {
 			title: 'My Title'
 		}).render();
 		assert.strictEqual('My Title', explorer.element.querySelector('.explorer-title-name').textContent);
+	});
+
+	it('should decorate ApiExplorer without repainting when content is correct', function() {
+		var markup = ComponentRegistry.Templates.ApiExplorer.content({
+			auth: {
+				permissions: {
+					Edit: true
+				},
+				roles: {
+					Admin: true,
+					Member: true
+				}
+			},
+			description: 'My description',
+			host: 'foo.org',
+			id: 'explorer',
+			method: ['get', 'post'],
+			parameters: [
+				{
+					description: 'desc',
+					name: 'bar',
+					value: 12,
+					required: true,
+					type: 'number'
+				}
+			],
+			path: '/data/:bar',
+			replacedPath: '/data/12',
+			response: {
+				bodyString: 'OK',
+				statusCode: 200
+			},
+			title: 'My API'
+		});
+
+		dom.append(document.body, markup.content);
+		var outerHTML = document.getElementById('explorer').outerHTML;
+
+		explorer = new ApiExplorer({
+			auth: {
+				permissions: {
+					Edit: true
+				},
+				roles: {
+					Admin: true,
+					Member: true
+				}
+			},
+			description: 'My description',
+			element: '#explorer',
+			host: 'foo.org',
+			id: 'explorer',
+			method: ['get', 'post'],
+			parameters: [
+				{
+					description: 'desc',
+					name: 'bar',
+					value: 12,
+					required: true,
+					type: 'number'
+				}
+			],
+			path: '/data/:bar',
+			replacedPath: '/data/12',
+			response: {
+				bodyString: 'OK',
+				statusCode: 200
+			},
+			title: 'My API'
+		}).decorate();
+
+		assert.strictEqual(explorer.element.outerHTML, outerHTML);
 	});
 });

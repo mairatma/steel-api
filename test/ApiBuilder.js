@@ -2,6 +2,7 @@
 
 import dom from 'bower:metal/src/dom/dom';
 import ApiBuilder from '../src/ApiBuilder';
+import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 
 describe('ApiBuilder', function() {
 	var builder;
@@ -490,5 +491,72 @@ describe('ApiBuilder', function() {
 		var params = builder.toJson().parameters;
 		assert.deepEqual(['extra', 'foo', 'id'], Object.keys(params).sort());
 		assert.strictEqual('ID', params.id.description);
+	});
+
+	it('should decorate ApiBuilder without repainting when content is correct', function() {
+		var markup = ComponentRegistry.Templates.ApiBuilder.content({
+			auth: {
+				permissions: {
+					Edit: true
+				},
+				roles: {
+					Admin: true,
+					Member: true
+				}
+			},
+			description: 'My description',
+			handler: 'My Handler',
+			host: 'foo.org',
+			id: 'builder',
+			method: ['get', 'post'],
+			parameters: [
+				{
+					description: 'desc',
+					name: 'bar',
+					value: 12,
+					type: 'number'
+				}
+			],
+			path: '/data',
+			permissions: ['Owner', 'Admin', 'Member'],
+			roles: ['Edit', 'Invite',  'Delete', 'Add'],
+			title: 'My API',
+			visibility: true
+		});
+
+		dom.append(document.body, markup.content);
+		var outerHTML = document.getElementById('builder').outerHTML;
+
+		builder = new ApiBuilder({
+			auth: {
+				permissions: {
+					Edit: true
+				},
+				roles: {
+					Admin: true,
+					Member: true
+				}
+			},
+			description: 'My description',
+			element: '#builder',
+			handler: 'My Handler',
+			host: 'foo.org',
+			method: ['get', 'post'],
+			parameters: [
+				{
+					description: 'desc',
+					name: 'bar',
+					value: 12,
+					type: 'number'
+				}
+			],
+			path: '/data',
+			permissions: ['Owner', 'Admin', 'Member'],
+			roles: ['Edit', 'Invite',  'Delete', 'Add'],
+			title: 'My API',
+			visibility: true
+		}).decorate();
+
+		assert.strictEqual(builder.element.outerHTML, outerHTML);
 	});
 });
