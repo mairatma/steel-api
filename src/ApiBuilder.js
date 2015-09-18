@@ -1,5 +1,6 @@
 'use strict';
 
+import array from 'bower:metal/src/array/array';
 import dom from 'bower:metal/src/dom/dom';
 import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
@@ -299,15 +300,15 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	updateAuthDataFromComponentEvent_(event, prefix, type) {
-		this.auth[type] = this.auth[type] || {};
+		this.auth[type] = this.auth[type] || [];
 
 		var component = event.target;
 		var name = component.id.substr(prefix.length);
 
 		if (event.target.checked) {
-			this.auth[type][name] = true;
+			this.auth[type].push(name);
 		} else {
-			delete this.auth[type][name];
+			array.remove(this.auth[type], name);
 		}
 		this.auth = this.auth;
 		this.skipSurfaceUpdateForAttr_ = 'auth';

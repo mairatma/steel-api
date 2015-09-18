@@ -333,13 +333,8 @@ describe('ApiExplorer', function() {
 	it('should decorate ApiExplorer without repainting when content is correct', function() {
 		var markup = ComponentRegistry.Templates.ApiExplorer.content({
 			auth: {
-				permissions: {
-					Edit: true
-				},
-				roles: {
-					Admin: true,
-					Member: true
-				}
+				permissions: ['Edit'],
+				roles: ['Admin', 'Member']
 			},
 			description: 'My description',
 			host: 'foo.org',
@@ -368,13 +363,8 @@ describe('ApiExplorer', function() {
 
 		explorer = new ApiExplorer({
 			auth: {
-				permissions: {
-					Edit: true
-				},
-				roles: {
-					Admin: true,
-					Member: true
-				}
+				permissions: ['Edit'],
+				roles: ['Admin', 'Member']
 			},
 			description: 'My description',
 			element: '#explorer',

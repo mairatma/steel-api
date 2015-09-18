@@ -14,27 +14,6 @@ describe('ApiBase', function() {
 		assert.deepEqual({}, api.auth);
 	});
 
-	it('should convert "auth" array keys to map format', function() {
-		api = new ApiBase({
-			auth: {
-				permissions: ['Admin', 'Member'],
-				roles: ['Edit', 'Remove']
-			}
-		});
-
-		var expected = {
-			permissions: {
-				Admin: true,
-				Member: true
-			},
-			roles: {
-				Edit: true,
-				Remove: true
-			}
-		};
-		assert.deepEqual(expected, api.auth);
-	});
-
 	it('should set "method" attr to "get" by default', function() {
 		api = new ApiBase();
 

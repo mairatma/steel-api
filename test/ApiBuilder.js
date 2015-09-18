@@ -360,22 +360,12 @@ describe('ApiBuilder', function() {
 
 		it('should update "auth" when permission switcher value changes', function() {
 			builder.components[builder.id + '-permissionsSwitcherEdit'].checked = false;
-
-			var expected = {
-				Delete: true
-			};
-			assert.deepEqual(expected, builder.auth.permissions);
+			assert.deepEqual(['Delete'], builder.auth.permissions);
 		});
 
 		it('should update "auth" when role switcher value changes', function() {
 			builder.components[builder.id + '-rolesSwitcherOwner'].checked = true;
-
-			var expected = {
-				Owner: true,
-				Admin: true,
-				Member: true
-			};
-			assert.deepEqual(expected, builder.auth.roles);
+			assert.deepEqual(['Admin', 'Member', 'Owner'], builder.auth.roles.sort());
 		});
 
 		it('should update "auth" when validator is changed via input', function() {
@@ -392,11 +382,7 @@ describe('ApiBuilder', function() {
 				roles: ['Owner', 'Admin', 'Member']
 			}).render();
 			builder.components[builder.id + '-permissionsSwitcherEdit'].checked = true;
-
-			var expected = {
-				Edit: true
-			};
-			assert.deepEqual(expected, builder.auth.permissions);
+			assert.deepEqual(['Edit'], builder.auth.permissions);
 		});
 	});
 
@@ -497,13 +483,8 @@ describe('ApiBuilder', function() {
 	it('should decorate ApiBuilder without repainting when content is correct', function() {
 		var markup = ComponentRegistry.Templates.ApiBuilder.content({
 			auth: {
-				permissions: {
-					Edit: true
-				},
-				roles: {
-					Admin: true,
-					Member: true
-				}
+				permissions: ['Edit'],
+				roles: ['Admin', 'Member']
 			},
 			description: 'My description',
 			handler: 'My Handler',
@@ -529,13 +510,8 @@ describe('ApiBuilder', function() {
 
 		builder = new ApiBuilder({
 			auth: {
-				permissions: {
-					Edit: true
-				},
-				roles: {
-					Admin: true,
-					Member: true
-				}
+				permissions: ['Edit'],
+				roles: ['Admin', 'Member']
 			},
 			description: 'My description',
 			element: '#builder',

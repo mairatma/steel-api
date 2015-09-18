@@ -9,20 +9,6 @@ import SoyComponent from 'bower:metal/src/soy/SoyComponent';
  */
 class ApiBase extends SoyComponent {
 	/**
-	 * Converts the given array of strings into a map.
-	 * @param {!Array<string>} arr
-	 * @return {!Object<string, boolean>}
-	 * @protected
-	 */
-	convertToMap_(arr) {
-		var obj = {};
-		for (var i = 0; i < arr.length; i++) {
-			obj[arr[i]] = true;
-		}
-		return obj;
-	}
-
-	/**
 	 * Converts the given parameters from the array to the object format.
 	 * @param {!Array} parameters
 	 * @return {!Object}
@@ -66,24 +52,6 @@ class ApiBase extends SoyComponent {
 	}
 
 	/**
-	 * Setter for the `auth` attribute. If its "permissions" and "roles" keys are
-	 * given as arrays, they will be converted to maps instead. The `toJson` method will
-	 * return the array format for these keys though.
-	 * @param {!Object} auth
-	 * @return {!Object}
-	 * @protected
-	 */
-	setterAuthFn_(auth) {
-		if (auth.roles instanceof Array) {
-			auth.roles = this.convertToMap_(auth.roles);
-		}
-		if (auth.permissions instanceof Array) {
-			auth.permissions = this.convertToMap_(auth.permissions);
-		}
-		return auth;
-	}
-
-	/**
 	 * Setter for the `parameters` attribute. If given as an object, the value will
 	 * be converted into an array format for internal use. The `toJson` method will
 	 * return the object format for the `parameters` attribute though.
@@ -118,19 +86,9 @@ class ApiBase extends SoyComponent {
 		for (var i = 0; i < ApiBase.API_ATTRS.length; i++) {
 			var name = ApiBase.API_ATTRS[i];
 			var val = this[name];
-			switch (name) {
-				case 'parameters':
-					val = this.convertParametersToObj_(val);
-					this.parseObjectParamValues_(val);
-					break;
-				case 'auth':
-					val = object.mixin({}, val);
-					if (val.roles) {
-						val.roles = Object.keys(val.roles);
-					}
-					if (val.permissions) {
-						val.permissions = Object.keys(val.permissions);
-					}
+			if (name === 'parameters') {
+				val = this.convertParametersToObj_(val);
+				this.parseObjectParamValues_(val);
 			}
 			json[name] = val;
 		}
@@ -157,7 +115,6 @@ ApiBase.ATTRS = {
 	 * @default {}
 	 */
 	auth: {
-		setter: 'setterAuthFn_',
 		validator: core.isObject,
 		valueFn: function() {
 			return {};

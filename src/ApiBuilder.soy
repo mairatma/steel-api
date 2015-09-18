@@ -277,8 +277,14 @@
 					{if $roles}
 						{foreach $role in $roles}
 							<div class="builder-param-switcher-container">
+								{let $roleChecked kind="text"}
+									{call .arrHasItem}
+										{param array: $auth.roles /}
+										{param item: $role /}
+									{/call}
+								{/let}
 								{call Templates.Switcher.content}
-									{param checked: $auth.roles ? $auth.roles[$role] : false /}
+									{param checked: strContains($roleChecked, 'true') /}
 									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
 									{param id: $id + '-rolesSwitcher' + $role /}
@@ -293,8 +299,14 @@
 					{if $permissions}
 						{foreach $permission in $permissions}
 							<div class="builder-param-switcher-container">
+								{let $permissionChecked kind="text"}
+									{call .arrHasItem}
+										{param array: $auth.permissions /}
+										{param item: $permission /}
+									{/call}
+								{/let}
 								{call Templates.Switcher.content}
-									{param checked: $auth.permissions ? $auth.permissions[$permission] : false /}
+									{param checked: strContains($permissionChecked, 'true') /}
 									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
 									{param id: $id + '-permissionsSwitcher' + $permission /}
@@ -313,4 +325,20 @@
 					data-oninput="handleAuthValidatorInput_" />
 		</div>
 	</div>
+{/template}
+
+/**
+ * Checks if the given array has the given item. Returns 'true' if
+ * it does, or nothing if it doesn't.
+ * @param array
+ * @param item
+ */
+{template .arrHasItem private="true"}
+	{if $array}
+		{foreach $arrItem in $array}
+			{if $item == $arrItem}
+				'true'
+			{/if}
+		{/foreach}
+	{/if}
 {/template}

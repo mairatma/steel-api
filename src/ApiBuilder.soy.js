@@ -158,16 +158,22 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
     var roleListLen119 = roleList119.length;
     for (var roleIndex119 = 0; roleIndex119 < roleListLen119; roleIndex119++) {
       var roleData119 = roleList119[roleIndex119];
-      output += '<div class="builder-param-switcher-container">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.roles ? opt_data.auth.roles[roleData119] : false, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData119}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData119) + '</span></div>';
+      output += '<div class="builder-param-switcher-container">';
+      var roleChecked__soy121 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.roles, item: roleData119}, null, opt_ijData));
+      roleChecked__soy121 = soydata.$$markUnsanitizedTextForInternalBlocks(roleChecked__soy121);
+      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + roleChecked__soy121).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData119}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData119) + '</span></div>';
     }
   }
   output += '</div><div class="builder-section-auth-permissions"><p class="api-section-title">Permissions</p>';
   if (opt_data.permissions) {
-    var permissionList133 = opt_data.permissions;
-    var permissionListLen133 = permissionList133.length;
-    for (var permissionIndex133 = 0; permissionIndex133 < permissionListLen133; permissionIndex133++) {
-      var permissionData133 = permissionList133[permissionIndex133];
-      output += '<div class="builder-param-switcher-container">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.auth.permissions ? opt_data.auth.permissions[permissionData133] : false, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData133}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData133) + '</span></div>';
+    var permissionList137 = opt_data.permissions;
+    var permissionListLen137 = permissionList137.length;
+    for (var permissionIndex137 = 0; permissionIndex137 < permissionListLen137; permissionIndex137++) {
+      var permissionData137 = permissionList137[permissionIndex137];
+      output += '<div class="builder-param-switcher-container">';
+      var permissionChecked__soy139 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.permissions, item: permissionData137}, null, opt_ijData));
+      permissionChecked__soy139 = soydata.$$markUnsanitizedTextForInternalBlocks(permissionChecked__soy139);
+      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + permissionChecked__soy139).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData137}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData137) + '</span></div>';
     }
   }
   output += '</div></div><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.auth.validator ? opt_data.auth.validator : '') + '" data-oninput="handleAuthValidatorInput_" /></div></div>';
@@ -175,6 +181,30 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.auth.soyTemplateName = 'Templates.ApiBuilder.auth';
+}
+
+
+/**
+ * @param {Object.<string, *>=} opt_data
+ * @param {(null|undefined)=} opt_ignored
+ * @param {Object.<string, *>=} opt_ijData
+ * @return {!soydata.SanitizedHtml}
+ * @suppress {checkTypes}
+ */
+Templates.ApiBuilder.arrHasItem = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '';
+  if (opt_data.array) {
+    var arrItemList158 = opt_data.array;
+    var arrItemListLen158 = arrItemList158.length;
+    for (var arrItemIndex158 = 0; arrItemIndex158 < arrItemListLen158; arrItemIndex158++) {
+      var arrItemData158 = arrItemList158[arrItemIndex158];
+      output += (opt_data.item == arrItemData158) ? '\'true\'' : '';
+    }
+  }
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+};
+if (goog.DEBUG) {
+  Templates.ApiBuilder.arrHasItem.soyTemplateName = 'Templates.ApiBuilder.arrHasItem';
 }
 
 Templates.ApiBuilder.content.params = ["id"];
@@ -186,5 +216,6 @@ Templates.ApiBuilder.handler.params = ["id","handler"];
 Templates.ApiBuilder.params.params = ["id","parameters"];
 Templates.ApiBuilder.param.private = true;
 Templates.ApiBuilder.auth.params = ["auth","id","permissions","roles"];
+Templates.ApiBuilder.arrHasItem.private = true;
 export default Templates.ApiBuilder;
 /* jshint ignore:end */
