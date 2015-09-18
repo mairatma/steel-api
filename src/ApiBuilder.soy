@@ -76,12 +76,12 @@
 		</p>
 		{call Templates.ButtonGroup.content}
 			{param buttons: [
-				['label': 'get', 'cssClass': 'btn btn-default btn-get-bg'],
-				['label': 'head', 'cssClass': 'btn btn-default btn-head-bg'],
-				['label': 'post', 'cssClass': 'btn btn-default btn-post-bg'],
-				['label': 'put', 'cssClass': 'btn btn-default btn-put-bg'],
-				['label': 'patch', 'cssClass': 'btn btn-default btn-patch-bg'],
-				['label': 'delete', 'cssClass': 'btn btn-default btn-delete-bg']
+				['label': 'get',    'cssClass': 'btn btn-default http-get-bg'],
+				['label': 'head',   'cssClass': 'btn btn-default http-head-bg'],
+				['label': 'post',   'cssClass': 'btn btn-default http-post-bg'],
+				['label': 'put',    'cssClass': 'btn btn-default http-put-bg'],
+				['label': 'patch',  'cssClass': 'btn btn-default http-patch-bg'],
+				['label': 'delete', 'cssClass': 'btn btn-default http-delete-bg']
 			] /}
 			{param events: ['selectedChanged': $id + ':handleMethodsSelectedChanged_'] /}
 			{param id: $id + '-methodButtonGroup' /}
