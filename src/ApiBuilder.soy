@@ -12,6 +12,7 @@
 		{call .description data="all" /}
 		{call .methods data="all" /}
 		{call .path data="all" /}
+		{call .body data="all" /}
 		{call .params data="all" /}
 		{call .handler data="all" /}
 		{call .auth data="all" /}
@@ -143,10 +144,29 @@
 
 /**
  * @param id
+ * @param body
+ */
+{template .body}
+	<div id="{$id}-body">
+		<p class="api-section-title">
+			Body <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+		</p>
+		<div class="builder-section-params">
+			{call .param}
+				{param id: $id /}
+				{param index: -1 /}
+				{param param: $body ? $body : [] /}
+			{/call}
+		</div>
+	</div>
+{/template}
+
+/**
+ * @param id
  * @param parameters
  */
 {template .params}
-	<div id="{$id}-params">
+	<div id="{$id}-params" class="builder-params">
 		<p class="api-section-title">
 			Parameters <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
 		</p>
@@ -177,20 +197,24 @@
  * @param param
  */
 {template .param private="true"}
+	{let $isBody: $index == -1 /}
+	{let $suffix: $isBody ? 'Body' : $index /}
 	<div
 		class="builder-param-item"
 		data-index="{$index}"
 		data-oninput="handleInputParam_">
 		<div class="row builder-param-item-row">
-			<div class="col-md-4">
-				<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
-			</div>
+			{if not $isBody}
+				<div class="col-md-4">
+					<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
+				</div>
+			{/if}
 			<div class="col-md-4">
 				{let $typesMap0: quoteKeysIfJs(['number': 1, 'string': 2, 'boolean': 3, 'array': 4, 'object': 5]) /}
 				{call Templates.Select.content}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
-					{param id: $id + '-typeSelect' + $index /}
+					{param id: $id + '-typeSelect' + $suffix /}
 					{param items: ['Any Type', 'Number', 'String', 'Boolean', 'Array', 'Object'] /}
 					{param label: 'Type' /}
 					{param selectedIndex: $param.type ? $typesMap0[$param.type] : 0 /}
@@ -202,21 +226,23 @@
 					{param checked: $param.required ? $param.required : false /}
 					{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
 					{param elementClasses: 'builder-param-switcher' /}
-					{param id: $id + '-requiredSwitcher' + $index /}
+					{param id: $id + '-requiredSwitcher' + $suffix /}
 				{/call}
 			</div>
-			<div class="col-md-1 builder-param-actions">
-				{call Templates.Dropdown.content}
-					{param body kind="html"}
-						<li data-onclick="{$id}:handleDuplicateParamClick_" data-index="{$index}"><a href="#">Duplicate</a></li>
-						<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
-					{/param}
-					{param header kind="html"}
-						<button class="builder-param-ellipsis btn-transparent icon-16-ellipsis" type="button" data-onclick="toggle"></button>
-					{/param}
-					{param id: $id + '-menu' + $index /}
-				{/call}
-			</div>
+			{if not $isBody}
+				<div class="col-md-1 builder-param-actions">
+					{call Templates.Dropdown.content}
+						{param body kind="html"}
+							<li data-onclick="{$id}:handleDuplicateParamClick_" data-index="{$index}"><a href="#">Duplicate</a></li>
+							<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
+						{/param}
+						{param header kind="html"}
+							<button class="builder-param-ellipsis btn-transparent icon-16-ellipsis" type="button" data-onclick="toggle"></button>
+						{/param}
+						{param id: $id + '-menu' + $suffix /}
+					{/call}
+				</div>
+			{/if}
 		</div>
 		<div class="row builder-param-item-row">
 			<div class="col-md-8">
@@ -233,17 +259,19 @@
 			<button class="builder-param-item-advanced-btn btn-transparent" type="button" data-onclick="handleAdvancedSetupClick_">
 				Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span>
 			</button>
-			<div class="row builder-param-item-row">
-				<div class="col-md-8">
-					<input
-						type="text"
-						class="form-control"
-						placeholder="Value"
-						value="{$param.value ? $param.value : ''}"
-						data-name="value"
-					/>
+			{if not $isBody}
+				<div class="row builder-param-item-row">
+					<div class="col-md-8">
+						<input
+							type="text"
+							class="form-control"
+							placeholder="Value"
+							value="{$param.value ? $param.value : ''}"
+							data-name="value"
+						/>
+					</div>
 				</div>
-			</div>
+			{/if}
 			<div class="row builder-param-item-row">
 				<div class="col-md-8">
 					<input

@@ -14,6 +14,11 @@ describe('ApiBase', function() {
 		assert.deepEqual({}, api.auth);
 	});
 
+	it('should set "body" attr to empty object by default', function() {
+		api = new ApiBase();
+		assert.deepEqual({}, api.body);
+	});
+
 	it('should set "method" attr to "get" by default', function() {
 		api = new ApiBase();
 
@@ -116,6 +121,9 @@ describe('ApiBase', function() {
 				permissions: ['Edit', 'Invite'],
 				roles: ['Admin', 'Member']
 			},
+			body: {
+				type: 'object'
+			},
 			data: true,
 			description: 'Description',
 			handler: 'Handler',
@@ -133,6 +141,9 @@ describe('ApiBase', function() {
 			auth: {
 				permissions: ['Edit', 'Invite'],
 				roles: ['Admin', 'Member']
+			},
+			body: {
+				type: 'object'
 			},
 			data: true,
 			description: 'Description',

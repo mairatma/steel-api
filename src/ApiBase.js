@@ -101,7 +101,18 @@ class ApiBase extends SoyComponent {
  * @type {!Array<string>}
  * @static
  */
-ApiBase.API_ATTRS = ['auth', 'data', 'description', 'handler', 'method', 'parameters', 'path', 'title', 'visibility'];
+ApiBase.API_ATTRS = [
+	'auth',
+	'body',
+	'data',
+	'description',
+	'handler',
+	'method',
+	'parameters',
+	'path',
+	'title',
+	'visibility'
+];
 
 /**
  * Attributes definition.
@@ -115,6 +126,18 @@ ApiBase.ATTRS = {
 	 * @default {}
 	 */
 	auth: {
+		validator: core.isObject,
+		valueFn: function() {
+			return {};
+		}
+	},
+
+	/**
+	 * Object with the configuration related to how the body of a request to this
+	 * API should be parsed.
+	 * @type {Object}
+	 */
+	body: {
 		validator: core.isObject,
 		valueFn: function() {
 			return {};

@@ -72,7 +72,7 @@ describe('ApiBuilder', function() {
 				}
 			}).render();
 
-			var paramRows = builder.element.querySelectorAll('.builder-param-item');
+			var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
 			assert.strictEqual(2, paramRows.length);
 			assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
 			assert.strictEqual(2, builder.components[builder.id + '-typeSelect0'].selectedIndex);
@@ -94,14 +94,14 @@ describe('ApiBuilder', function() {
 		it('should add a new parameter row when button is clicked', function(done) {
 			builder = new ApiBuilder().render();
 
-			assert.strictEqual(0, builder.element.querySelectorAll('.builder-param-item').length);
+			assert.strictEqual(0, builder.element.querySelectorAll('.builder-params .builder-param-item').length);
 			dom.triggerEvent(builder.element.querySelector('.builder-param-more button'), 'click');
 
 			builder.once('attrsChanged', function() {
-				assert.strictEqual(1, builder.element.querySelectorAll('.builder-param-item').length);
+				assert.strictEqual(1, builder.element.querySelectorAll('.builder-params .builder-param-item').length);
 				dom.triggerEvent(builder.element.querySelector('.builder-param-more button'), 'click');
 				builder.once('attrsChanged', function() {
-					assert.strictEqual(2, builder.element.querySelectorAll('.builder-param-item').length);
+					assert.strictEqual(2, builder.element.querySelectorAll('.builder-params .builder-param-item').length);
 					done();
 				});
 			});
@@ -110,11 +110,10 @@ describe('ApiBuilder', function() {
 		it('should automatically focus newly added parameter row', function(done) {
 			builder = new ApiBuilder().render();
 
-			assert.strictEqual(0, builder.element.querySelectorAll('.builder-param-item').length);
 			dom.triggerEvent(builder.element.querySelector('.builder-param-more button'), 'click');
 
 			builder.once('attrsChanged', function() {
-				var paramInput = builder.element.querySelector('.builder-param-item input');
+				var paramInput = builder.element.querySelector('.builder-params .builder-param-item input');
 				assert.strictEqual(document.activeElement, paramInput);
 				done();
 			});
@@ -132,7 +131,7 @@ describe('ApiBuilder', function() {
 			dom.triggerEvent(builder.element.querySelectorAll('.builder-param-actions li')[0], 'click');
 
 			builder.once('attrsChanged', function() {
-				var paramRows = builder.element.querySelectorAll('.builder-param-item');
+				var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
 				assert.strictEqual(2, paramRows.length);
 				assert.strictEqual('desc', builder.parameters[0].description);
 				assert.strictEqual('desc', builder.parameters[1].description);
@@ -155,7 +154,7 @@ describe('ApiBuilder', function() {
 			dom.triggerEvent(builder.element.querySelectorAll('.builder-param-actions li')[1], 'click');
 
 			builder.once('attrsChanged', function() {
-				assert.strictEqual(1, builder.element.querySelectorAll('.builder-param-item').length);
+				assert.strictEqual(1, builder.element.querySelectorAll('.builder-params .builder-param-item').length);
 				assert.ok(!dom.hasClass(builder.components[builder.id + '-menu0'].element, 'open'));
 				done();
 			});
@@ -173,7 +172,7 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="name"]');
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="name"]');
 			element.value = 'bar';
 			dom.triggerEvent(element, 'input');
 			builder.once('attrsChanged', function() {
@@ -235,7 +234,7 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="description"]');
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="description"]');
 			element.value = 'desc2';
 			dom.triggerEvent(element, 'input');
 			builder.once('attrsChanged', function() {
@@ -254,7 +253,7 @@ describe('ApiBuilder', function() {
 				}
 			}).render();
 
-			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			var advancedElement = builder.element.querySelector('.builder-params .builder-param-item-advanced');
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 
 			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
@@ -277,7 +276,7 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="value"]');
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="value"]');
 			element.value = 'value2';
 			dom.triggerEvent(element, 'input');
 			builder.once('attrsChanged', function() {
@@ -300,7 +299,7 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="validator"]');
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="validator"]');
 			element.value = 'validator2';
 			dom.triggerEvent(element, 'input');
 			builder.once('attrsChanged', function() {
@@ -322,8 +321,111 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.on('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="name"]');
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="name"]');
 			element.value = 'bar';
+			dom.triggerEvent(element, 'input');
+			assert.strictEqual(1, listener.callCount);
+
+			dom.triggerEvent(element, 'input');
+			assert.strictEqual(1, listener.callCount);
+		});
+	});
+
+	describe('Body', function() {
+		it('should update "body" when its type is changed via select', function() {
+			builder = new ApiBuilder({
+				body: {
+					type: 'string'
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('bodyChanged', listener);
+
+			var select = builder.components[builder.id + '-typeSelectBody'];
+			select.selectedIndex = 1;
+			assert.strictEqual(1, listener.callCount);
+			assert.strictEqual('number', builder.body.type);
+		});
+
+		it('should update "body" when its "required" field is changed via input', function() {
+			builder = new ApiBuilder({
+				body: {
+					required: false
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('bodyChanged', listener);
+
+			var switcher = builder.components[builder.id + '-requiredSwitcherBody'];
+			switcher.checked = true;
+			assert.strictEqual(1, listener.callCount);
+			assert.ok(builder.body.required);
+		});
+
+		it('should update "body" when its description is changed via input', function(done) {
+			builder = new ApiBuilder({
+				body: {
+					description: 'desc1'
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('bodyChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="description"]');
+			element.value = 'desc2';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, listener.callCount);
+				assert.strictEqual('desc2', builder.body.description);
+				done();
+			});
+		});
+
+		it('should expand/collapse advanced setup when its button is clicked for body', function() {
+			builder = new ApiBuilder().render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			assert.ok(dom.hasClass(advancedElement, 'expanded'));
+			assert.strictEqual(advancedElement.parentNode.querySelector('[data-name="validator"]'), document.activeElement);
+
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+		});
+
+		it('should update "body" when its validator is changed via input', function(done) {
+			builder = new ApiBuilder({
+				body: {
+					validator: 'validator1'
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('bodyChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="validator"]');
+			element.value = 'validator2';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual(1, listener.callCount);
+				assert.strictEqual('validator2', builder.body.validator);
+				done();
+			});
+		});
+
+		it('should not update "body" twice if input event is triggered but value doesn\'t change', function() {
+			builder = new ApiBuilder().render();
+
+			var listener = sinon.stub();
+			builder.on('bodyChanged', listener);
+
+			var element = builder.element.querySelector('.builder-param-item [data-name="description"]');
+			element.description = 'bar';
 			dom.triggerEvent(element, 'input');
 			assert.strictEqual(1, listener.callCount);
 

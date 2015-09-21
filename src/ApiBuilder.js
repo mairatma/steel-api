@@ -56,7 +56,7 @@ class ApiBuilder extends ApiBase {
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(container, 'expanded');
-		container.querySelector('[data-name="value"]').focus();
+		container.querySelector('input[type="text"]').focus();
 	}
 
 	/**
@@ -67,7 +67,7 @@ class ApiBuilder extends ApiBase {
 	handleAttrsChanged_() {
 		if (this.hasAddedParam_) {
 			this.hasAddedParam_ = false;
-			var selector = '.builder-param-item:nth-child(' + this.parameters.length + ') input';
+			var selector = '.builder-params .builder-param-item:nth-child(' + this.parameters.length + ') input';
 			var input = this.element.querySelector(selector);
 			input.focus();
 			// This is important because otherwise the key cursor will be at the beginning of the
@@ -324,10 +324,17 @@ class ApiBuilder extends ApiBase {
 	 */
 	updateParamDataFromComponentEvent_(event, prefix, name, value) {
 		var component = event.target;
-		var index = parseInt(component.id.substr(prefix.length), 10);
-		this.parameters[index][name] = value;
-		this.parameters = this.parameters;
-		this.skipSurfaceUpdateForAttr_ = 'parameters';
+		var suffix = component.id.substr(prefix.length);
+		if (suffix === 'Body') {
+			this.body[name] = value;
+			this.body = this.body;
+			this.skipSurfaceUpdateForAttr_ = 'body';
+		} else {
+			var index = parseInt(suffix, 10);
+			this.parameters[index][name] = value;
+			this.parameters = this.parameters;
+			this.skipSurfaceUpdateForAttr_ = 'parameters';
+		}
 	}
 
 	/**
@@ -336,13 +343,19 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	updateParamDataFromDomEvent_(event) {
-		var param = this.parameters[event.delegateTarget.getAttribute('data-index')];
 		var name = event.target.getAttribute('data-name');
 		var value = event.target.value;
+		var index = parseInt(event.delegateTarget.getAttribute('data-index'), 10);
+		var param = index === -1 ? this.body : this.parameters[index];
 		if (param[name] !== value) {
 			param[name] = value;
-			this.parameters = this.parameters;
-			this.skipSurfaceUpdateForAttr_ = 'parameters';
+			if (index === -1) {
+				this.body = this.body;
+				this.skipSurfaceUpdateForAttr_ = 'body';
+			} else {
+				this.parameters = this.parameters;
+				this.skipSurfaceUpdateForAttr_ = 'parameters';
+			}
 		}
 	}
 }
