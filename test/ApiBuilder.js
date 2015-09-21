@@ -75,14 +75,14 @@ describe('ApiBuilder', function() {
 			var paramRows = builder.element.querySelectorAll('.builder-param-item');
 			assert.strictEqual(2, paramRows.length);
 			assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
-			assert.strictEqual(1, builder.components[builder.id + '-typeSelect0'].selectedIndex);
+			assert.strictEqual(2, builder.components[builder.id + '-typeSelect0'].selectedIndex);
 			assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
 			assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
 			assert.strictEqual('value', paramRows[0].querySelector('input[data-name="value"]').value);
 			assert.strictEqual('', paramRows[0].querySelector('input[data-name="validator"]').value);
 
 			assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
-			assert.strictEqual(2, builder.components[builder.id + '-typeSelect1'].selectedIndex);
+			assert.strictEqual(3, builder.components[builder.id + '-typeSelect1'].selectedIndex);
 			assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
 			assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
 			assert.strictEqual('', paramRows[1].querySelector('input[data-name="value"]').value);
@@ -198,7 +198,7 @@ describe('ApiBuilder', function() {
 			builder.once('parametersChanged', listener);
 
 			var select = builder.components[builder.id + '-typeSelect0'];
-			select.selectedIndex = 0;
+			select.selectedIndex = 1;
 			assert.strictEqual(1, listener.callCount);
 			assert.strictEqual('number', builder.parameters[0].type);
 			assert.strictEqual('number', builder.toJson().parameters.foo.type);

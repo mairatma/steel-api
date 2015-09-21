@@ -276,7 +276,7 @@ class ApiBuilder extends ApiBase {
 			event,
 			this.id + '-typeSelect',
 			'type',
-			item ? item.toLowerCase() : null
+			item !== 'Any Type' ? item.toLowerCase() : null
 		);
 	}
 
