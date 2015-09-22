@@ -38,9 +38,14 @@
 	width: 100%;
 }
 
+.builder-section-body,
 .builder-section-params {
 	border: 1px solid rgba($primary, .2);
 	border-radius: $border-radius-base;
+}
+
+.builder-section-body {
+	border-bottom: none;
 }
 
 .builder-param-switcher-container {
