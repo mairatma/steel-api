@@ -178,7 +178,7 @@ class ApiExplorer extends ApiBase {
 		responseObj.body = response.body();
 		responseObj.bodyString = responseObj.body;
 		if (core.isObject(responseObj.body)) {
-			responseObj.bodyString = JSON.stringify(responseObj.body);
+			responseObj.bodyString = JSON.stringify(responseObj.body, null, 4);
 		}
 		this.response = responseObj;
 	}
