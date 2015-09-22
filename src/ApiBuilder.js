@@ -344,7 +344,7 @@ class ApiBuilder extends ApiBase {
 	 */
 	updateParamDataFromDomEvent_(event) {
 		var name = event.target.getAttribute('data-name');
-		var value = event.target.value;
+		var value = event.target.value.trim();
 		var index = parseInt(event.delegateTarget.getAttribute('data-index'), 10);
 		var param = index === -1 ? this.body : this.parameters[index];
 		if (param[name] !== value) {

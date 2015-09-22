@@ -200,4 +200,31 @@ describe('ApiBase', function() {
 		};
 		assert.deepEqual(expectedParams, api.toJson().parameters);
 	});
+
+	it('should ignore parameters without names on object returned by "toJson"', function() {
+		api = new ApiBase({
+			parameters: [
+				{
+					name: 'arr',
+					type: 'array',
+					value: [1, 2]
+				},
+				{
+					type: 'object',
+					value: {
+						foo: 1,
+						bar: 'bar'
+					}
+				}
+			]
+		});
+
+		var expectedParams = {
+			arr: {
+				type: 'array',
+				value: [1, 2]
+			}
+		};
+		assert.deepEqual(expectedParams, api.toJson().parameters);
+	});
 });

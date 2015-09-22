@@ -184,6 +184,28 @@ describe('ApiBuilder', function() {
 			});
 		});
 
+		it('should trim param name before using it', function(done) {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						value: 1
+					}
+				}
+			}).render();
+
+			var listener = sinon.stub();
+			builder.once('parametersChanged', listener);
+
+			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="name"]');
+			element.value = '   bar       ';
+			dom.triggerEvent(element, 'input');
+			builder.once('attrsChanged', function() {
+				assert.strictEqual('bar', builder.parameters[0].name);
+				assert.ok(builder.toJson().parameters.bar);
+				done();
+			});
+		});
+
 		it('should update "parameters" when type of a param is changed via select', function() {
 			builder = new ApiBuilder({
 				parameters: {

@@ -17,8 +17,11 @@ class ApiBase extends SoyComponent {
 	convertParametersToObj_(parameters) {
 		var obj = {};
 		for (var i = 0; i < parameters.length; i++) {
-			obj[parameters[i].name] = object.mixin({}, parameters[i]);
-			delete obj[parameters[i].name].name;
+			var name = parameters[i].name;
+			if (name && name !== '') {
+				obj[parameters[i].name] = object.mixin({}, parameters[i]);
+				delete obj[parameters[i].name].name;
+			}
 		}
 		return obj;
 	}
