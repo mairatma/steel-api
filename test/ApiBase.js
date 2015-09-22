@@ -232,12 +232,14 @@ describe('ApiBase', function() {
 		api = new ApiBase({
 			description: '',
 			handler: '',
-			title: 'My Title'
+			title: 'My Title',
+			visibility: false
 		});
 
 		var json = api.toJson();
 		assert.ok(!('description' in json));
 		assert.ok(!('handler' in json));
 		assert.strictEqual('My Title', json.title);
+		assert.strictEqual(false, json.visibility);
 	});
 });
