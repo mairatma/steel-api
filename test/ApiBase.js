@@ -124,7 +124,6 @@ describe('ApiBase', function() {
 			body: {
 				type: 'object'
 			},
-			data: true,
 			description: 'Description',
 			handler: 'Handler',
 			parameters: {
@@ -145,7 +144,6 @@ describe('ApiBase', function() {
 			body: {
 				type: 'object'
 			},
-			data: true,
 			description: 'Description',
 			handler: 'Handler',
 			method: ['get'],
