@@ -39,12 +39,10 @@
 			{/foreach}
 		{/if}
 		<span class="explorer-title-name">{$title ? $title : $path}</span>
-		{if $visibility or (not isNonnull($visibility))}
-			<span class="explorer-visibility">
-				<span class="explorer-visibility-icon icon-12-check"></span>
-				<span class="explorer-visibility-label">Visibility</span>
-			</span>
-		{/if}
+		<span class="explorer-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
+			<span class="explorer-visibility-icon {$visibility ? 'icon-12-check' : 'icon-12-close-short'}"></span>
+			<span class="explorer-visibility-label">{$visibility ? 'Visible' : 'Invisible'}</span>
+		</span>
 	</p>
 {/template}
 

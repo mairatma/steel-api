@@ -43,7 +43,7 @@ Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
       output += '<span class="explorer-title-label label label-sm http-' + soy.$$escapeHtmlAttribute(methodNameData210) + '-bg">' + soy.$$escapeHtml(methodNameData210) + '</span>';
     }
   }
-  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title ? opt_data.title : opt_data.path) + '</span>' + ((opt_data.visibility || ! (opt_data.visibility != null)) ? '<span class="explorer-visibility"><span class="explorer-visibility-icon icon-12-check"></span><span class="explorer-visibility-label">Visibility</span></span>' : '') + '</p>';
+  output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title ? opt_data.title : opt_data.path) + '</span><span class="explorer-visibility show-tooltip" alt="When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it"><span class="explorer-visibility-icon ' + soy.$$escapeHtmlAttribute(opt_data.visibility ? 'icon-12-check' : 'icon-12-close-short') + '"></span><span class="explorer-visibility-label">' + soy.$$escapeHtml(opt_data.visibility ? 'Visible' : 'Invisible') + '</span></span></p>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -183,7 +183,7 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiExplorer.content.params = ["id"];
-Templates.ApiExplorer.title.params = ["id","method","path","title","visibility"];
+Templates.ApiExplorer.title.params = ["id","method","path","title"];
 Templates.ApiExplorer.description.params = ["id","description"];
 Templates.ApiExplorer.auth.params = ["id","auth"];
 Templates.ApiExplorer.params.params = ["id","parameters"];

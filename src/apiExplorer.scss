@@ -28,16 +28,27 @@
 .explorer-visibility-icon {
 	background: $white;
 	border-radius: 50%;
+	position: relative;
+}
+
+.explorer-visibility-icon.icon-12-check {
 	border: 1px solid $brand-success;
 	color: $brand-success;
 	padding: 4px 5px 6px;
-	position: relative;
+}
+
+.explorer-visibility-icon.icon-12-close-short {
+	border: 1px solid $brand-danger;
+	color: $brand-danger;
+	padding: 5px 6px;
 }
 
 .explorer-visibility-label {
 	color: rgba($primary, .7);
 	font-size: 12px;
-	margin-left: 5px;
+	position: relative;
+  left: 5px;
+  top: -2px;
 }
 
 .explorer-description {
