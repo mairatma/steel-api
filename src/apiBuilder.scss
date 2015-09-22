@@ -44,7 +44,7 @@
 	border-radius: $border-radius-base;
 }
 
-.builder-section-body {
+.builder-section-body .builder-param-item:last-child {
 	border-bottom: none;
 }
 
