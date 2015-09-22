@@ -21,6 +21,13 @@ describe('ApiExplorer', function() {
 		this.xhr.restore();
 	});
 
+	it('should replace "@/" substrings from path with "/"', function() {
+		explorer = new ApiExplorer({
+			path: '/data@/:foo@/:bar'
+		}).render();
+		assert.strictEqual('/data/:foo/:bar', explorer.path);
+	});
+
 	it('should add missing path params to the "parameters" attr', function() {
 		explorer = new ApiExplorer({
 			parameters: [

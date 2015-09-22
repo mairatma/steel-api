@@ -188,6 +188,17 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Replaces "@/" substrings with "/", since these characters are just
+	 * separators that shouldn't be sent with the request.
+	 * @param {string} path
+	 * @return {string}
+	 * @protected
+	 */
+	setterPathFn_(path) {
+		return path.replace(/@\//g, '/');
+	}
+
+	/**
 	 * This is called automatically on the first render and when the `sync`
 	 * attr's value changes.
 	 */
@@ -204,6 +215,16 @@ class ApiExplorer extends ApiBase {
  * @static
  */
 ApiExplorer.ATTRS = {
+	/**
+	 * The api's path url.
+	 * @type {string}
+	 */
+	path: {
+		setter: 'setterPathFn_',
+		validator: core.isString,
+		value: ''
+	},
+
 	/**
 	 * The given path with all params replaced with the values to be used.
 	 * @type {string}
