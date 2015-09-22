@@ -132,6 +132,26 @@
 	padding: 10px 13px;
 }
 
+.explorer-status.explorer-status-1xx {
+	color: $primary;
+	border-color: $primary;
+}
+
+.explorer-status.explorer-status-2xx {
+	color: $brand-success;
+	border-color: $brand-success;
+}
+
+.explorer-status.explorer-status-3xx {
+	color: $brand-warning;
+	border-color: $brand-warning;
+}
+
+.explorer-status.explorer-status-4xx {
+	color: $brand-danger;
+	border-color: $brand-danger;
+}
+
 .explorer-code-container {
 	margin-right: -29px;
 }
