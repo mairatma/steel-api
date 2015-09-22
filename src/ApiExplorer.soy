@@ -38,10 +38,11 @@
 				<span class="explorer-title-label label label-sm http-{$methodName}-bg">{$methodName}</span>
 			{/foreach}
 		{/if}
+		{let $visible: $visibility or (not isNonnull($visibility)) /}
 		<span class="explorer-title-name">{$title ? $title : $path}</span>
 		<span class="explorer-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
-			<span class="explorer-visibility-icon {$visibility ? 'icon-12-check' : 'icon-12-close-short'}"></span>
-			<span class="explorer-visibility-label">{$visibility ? 'Visible' : 'Invisible'}</span>
+			<span class="explorer-visibility-icon {$visible ? 'icon-12-check' : 'icon-12-close-short'}"></span>
+			<span class="explorer-visibility-label">{$visible ? 'Visible' : 'Invisible'}</span>
 		</span>
 	</p>
 {/template}
