@@ -121,7 +121,9 @@
 {/template}
 
 /**
+ * @param? handler
  * @param id
+ * @skipUpdates handler
  */
 {template .handler}
 	<div id="{$id}-handler" class="form-group">
@@ -133,6 +135,7 @@
 				class="form-control handler"
 				name="handler"
 				placeholder="function(request, response) {lb} return 'Hello World'; {rb}">
+				{$handler ? $handler : ''}
 			</textarea>
 		</div>
 	</div>
