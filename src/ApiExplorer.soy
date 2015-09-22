@@ -209,7 +209,9 @@
 		{if $response}
 			<div class="explorer-section-response">
 				<div class="explorer-status-container">
-					<span class="explorer-status">{$response.statusCode} {$response.statusText}</span>
+					<span class="explorer-status explorer-status-{floor($response.statusCode / 100)}xx">
+						{$response.statusCode} {$response.statusText}
+					</span>
 				</div>
 				{if $response.bodyString}
 					<div class="explorer-code-container">

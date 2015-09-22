@@ -267,58 +267,117 @@ describe('ApiExplorer', function() {
 		});
 	});
 
-	it('should render the response status code and text', function(done) {
-		explorer = new ApiExplorer().render();
+	describe('Response', function() {
+		it('should render the response status code and text (1xx)', function(done) {
+			explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		requests[0].respond(200);
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(100);
 
-		explorer.once('attrsChanged', function() {
-			assert.ok(explorer.response);
-			assert.strictEqual(200, explorer.response.statusCode);
-			assert.strictEqual('OK', explorer.response.statusText);
-			assert.strictEqual('200 OK', explorer.element.querySelector('.explorer-status').textContent);
-			done();
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual(100, explorer.response.statusCode);
+				assert.strictEqual('Continue', explorer.response.statusText);
+
+				var element = explorer.element.querySelector('.explorer-status');
+				assert.strictEqual('100 Continue', element.textContent);
+				assert.ok(dom.hasClass(element, 'explorer-status-1xx'));
+				done();
+			});
 		});
-	});
 
-	it('should render the response json body', function(done) {
-		explorer = new ApiExplorer().render();
+		it('should render the response status code and text (2xx)', function(done) {
+			explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		requests[0].respond(
-			200,
-			{
-				'Content-Type': 'application/json'
-			},
-			'{"foo":"bar"}'
-		);
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(200);
 
-		explorer.once('attrsChanged', function() {
-			assert.ok(explorer.response);
-			assert.strictEqual('{"foo":"bar"}', explorer.response.bodyString);
-			assert.strictEqual('{"foo":"bar"}', explorer.element.querySelector('.explorer-code-container').textContent);
-			done();
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual(200, explorer.response.statusCode);
+				assert.strictEqual('OK', explorer.response.statusText);
+
+				var element = explorer.element.querySelector('.explorer-status');
+				assert.strictEqual('200 OK', element.textContent);
+				assert.ok(dom.hasClass(element, 'explorer-status-2xx'));
+				done();
+			});
 		});
-	});
 
-	it('should render response without json body', function(done) {
-		explorer = new ApiExplorer().render();
+		it('should render the response status code and text (3xx)', function(done) {
+			explorer = new ApiExplorer().render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		requests[0].respond(
-			200,
-			{
-				'Content-Type': 'text/html'
-			},
-			'foo'
-		);
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(301);
 
-		explorer.once('attrsChanged', function() {
-			assert.ok(explorer.response);
-			assert.strictEqual('foo', explorer.response.bodyString);
-			assert.strictEqual('foo', explorer.element.querySelector('.explorer-code-container').textContent);
-			done();
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual(301, explorer.response.statusCode);
+				assert.strictEqual('Moved Permanently', explorer.response.statusText);
+
+				var element = explorer.element.querySelector('.explorer-status');
+				assert.strictEqual('301 Moved Permanently', element.textContent);
+				assert.ok(dom.hasClass(element, 'explorer-status-3xx'));
+				done();
+			});
+		});
+
+		it('should render the response status code and text (4xx)', function(done) {
+			explorer = new ApiExplorer().render();
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(404);
+
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual(404, explorer.response.statusCode);
+				assert.strictEqual('Not Found', explorer.response.statusText);
+
+				var element = explorer.element.querySelector('.explorer-status');
+				assert.strictEqual('404 Not Found', element.textContent);
+				assert.ok(dom.hasClass(element, 'explorer-status-4xx'));
+				done();
+			});
+		});
+
+		it('should render the response json body', function(done) {
+			explorer = new ApiExplorer().render();
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				'{"foo":"bar"}'
+			);
+
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual('{"foo":"bar"}', explorer.response.bodyString);
+				assert.strictEqual('{"foo":"bar"}', explorer.element.querySelector('.explorer-code-container').textContent);
+				done();
+			});
+		});
+
+		it('should render response without json body', function(done) {
+			explorer = new ApiExplorer().render();
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(
+				200,
+				{
+					'Content-Type': 'text/html'
+				},
+				'foo'
+			);
+
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual('foo', explorer.response.bodyString);
+				assert.strictEqual('foo', explorer.element.querySelector('.explorer-code-container').textContent);
+				done();
+			});
 		});
 	});
 
