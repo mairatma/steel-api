@@ -147,7 +147,8 @@
 	border-color: $brand-warning;
 }
 
-.explorer-status.explorer-status-4xx {
+.explorer-status.explorer-status-4xx,
+.explorer-status.explorer-status-5xx {
 	color: $brand-danger;
 	border-color: $brand-danger;
 }

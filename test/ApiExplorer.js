@@ -340,6 +340,24 @@ describe('ApiExplorer', function() {
 			});
 		});
 
+		it('should render the response status code and text (5xx)', function(done) {
+			explorer = new ApiExplorer().render();
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			requests[0].respond(500);
+
+			explorer.once('attrsChanged', function() {
+				assert.ok(explorer.response);
+				assert.strictEqual(500, explorer.response.statusCode);
+				assert.strictEqual('Internal Server Error', explorer.response.statusText);
+
+				var element = explorer.element.querySelector('.explorer-status');
+				assert.strictEqual('500 Internal Server Error', element.textContent);
+				assert.ok(dom.hasClass(element, 'explorer-status-5xx'));
+				done();
+			});
+		});
+
 		it('should render the response json body', function(done) {
 			explorer = new ApiExplorer().render();
 
