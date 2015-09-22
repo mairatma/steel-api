@@ -543,7 +543,7 @@ describe('ApiBuilder', function() {
 		builder = new ApiBuilder().render();
 
 		var buttons = builder.element.querySelectorAll('.btn-group button');
-		dom.triggerEvent(buttons[5], 'click');
+		dom.triggerEvent(buttons[4], 'click');
 		var expectedMethod = ['get', 'delete'];
 		assert.deepEqual(expectedMethod, builder.method);
 
@@ -561,12 +561,12 @@ describe('ApiBuilder', function() {
 		assert.deepEqual(expectedMethod, builder.method);
 		assert.ok(dom.hasClass(buttons[0], 'btn-group-selected'));
 
-		dom.triggerEvent(buttons[5], 'click');
+		dom.triggerEvent(buttons[4], 'click');
 		dom.triggerEvent(buttons[0], 'click');
-		dom.triggerEvent(buttons[5], 'click');
+		dom.triggerEvent(buttons[4], 'click');
 		expectedMethod = ['delete'];
 		assert.deepEqual(expectedMethod, builder.method);
-		assert.ok(dom.hasClass(buttons[5], 'btn-group-selected'));
+		assert.ok(dom.hasClass(buttons[4], 'btn-group-selected'));
 	});
 
 	it('should update "path" when value is changed via input', function() {
