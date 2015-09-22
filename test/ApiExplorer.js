@@ -71,14 +71,16 @@ describe('ApiExplorer', function() {
 	it('should render a check icon if "visibility" is true or not set', function() {
 		explorer = new ApiExplorer().render();
 		assert.ok(explorer.visibility);
-		assert.ok(explorer.element.querySelector('.explorer-visibility'));
+		assert.ok(explorer.element.querySelector('.explorer-visibility .icon-12-check'));
+		assert.ok(!explorer.element.querySelector('.explorer-visibility .icon-12-close-short'));
 	});
 
-	it('should not render a check icon if "visibility" is false or not set', function() {
+	it('should render a close icon if "visibility" is false', function() {
 		explorer = new ApiExplorer({
 			visibility: false
 		}).render();
-		assert.ok(!explorer.element.querySelector('.explorer-visibility'));
+		assert.ok(!explorer.element.querySelector('.explorer-visibility .icon-12-check'));
+		assert.ok(explorer.element.querySelector('.explorer-visibility .icon-12-close-short'));
 	});
 
 	it('should send request to given host and path', function() {
