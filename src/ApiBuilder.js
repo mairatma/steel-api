@@ -287,8 +287,7 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	updateAttrFromInput_(event, attrName) {
-		var value = event.delegateTarget.value;
-		this[attrName] = value;
+		this[attrName] = event.delegateTarget.value.trim();
 		this.skipSurfaceUpdateForAttr_ = attrName;
 	}
 

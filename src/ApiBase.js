@@ -93,7 +93,9 @@ class ApiBase extends SoyComponent {
 				val = this.convertParametersToObj_(val);
 				this.parseObjectParamValues_(val);
 			}
-			json[name] = val;
+			if (val && val !== '') {
+				json[name] = val;
+			}
 		}
 		return json;
 	}

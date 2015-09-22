@@ -227,4 +227,17 @@ describe('ApiBase', function() {
 		};
 		assert.deepEqual(expectedParams, api.toJson().parameters);
 	});
+
+	it('should ignore keys with empty values on object returned by "toJson"', function() {
+		api = new ApiBase({
+			description: '',
+			handler: '',
+			title: 'My Title'
+		});
+
+		var json = api.toJson();
+		assert.ok(!('description' in json));
+		assert.ok(!('handler' in json));
+		assert.strictEqual('My Title', json.title);
+	});
 });
