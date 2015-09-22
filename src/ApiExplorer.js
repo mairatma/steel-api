@@ -60,6 +60,42 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Called automatically when the component is attached to the document. Builds the CodeMirror
+	 * text editor for the response body.
+	 */
+	attached() {
+		this.buildResponseCodeMirror_();
+	}
+
+	/**
+	 * Builds the CodeMirror text editor for the handler field.
+	 * @protected
+	 */
+	buildResponseCodeMirror_() {
+		var textarea = this.element.querySelector('.explorer-code-container textarea');
+		if (textarea && textarea !== this.responseTextarea_) {
+			this.responseTextarea_ = textarea;
+			this.responseCodeMirror_ = CodeMirror.fromTextArea(
+				textarea,
+				{
+					lineNumbers: true,
+					readOnly: true
+				}
+			);
+			this.responseCodeMirror_.setValue(this.response.bodyString);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	disposeInternal() {
+		super.disposeInternal();
+		this.responseCodeMirror_ = null;
+		this.responseTextarea_ = null;
+	}
+
+	/**
 	 * Gets the values of the params that should be sent via the body of the API request.
 	 * @return {!Object}
 	 * @protected
@@ -205,6 +241,16 @@ class ApiExplorer extends ApiBase {
 	syncPath() {
 		if (this.wasRendered) {
 			this.replacedPath = this.replacePathParams_();
+		}
+	}
+
+	/**
+	 * Synchronization logic for the `response` attr. Updates the CodeMirror
+	 * text editor for the response body.
+	 */
+	syncResponse() {
+		if (this.wasRendered) {
+			this.buildResponseCodeMirror_();
 		}
 	}
 }

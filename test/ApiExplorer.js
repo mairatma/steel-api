@@ -375,7 +375,9 @@ describe('ApiExplorer', function() {
 			explorer.once('attrsChanged', function() {
 				assert.ok(explorer.response);
 				assert.strictEqual('{"foo":"bar"}', explorer.response.bodyString);
-				assert.strictEqual('{"foo":"bar"}', explorer.element.querySelector('.explorer-code-container').textContent);
+
+				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+				assert.strictEqual('{"foo":"bar"}', codeMirror.getValue());
 				done();
 			});
 		});
@@ -395,7 +397,9 @@ describe('ApiExplorer', function() {
 			explorer.once('attrsChanged', function() {
 				assert.ok(explorer.response);
 				assert.strictEqual('foo', explorer.response.bodyString);
-				assert.strictEqual('foo', explorer.element.querySelector('.explorer-code-container').textContent);
+
+				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+				assert.strictEqual('foo', codeMirror.getValue());
 				done();
 			});
 		});
@@ -473,8 +477,15 @@ describe('ApiExplorer', function() {
 				statusCode: 200
 			},
 			title: 'My API'
-		}).decorate();
+		});
 
-		assert.strictEqual(explorer.element.outerHTML, outerHTML);
+		// Compare with the resulting HTML right after rendering, but before CodeMirror is added.
+		var afterRenderHTML;
+		explorer.on('render', () => {
+			afterRenderHTML = explorer.element.outerHTML;
+		});
+		explorer.decorate();
+
+		assert.strictEqual(afterRenderHTML, outerHTML);
 	});
 });
