@@ -1,28 +1,29 @@
 {
-	"name": "steel-api",
-	"version": "0.0.0",
-	"description": "Steel's API Builder and API Explorer components",
-	"main": "src/Api.js",
-	"moduleType": [
-		"es6"
-	],
-	"keywords": [
-		"metal",
-		"steel"
-	],
-	"ignore": [
-		"*",
-		"!src/**/*",
-		"!test/**/*"
-	],
-	"dependencies": {
-		"api.js": "liferay-apps/api.js#master",
-		"metal": "metal/metal.js#master",
-		"metal-jquery-adapter": "metal/metal-jquery-adapter#master",
-		"steel-bootstrap": "metal/steel-bootstrap#master",
-		"steel-button-group": "metal/steel-button-group#master",
-		"steel-dropdown": "metal/steel-dropdown#master",
-		"steel-select": "metal/steel-select#master",
-		"steel-switcher": "metal/steel-switcher#master"
-	}
+  "name": "steel-api",
+  "version": "0.0.0",
+  "description": "Steel's API Builder and API Explorer components",
+  "main": "src/Api.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "metal",
+    "steel"
+  ],
+  "ignore": [
+    "*",
+    "!src/**/*",
+    "!test/**/*"
+  ],
+  "dependencies": {
+    "api.js": "liferay-apps/api.js#master",
+    "codemirror": "~5.7.0",
+    "metal": "metal/metal.js#master",
+    "metal-jquery-adapter": "metal/metal-jquery-adapter#master",
+    "steel-bootstrap": "metal/steel-bootstrap#master",
+    "steel-button-group": "metal/steel-button-group#master",
+    "steel-dropdown": "metal/steel-dropdown#master",
+    "steel-select": "metal/steel-select#master",
+    "steel-switcher": "metal/steel-switcher#master"
+  }
 }

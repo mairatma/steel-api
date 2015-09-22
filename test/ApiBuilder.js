@@ -53,7 +53,8 @@ describe('ApiBuilder', function() {
 				id: 'builder',
 				handler: 'foo'
 			}).render();
-			assert.strictEqual('foo', builder.element.querySelector('#builder-handler textarea').value);
+			var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
+			assert.strictEqual('foo', codeMirror.getValue());
 		});
 
 		it('should fill param values with the given parameters', function() {
@@ -581,10 +582,20 @@ describe('ApiBuilder', function() {
 	it('should update "handler" when value is changed via input', function() {
 		builder = new ApiBuilder().render();
 
-		var element = builder.element.querySelector('[name="handler"]');
-		element.value = 'foo';
-		dom.triggerEvent(element, 'input');
+		var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
+		codeMirror.setValue('foo');
 		assert.strictEqual('foo', builder.handler);
+	});
+
+	it('should update handler UI when attr value is changed', function(done) {
+		builder = new ApiBuilder().render();
+
+		builder.handler = 'foo';
+		builder.once('attrsChanged', function() {
+			var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
+			assert.strictEqual('foo', codeMirror.getValue());
+			done();
+		});
 	});
 
 	it('should add missing parameters from the path to the final parameters list', function() {
@@ -654,8 +665,15 @@ describe('ApiBuilder', function() {
 			permissions: ['Owner', 'Admin', 'Member'],
 			roles: ['Edit', 'Invite', 'Delete', 'Add'],
 			title: 'My API'
-		}).decorate();
+		});
 
-		assert.strictEqual(builder.element.outerHTML, outerHTML);
+		// Compare with the resulting HTML right after rendering, but before CodeMirror is added.
+		var afterRenderHTML;
+		builder.on('render', () => {
+			afterRenderHTML = builder.element.outerHTML;
+		});
+		builder.decorate();
+
+		assert.strictEqual(afterRenderHTML, outerHTML);
 	});
 });

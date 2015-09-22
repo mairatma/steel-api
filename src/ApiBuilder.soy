@@ -122,7 +122,6 @@
 
 /**
  * @param id
- * @param handler
  */
 {template .handler}
 	<div id="{$id}-handler" class="form-group">
@@ -133,9 +132,7 @@
 			<textarea
 				class="form-control handler"
 				name="handler"
-				placeholder="function(request, response) {lb} return 'Hello World'; {rb}"
-				data-oninput="handleInputHandler_">
-				{$handler ? $handler : ''}
+				placeholder="function(request, response) {lb} return 'Hello World'; {rb}">
 			</textarea>
 		</div>
 	</div>

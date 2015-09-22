@@ -27,6 +27,32 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Called automatically when the component is attached to the document. Builds the CodeMirror
+	 * text editors.
+	 */
+	attached() {
+		this.buildHandlerCodeMirror_();
+	}
+
+	/**
+	 * Builds the CodeMirror text editor for the handler field.
+	 * @protected
+	 */
+	buildHandlerCodeMirror_() {
+		this.handlerCodeMirror_ = CodeMirror.fromTextArea(
+			this.element.querySelector('.builder-section-handler textarea'),
+			{
+				lineNumbers: true
+			}
+		);
+		this.handlerCodeMirror_.setValue(this.handler);
+		this.handlerCodeMirror_.on('change', () => {
+			this.handler = this.handlerCodeMirror_.getValue();
+			this.skipSurfaceUpdateForAttr_ = 'handler';
+		});
+	}
+
+	/**
 	 * Overrides the original method from `ApiBase` so this can add any attributes
 	 * that are defined on the API's path but were not explicitly added to the
 	 * parameters list.
@@ -42,6 +68,14 @@ class ApiBuilder extends ApiBase {
 			}
 		});
 		return obj;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	disposeInternal() {
+		super.disposeInternal();
+		this.handlerCodeMirror_ = null;
 	}
 
 	/**
@@ -135,16 +169,6 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleInputDescription_(event) {
 		this.updateAttrFromInput_(event, 'description');
-	}
-
-	/**
-	 * Handles an `input` event on the handler text field. Updates the `handler` attr
-	 * with the new value.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	handleInputHandler_(event) {
-		this.updateAttrFromInput_(event, 'handler');
 	}
 
 	/**
@@ -278,6 +302,16 @@ class ApiBuilder extends ApiBase {
 			'type',
 			item !== 'Any Type' ? item.toLowerCase() : null
 		);
+	}
+
+	/**
+	 * Synchronization logic for the `handler` attr. Updates the value of the
+	 * CodeMirror editor.
+	 */
+	syncHandler() {
+		if (this.handlerCodeMirror_ && this.handlerCodeMirror_.getValue() !== this.handler) {
+			this.handlerCodeMirror_.setValue(this.handler);
+		}
 	}
 
 	/**

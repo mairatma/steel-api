@@ -12,6 +12,7 @@ module.exports = function (config) {
 
 		files: [
 			'bower_components/soyutils/soyutils.js',
+			'bower_components/codemirror/lib/codemirror.js',
 			'bower_components/metal*/src/**/*.js',
 			'bower_components/steel*/src/**/*.js',
 			'bower_components/api.js/src/**/*.js',
