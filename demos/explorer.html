@@ -29,7 +29,7 @@
 			description: 'Enables sending emails',
 			title: 'Email API',
 			host: 'http://localhost:3000/email',
-			path: '/:from/:to/:foo',
+			path: '/:from/:to',
 			method: ['post', 'put'],
 			handler: 'com.liferay.launchpad.email.EmailAction#post',
 			parameters: {
@@ -49,11 +49,6 @@
 					description: 'Subject of your email. Up to 1MB',
 					type: 'string',
 					validator: '$subject.length <= 1024'
-				},
-				to: {
-					description: 'Recipient email address. Multiple addresses should be defined in multiple parameters',
-					required: true,
-					validator: 'new RegExp($config.emailRegex).test($to)'
 				},
 				bcc: {
 					description: 'Bcc recipient email address. Multiple addresses should be defined in multiple parameters',

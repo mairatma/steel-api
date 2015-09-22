@@ -13,10 +13,7 @@ app.post('/email/:from/:to', function(req, res) {
 	});
 });
 app.put('/email/:from/:to', function(req, res) {
-	res.json({
-		body: req.body,
-		params: req.params
-	});
+	res.send('Email Sent');
 });
 
 app.listen(3000);

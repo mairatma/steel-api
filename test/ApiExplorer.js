@@ -295,7 +295,7 @@ describe('ApiExplorer', function() {
 		});
 	});
 
-	it('should not render non json body', function(done) {
+	it('should render response without json body', function(done) {
 		explorer = new ApiExplorer().render();
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
@@ -309,8 +309,8 @@ describe('ApiExplorer', function() {
 
 		explorer.once('attrsChanged', function() {
 			assert.ok(explorer.response);
-			assert.ok(!explorer.response.bodyString);
-			assert.ok(!explorer.element.querySelector('.explorer-code-container'));
+			assert.strictEqual('foo', explorer.response.bodyString);
+			assert.strictEqual('foo', explorer.element.querySelector('.explorer-code-container').textContent);
 			done();
 		});
 	});

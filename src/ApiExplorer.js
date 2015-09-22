@@ -139,10 +139,10 @@ class ApiExplorer extends ApiBase {
 			statusCode: response.statusCode(),
 			statusText: response.statusText()
 		};
-		var body = response.body();
-		if (core.isObject(body)) {
-			responseObj.body = body;
-			responseObj.bodyString = JSON.stringify(body);
+		responseObj.body = response.body();
+		responseObj.bodyString = responseObj.body;
+		if (core.isObject(responseObj.body)) {
+			responseObj.bodyString = JSON.stringify(responseObj.body);
 		}
 		this.response = responseObj;
 	}
