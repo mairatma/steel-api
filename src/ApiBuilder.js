@@ -44,6 +44,7 @@ class ApiBuilder extends ApiBase {
 			this.element.querySelector('.builder-section-handler textarea'),
 			{
 				lineNumbers: true,
+				mode: 'javascript',
 				value: this.handler
 			}
 		);
@@ -70,6 +71,7 @@ class ApiBuilder extends ApiBase {
 				Enter: function() {}
 			},
 			lineNumbers: true,
+			mode: 'javascript',
 			value: data.validator
 		});
 		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue()));

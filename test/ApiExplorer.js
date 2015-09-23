@@ -367,7 +367,7 @@ describe('ApiExplorer', function() {
 			requests[0].respond(
 				200,
 				{
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json;'
 				},
 				'{"foo":"bar"}'
 			);
@@ -378,6 +378,7 @@ describe('ApiExplorer', function() {
 
 				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
 				assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
+				assert.strictEqual('application/json', codeMirror.getOption('mode'));
 				done();
 			});
 		});
@@ -400,6 +401,33 @@ describe('ApiExplorer', function() {
 
 				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
 				assert.strictEqual('foo', codeMirror.getValue());
+				assert.strictEqual('text/html', codeMirror.getOption('mode'));
+				done();
+			});
+		});
+
+		it('should update CodeMirror\'s mode when response changes but CodeMirror is the same', function(done) {
+			explorer = new ApiExplorer({
+				response: {
+					bodyString: 'Body',
+					statusCode: 200,
+					statusText: 'OK',
+					type: 'text/html'
+				}
+			}).render();
+
+			var codeMirror = explorer.element.querySelector('.CodeMirror').CodeMirror;
+
+			explorer.response = {
+				bodyString: 'Body',
+				statusCode: 200,
+				statusText: 'OK',
+				type: 'application/javascript'
+			};
+			explorer.once('attrsChanged', function() {
+				var newCodeMirror = explorer.element.querySelector('.CodeMirror').CodeMirror;
+				assert.strictEqual(codeMirror, newCodeMirror);
+				assert.strictEqual('application/javascript', newCodeMirror.getOption('mode'));
 				done();
 			});
 		});

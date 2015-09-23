@@ -73,16 +73,21 @@ class ApiExplorer extends ApiBase {
 	 */
 	buildResponseCodeMirror_() {
 		var textarea = this.element.querySelector('.explorer-code-container textarea');
-		if (textarea && textarea !== this.responseTextarea_) {
-			this.responseTextarea_ = textarea;
-			this.responseCodeMirror_ = CodeMirror.fromTextArea(
-				textarea,
-				{
-					lineNumbers: true,
-					readOnly: true
-				}
-			);
-			this.responseCodeMirror_.setValue(this.response.bodyString);
+		if (textarea) {
+			if (textarea !== this.responseTextarea_) {
+				this.responseTextarea_ = textarea;
+				this.responseCodeMirror_ = CodeMirror.fromTextArea(
+					textarea,
+					{
+						lineNumbers: true,
+						mode: this.response.type,
+						readOnly: true
+					}
+				);
+				this.responseCodeMirror_.setValue(this.response.bodyString);
+			} else {
+				this.responseCodeMirror_.setOption('mode', this.response.type);
+			}
 		}
 	}
 
@@ -171,7 +176,10 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleResponse_(response) {
+		var type = response.headers().get('Content-Type') || '';
+		var separatorIndex = type.indexOf(';');
 		var responseObj = {
+			type: separatorIndex === -1 ? type : type.substr(0, separatorIndex),
 			statusCode: response.statusCode(),
 			statusText: response.statusText()
 		};
