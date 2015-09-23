@@ -374,10 +374,10 @@ describe('ApiExplorer', function() {
 
 			explorer.once('attrsChanged', function() {
 				assert.ok(explorer.response);
-				assert.strictEqual('{"foo":"bar"}', explorer.response.bodyString);
+				assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
 
 				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('{"foo":"bar"}', codeMirror.getValue());
+				assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
 				done();
 			});
 		});
