@@ -21,6 +21,7 @@ class ApiBuilder extends ApiBase {
 	constructor(opt_config) {
 		super(opt_config);
 
+		this.validatorCodeMirrors_ = {};
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
 		this.on('attrsChanged', this.handleAttrsChanged_);
@@ -42,14 +43,37 @@ class ApiBuilder extends ApiBase {
 		this.handlerCodeMirror_ = CodeMirror.fromTextArea(
 			this.element.querySelector('.builder-section-handler textarea'),
 			{
-				lineNumbers: true
+				lineNumbers: true,
+				value: this.handler
 			}
 		);
-		this.handlerCodeMirror_.setValue(this.handler);
 		this.handlerCodeMirror_.on('change', () => {
 			this.handler = this.handlerCodeMirror_.getValue();
 			this.skipSurfaceUpdateForAttr_ = 'handler';
 		});
+	}
+
+	/**
+	 * Builds the CodeMirror text editor for the validator fields.
+	 * @param {!Element} textarea
+	 * @param {number} index
+	 * @protected
+	 */
+	buildValidatorCodeMirror_(textarea, index) {
+		if (this.validatorCodeMirrors_[index] && this.validatorCodeMirrors_[index].getTextArea() === textarea) {
+			return;
+		}
+		var data = index === -1 ? this.body : this.parameters[index];
+		var codeMirror = CodeMirror.fromTextArea(textarea, {
+			extraKeys: {
+				// Prevent ENTER keys, to avoid line breaks.
+				Enter: function() {}
+			},
+			lineNumbers: true,
+			value: data.validator
+		});
+		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue()));
+		this.validatorCodeMirrors_[index] = codeMirror;
 	}
 
 	/**
@@ -76,6 +100,7 @@ class ApiBuilder extends ApiBase {
 	disposeInternal() {
 		super.disposeInternal();
 		this.handlerCodeMirror_ = null;
+		this.validatorCodeMirrors_ = null;
 	}
 
 	/**
@@ -90,7 +115,14 @@ class ApiBuilder extends ApiBase {
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(container, 'expanded');
-		container.querySelector('input[type="text"]').focus();
+
+		// Build the CodeMirror editor for the validator field when it becomes visible.
+		if (dom.hasClass(container, 'expanded')) {
+			var index = parseInt(container.getAttribute('data-index'), 10);
+			this.buildValidatorCodeMirror_(container.querySelector('textarea'), index);
+		}
+
+		container.querySelector('input[type="text"], .CodeMirror textarea').focus();
 	}
 
 	/**
@@ -249,7 +281,7 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleRenderSurface_(data, event) {
-		if (data.renderAttrs && data.renderAttrs.indexOf(this.skipSurfaceUpdateForAttr_) !== -1) {
+		if (data.renderAttrs.indexOf(this.skipSurfaceUpdateForAttr_) !== -1) {
 			this.clearSurfaceCache(data.surfaceId);
 			event.preventDefault();
 		}
@@ -348,37 +380,13 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Updates a param's data from an `input` or `change` event.
-	 * @param {!Event} event
-	 * @param {string} prefix
+	 * Updates a param's data from its index, name and value.
+	 * @param {number} index
 	 * @param {string} name
 	 * @param {*} value
 	 * @protected
 	 */
-	updateParamDataFromComponentEvent_(event, prefix, name, value) {
-		var component = event.target;
-		var suffix = component.id.substr(prefix.length);
-		if (suffix === 'Body') {
-			this.body[name] = value;
-			this.body = this.body;
-			this.skipSurfaceUpdateForAttr_ = 'body';
-		} else {
-			var index = parseInt(suffix, 10);
-			this.parameters[index][name] = value;
-			this.parameters = this.parameters;
-			this.skipSurfaceUpdateForAttr_ = 'parameters';
-		}
-	}
-
-	/**
-	 * Updates a param's data from an `input` or `change` event.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	updateParamDataFromDomEvent_(event) {
-		var name = event.target.getAttribute('data-name');
-		var value = event.target.value.trim();
-		var index = parseInt(event.delegateTarget.getAttribute('data-index'), 10);
+	updateParamData_(index, name, value) {
 		var param = index === -1 ? this.body : this.parameters[index];
 		if (param[name] !== value) {
 			param[name] = value;
@@ -389,6 +397,35 @@ class ApiBuilder extends ApiBase {
 				this.parameters = this.parameters;
 				this.skipSurfaceUpdateForAttr_ = 'parameters';
 			}
+		}
+	}
+
+	/**
+	 * Updates a param's data from an `input` or `change` event.
+	 * @param {!Event} event
+	 * @param {string} prefix
+	 * @param {string} name
+	 * @param {*} value
+	 * @protected
+	 */
+	updateParamDataFromComponentEvent_(event, prefix, name, value) {
+		var component = event.target;
+		var suffix = component.id.substr(prefix.length);
+		var index = suffix === 'Body' ? -1 : parseInt(suffix, 10);
+		this.updateParamData_(index, name, value);
+	}
+
+	/**
+	 * Updates a param's data from an `input` or `change` event.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	updateParamDataFromDomEvent_(event) {
+		var name = event.target.getAttribute('data-name');
+		if (name) {
+			var value = event.target.value.trim();
+			var index = parseInt(event.delegateTarget.getAttribute('data-index'), 10);
+			this.updateParamData_(index, name, value);
 		}
 	}
 }

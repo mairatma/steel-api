@@ -254,7 +254,7 @@
 				/>
 			</div>
 		</div>
-		<div class="builder-param-item-advanced">
+		<div class="builder-param-item-advanced" data-index="{$index}">
 			<button class="builder-param-item-advanced-btn btn-transparent" type="button" data-onclick="handleAdvancedSetupClick_">
 				Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span>
 			</button>
@@ -273,13 +273,11 @@
 			{/if}
 			<div class="row builder-param-item-row">
 				<div class="col-md-8">
-					<input
-						type="text"
-						class="form-control"
-						placeholder="Validator"
-						value="{$param.validator ? $param.validator : ''}"
-						data-name="validator"
-					/>
+					<textarea
+						class="builder-param-item-validator-textarea"
+						placeholder="Validator">
+						{$param.validator ? $param.validator : ''}
+					</textarea>
 				</div>
 			</div>
 		</div>

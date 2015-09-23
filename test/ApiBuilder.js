@@ -56,39 +56,35 @@ describe('ApiBuilder', function() {
 			var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
 			assert.strictEqual('foo', codeMirror.getValue());
 		});
+	});
 
-		it('should fill param values with the given parameters', function() {
-			builder = new ApiBuilder({
-				parameters: {
-					foo: {
-						type: 'string',
-						value: 'value',
-						description: 'desc',
-						required: true
-					},
-					bar: {
-						type: 'boolean',
-						validator: 'validator'
-					}
+	it('should fill param values with the given parameters', function() {
+		builder = new ApiBuilder({
+			parameters: {
+				foo: {
+					type: 'string',
+					value: 'value',
+					description: 'desc',
+					required: true
+				},
+				bar: {
+					type: 'boolean',
+					validator: 'validator'
 				}
-			}).render();
+			}
+		}).render();
 
-			var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
-			assert.strictEqual(2, paramRows.length);
-			assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
-			assert.strictEqual(2, builder.components[builder.id + '-typeSelect0'].selectedIndex);
-			assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
-			assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
-			assert.strictEqual('value', paramRows[0].querySelector('input[data-name="value"]').value);
-			assert.strictEqual('', paramRows[0].querySelector('input[data-name="validator"]').value);
+		var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
+		assert.strictEqual(2, paramRows.length);
+		assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
+		assert.strictEqual(2, builder.components[builder.id + '-typeSelect0'].selectedIndex);
+		assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
+		assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
 
-			assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
-			assert.strictEqual(3, builder.components[builder.id + '-typeSelect1'].selectedIndex);
-			assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
-			assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
-			assert.strictEqual('', paramRows[1].querySelector('input[data-name="value"]').value);
-			assert.strictEqual('validator', paramRows[1].querySelector('input[data-name="validator"]').value);
-		});
+		assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
+		assert.strictEqual(3, builder.components[builder.id + '-typeSelect1'].selectedIndex);
+		assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
+		assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
 	});
 
 	describe('Params', function() {
@@ -287,6 +283,38 @@ describe('ApiBuilder', function() {
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 		});
 
+		it('should fill param values for advanced setup with the given parameters', function() {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						type: 'string',
+						value: 'value',
+						description: 'desc',
+						required: true
+					},
+					bar: {
+						type: 'boolean',
+						validator: 'validator'
+					}
+				}
+			}).render();
+
+			var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
+			var advancedElement = paramRows[0].querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
+			assert.strictEqual('value', paramRows[0].querySelector('input[data-name="value"]').value);
+			var codeMirror = paramRows[0].querySelector('.CodeMirror').CodeMirror;
+			assert.strictEqual('', codeMirror.getValue());
+
+			advancedElement = paramRows[1].querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
+			assert.strictEqual('', paramRows[1].querySelector('input[data-name="value"]').value);
+			codeMirror = paramRows[1].querySelector('.CodeMirror').CodeMirror;
+			assert.strictEqual('validator', codeMirror.getValue());
+		});
+
 		it('should update "parameters" when value of a param is changed via input', function(done) {
 			builder = new ApiBuilder({
 				parameters: {
@@ -310,7 +338,7 @@ describe('ApiBuilder', function() {
 			});
 		});
 
-		it('should update "parameters" when validator of a param is changed via input', function(done) {
+		it('should update "parameters" when validator of a param is changed via input', function() {
 			builder = new ApiBuilder({
 				parameters: {
 					foo: {
@@ -319,18 +347,17 @@ describe('ApiBuilder', function() {
 				}
 			}).render();
 
+			var advancedElement = builder.element.querySelector('.builder-params .builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			var codeMirror = builder.element.querySelector('.builder-params .CodeMirror').CodeMirror;
+
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var element = builder.element.querySelector('.builder-params .builder-param-item [data-name="validator"]');
-			element.value = 'validator2';
-			dom.triggerEvent(element, 'input');
-			builder.once('attrsChanged', function() {
-				assert.strictEqual(1, listener.callCount);
-				assert.strictEqual('validator2', builder.parameters[0].validator);
-				assert.strictEqual('validator2', builder.toJson().parameters.foo.validator);
-				done();
-			});
+			codeMirror.setValue('validator2');
+			assert.strictEqual(1, listener.callCount);
+			assert.strictEqual('validator2', builder.parameters[0].validator);
+			assert.strictEqual('validator2', builder.toJson().parameters.foo.validator);
 		});
 
 		it('should not update "parameters" twice if input event is triggered but value doesn\'t change', function() {
@@ -415,30 +442,78 @@ describe('ApiBuilder', function() {
 
 			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(dom.hasClass(advancedElement, 'expanded'));
-			assert.strictEqual(advancedElement.parentNode.querySelector('[data-name="validator"]'), document.activeElement);
+			assert.strictEqual(advancedElement.parentNode.querySelector('.CodeMirror textarea'), document.activeElement);
 
 			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 		});
 
-		it('should update "body" when its validator is changed via input', function(done) {
+		it('should update "body" when its validator is changed via input', function() {
 			builder = new ApiBuilder({
 				body: {
 					validator: 'validator1'
 				}
 			}).render();
 
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
 			var listener = sinon.stub();
 			builder.once('bodyChanged', listener);
 
-			var element = builder.element.querySelector('.builder-param-item [data-name="validator"]');
-			element.value = 'validator2';
-			dom.triggerEvent(element, 'input');
+			var codeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+			codeMirror.setValue('validator2');
+			assert.strictEqual(1, listener.callCount);
+			assert.strictEqual('validator2', builder.body.validator);
+		});
+
+		it('should not allow adding line breaks to validator', function() {
+			builder = new ApiBuilder({
+				body: {
+					validator: 'validator1'
+				}
+			}).render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
+			var textarea = builder.element.querySelector('.builder-param-item .CodeMirror textarea');
+			dom.triggerEvent(textarea, 'keydown', {
+				keyCode: 13
+			});
+			assert.strictEqual('validator1', builder.body.validator);
+		});
+
+		it('should build a new CodeMirror if the textarea has changed when the advanced options are opened', function(done) {
+			builder = new ApiBuilder().render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			var codeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+
+			builder.body = {
+				validator: 'validator'
+			};
 			builder.once('attrsChanged', function() {
-				assert.strictEqual(1, listener.callCount);
-				assert.strictEqual('validator2', builder.body.validator);
+				advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+				dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+				var newCodeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+				assert.notStrictEqual(codeMirror, newCodeMirror);
 				done();
 			});
+		});
+
+		it('should not build a new CodeMirror if the textarea hasn\'t change when the advanced options are opened', function() {
+			builder = new ApiBuilder().render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			var codeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			var newCodeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+			assert.strictEqual(codeMirror, newCodeMirror);
 		});
 
 		it('should not update "body" twice if input event is triggered but value doesn\'t change', function() {
@@ -454,6 +529,18 @@ describe('ApiBuilder', function() {
 
 			dom.triggerEvent(element, 'input');
 			assert.strictEqual(1, listener.callCount);
+		});
+
+		it('should not add nameless option to "body" when input event is triggered for CodeMirror\'s textarea', function() {
+			builder = new ApiBuilder().render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
+			var textarea = builder.element.querySelector('.builder-param-item .CodeMirror textarea');
+			textarea.value = 'validator';
+			dom.triggerEvent(textarea, 'input');
+			assert.ok(!builder.body[null]);
 		});
 	});
 
