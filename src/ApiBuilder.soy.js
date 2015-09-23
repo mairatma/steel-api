@@ -194,7 +194,7 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
       output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + permissionChecked__soy165).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData163}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData163) + '</span></div>';
     }
   }
-  output += '</div></div><input type="text" class="form-control" placeholder="Validator" value="' + soy.$$escapeHtmlAttribute(opt_data.auth.validator ? opt_data.auth.validator : '') + '" data-oninput="handleAuthValidatorInput_" /></div></div>';
+  output += '</div></div><textarea>' + soy.$$escapeHtmlRcdata(opt_data.auth.validator ? opt_data.auth.validator : '') + '</textarea></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

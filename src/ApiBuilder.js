@@ -25,6 +25,7 @@ class ApiBuilder extends ApiBase {
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
 		this.on('attrsChanged', this.handleAttrsChanged_);
+		this.on('attrsSynced', this.handleAttrsSynced_);
 	}
 
 	/**
@@ -33,6 +34,45 @@ class ApiBuilder extends ApiBase {
 	 */
 	attached() {
 		this.buildHandlerCodeMirror_();
+		this.buildAuthValidatorCodeMirror_();
+	}
+
+	/**
+	 * Builds the CodeMirror text editor for the auth validator field.
+	 * @protected
+	 */
+	buildAuthValidatorCodeMirror_() {
+		var textarea = this.element.querySelector('.builder-section-auth textarea');
+		if (!this.authValidatorCodeMirror_ || textarea !== this.authValidatorCodeMirror_.getTextArea()) {
+			this.authValidatorCodeMirror_ = this.buildCodeMirror_(textarea, this.auth.validator, true);
+			this.authValidatorCodeMirror_.on('change', () => {
+				this.auth.validator = this.authValidatorCodeMirror_.getValue();
+				this.skipSurfaceUpdateForAttr_ = 'auth';
+			});
+		}
+	}
+
+	/**
+	 * Builds a CodeMirror instance with the given configuration.
+	 * @param {!Element} textarea
+	 * @param {string} value
+	 * @param {boolean=} opt_singleLine
+	 * @return {!CodeMirror}
+	 * @protected
+	 */
+	buildCodeMirror_(textarea, value, opt_singleLine) {
+		var options = {
+			lineNumbers: true,
+			mode: 'javascript',
+			value: value
+		};
+		if (opt_singleLine) {
+			options.extraKeys = {
+				// Prevent ENTER keys, to avoid line breaks.
+				Enter: function() {}
+			};
+		}
+		return CodeMirror.fromTextArea(textarea, options);
 	}
 
 	/**
@@ -40,13 +80,9 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	buildHandlerCodeMirror_() {
-		this.handlerCodeMirror_ = CodeMirror.fromTextArea(
+		this.handlerCodeMirror_ = this.buildCodeMirror_(
 			this.element.querySelector('.builder-section-handler textarea'),
-			{
-				lineNumbers: true,
-				mode: 'javascript',
-				value: this.handler
-			}
+			this.handler
 		);
 		this.handlerCodeMirror_.on('change', () => {
 			this.handler = this.handlerCodeMirror_.getValue();
@@ -65,15 +101,7 @@ class ApiBuilder extends ApiBase {
 			return;
 		}
 		var data = index === -1 ? this.body : this.parameters[index];
-		var codeMirror = CodeMirror.fromTextArea(textarea, {
-			extraKeys: {
-				// Prevent ENTER keys, to avoid line breaks.
-				Enter: function() {}
-			},
-			lineNumbers: true,
-			mode: 'javascript',
-			value: data.validator
-		});
+		var codeMirror = this.buildCodeMirror_(textarea, data.validator, true);
 		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue()));
 		this.validatorCodeMirrors_[index] = codeMirror;
 	}
@@ -101,6 +129,7 @@ class ApiBuilder extends ApiBase {
 	 */
 	disposeInternal() {
 		super.disposeInternal();
+		this.authValidatorCodeMirror_ = null;
 		this.handlerCodeMirror_ = null;
 		this.validatorCodeMirrors_ = null;
 	}
@@ -145,15 +174,13 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles an `input` event on auth validator text field. Updates the `auth` attr with the
-	 * new value.
-	 * @param {!Event} event
+	 * Handles an `attrsSynced` event on this component. Clears the variable that is
+	 * used for skipping surface updates, since any updates have already happened by
+	 * the time this is called.
 	 * @protected
 	 */
-	handleAuthValidatorInput_(event) {
-		this.auth.validator = event.delegateTarget.value;
-		this.auth = this.auth;
-		this.skipSurfaceUpdateForAttr_ = 'auth';
+	handleAttrsSynced_() {
+		this.skipSurfaceUpdateForAttr_ = null;
 	}
 
 	/**
@@ -287,7 +314,6 @@ class ApiBuilder extends ApiBase {
 			this.clearSurfaceCache(data.surfaceId);
 			event.preventDefault();
 		}
-		this.skipSurfaceUpdateForAttr_ = null;
 	}
 
 	/**
@@ -336,6 +362,16 @@ class ApiBuilder extends ApiBase {
 			'type',
 			item !== 'Any Type' ? item.toLowerCase() : null
 		);
+	}
+
+	/**
+	 * Synchronization logic for the `auth` attr. Rebuilds the CodeMirror editor
+	 * for the validator field when the textarea has been repainted.
+	 */
+	syncAuth() {
+		if (this.wasRendered && this.skipSurfaceUpdateForAttr_ !== 'auth') {
+			this.buildAuthValidatorCodeMirror_();
+		}
 	}
 
 	/**

@@ -113,7 +113,8 @@
 	color: rgba(35, 50, 64, 0.8);
 }
 
-.builder-param-item-row .CodeMirror {
+.builder-param-item-row .CodeMirror,
+.builder-section-auth .CodeMirror {
 	height: 30px;
 }
 

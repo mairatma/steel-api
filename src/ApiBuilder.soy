@@ -342,12 +342,7 @@
 					{/if}
 				</div>
 			</div>
-			<input
-					type="text"
-					class="form-control"
-					placeholder="Validator"
-					value="{$auth.validator ? $auth.validator : ''}"
-					data-oninput="handleAuthValidatorInput_" />
+			<textarea>{$auth.validator ? $auth.validator : ''}</textarea>
 		</div>
 	</div>
 {/template}

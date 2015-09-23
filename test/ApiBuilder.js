@@ -581,10 +581,33 @@ describe('ApiBuilder', function() {
 		});
 
 		it('should update "auth" when validator is changed via input', function() {
-			var element = builder.element.querySelector('.builder-section-auth input');
-			element.value = 'validator';
-			dom.triggerEvent(element, 'input');
+			var codeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
+			codeMirror.setValue('validator');
 			assert.strictEqual('validator', builder.auth.validator);
+		});
+
+		it('should update CodeMirror editor for validator if value changes through attr', function(done) {
+			builder.auth = {
+				validator: 'validator'
+			};
+			builder.once('attrsChanged', function() {
+				builder.once('attrsChanged', function() {
+					var codeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
+					codeMirror.setValue('validator');
+					assert.strictEqual('validator', builder.auth.validator);
+					done();
+				});
+			});
+		});
+
+		it('should not create new CodeMirror editor if textarea is not repainted', function(done) {
+			var codeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
+			builder.auth = builder.auth;
+			builder.once('attrsChanged', function() {
+				var newCodeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
+				assert.strictEqual(codeMirror, newCodeMirror);
+				done();
+			});
 		});
 
 		it('should update "auth" without errors when first permission is added', function() {
