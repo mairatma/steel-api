@@ -125,6 +125,16 @@
 	padding: 0 20px;
 }
 
+.explorer-section-try-icon {
+	@include anim(color);
+	z-index: 90;
+	cursor: pointer;
+}
+
+.explorer-section-try-icon:hover {
+	color: rgba($primary, .6);
+}
+
 // Section / Response ----------------------------------------------------------
 
 .explorer-status-container {

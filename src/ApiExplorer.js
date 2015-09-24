@@ -4,6 +4,7 @@ import core from 'bower:metal/src/core';
 import ApiBase from './ApiBase';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
+import Clipboard from 'bower:steel-clipboard/src/Clipboard';
 import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
 
@@ -65,6 +66,7 @@ class ApiExplorer extends ApiBase {
 	 */
 	attached() {
 		this.buildResponseCodeMirror_();
+		this.buildClipboard_();
 	}
 
 	/**
@@ -92,12 +94,21 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Creates a new `Clipboard` instance for the "Try out" input field.
+	 * @protected
+	 */
+	buildClipboard_() {
+		this.clipboard = new Clipboard();
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	disposeInternal() {
 		super.disposeInternal();
 		this.responseCodeMirror_ = null;
 		this.responseTextarea_ = null;
+		this.clipboard.dispose();
 	}
 
 	/**

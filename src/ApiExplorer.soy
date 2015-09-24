@@ -186,7 +186,12 @@
 				{else}
 					<div class="input-group-addon explorer-section-try-method">{$method[0]}</div>
 				{/if}
-				<input class="form-control" type="text" value="{$host ? $host : ''}{$replacedPath ? $replacedPath : ''}" readonly>
+
+				<div class="input-inner-addon input-inner-addon-left">
+					<button data-clipboard data-target="explorer-section-try-input" class="explorer-section-try-icon btn-transparent icon-16-link" type="button"></button>
+					<input id="explorer-section-try-input" class="form-control" type="text" value="{$host ? $host : ''}{$replacedPath ? $replacedPath : ''}" readonly>
+				</div>
+
 				<div class="input-group-btn">
 					<button
 						class="btn btn-sm btn-success explorer-section-try-button"
