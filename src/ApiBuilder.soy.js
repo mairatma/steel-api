@@ -170,31 +170,34 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a></p><div class="builder-section-auth"><div class="builder-section-auth-row"><div class="builder-section-auth-roles"><p class="api-section-title">Roles</p>';
-  if (opt_data.roles) {
-    var roleList145 = opt_data.roles;
-    var roleListLen145 = roleList145.length;
-    for (var roleIndex145 = 0; roleIndex145 < roleListLen145; roleIndex145++) {
-      var roleData145 = roleList145[roleIndex145];
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a></p><div class="builder-section-auth"><div class="builder-section-auth-row">';
+  if (opt_data.roles && opt_data.roles.length) {
+    output += '<div class="builder-section-auth-roles"><p class="api-section-title">Roles</p>';
+    var roleList146 = opt_data.roles;
+    var roleListLen146 = roleList146.length;
+    for (var roleIndex146 = 0; roleIndex146 < roleListLen146; roleIndex146++) {
+      var roleData146 = roleList146[roleIndex146];
       output += '<div class="builder-param-switcher-container">';
-      var roleChecked__soy147 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.roles, item: roleData145}, null, opt_ijData));
-      roleChecked__soy147 = soydata.$$markUnsanitizedTextForInternalBlocks(roleChecked__soy147);
-      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + roleChecked__soy147).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData145}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData145) + '</span></div>';
+      var roleChecked__soy148 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.roles, item: roleData146}, null, opt_ijData));
+      roleChecked__soy148 = soydata.$$markUnsanitizedTextForInternalBlocks(roleChecked__soy148);
+      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + roleChecked__soy148).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData146}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData146) + '</span></div>';
     }
+    output += '</div>';
   }
-  output += '</div><div class="builder-section-auth-permissions"><p class="api-section-title">Permissions</p>';
-  if (opt_data.permissions) {
-    var permissionList163 = opt_data.permissions;
-    var permissionListLen163 = permissionList163.length;
-    for (var permissionIndex163 = 0; permissionIndex163 < permissionListLen163; permissionIndex163++) {
-      var permissionData163 = permissionList163[permissionIndex163];
+  if (opt_data.permissions && opt_data.permissions.length) {
+    output += '<div class="builder-section-auth-permissions"><p class="api-section-title">Permissions</p>';
+    var permissionList165 = opt_data.permissions;
+    var permissionListLen165 = permissionList165.length;
+    for (var permissionIndex165 = 0; permissionIndex165 < permissionListLen165; permissionIndex165++) {
+      var permissionData165 = permissionList165[permissionIndex165];
       output += '<div class="builder-param-switcher-container">';
-      var permissionChecked__soy165 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.permissions, item: permissionData163}, null, opt_ijData));
-      permissionChecked__soy165 = soydata.$$markUnsanitizedTextForInternalBlocks(permissionChecked__soy165);
-      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + permissionChecked__soy165).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData163}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData163) + '</span></div>';
+      var permissionChecked__soy167 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.permissions, item: permissionData165}, null, opt_ijData));
+      permissionChecked__soy167 = soydata.$$markUnsanitizedTextForInternalBlocks(permissionChecked__soy167);
+      output += soy.$$escapeHtml(Templates.Switcher.content({checked: ('' + permissionChecked__soy167).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData165}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData165) + '</span></div>';
     }
+    output += '</div>';
   }
-  output += '</div></div><textarea placeholder="Validator">' + soy.$$escapeHtmlRcdata(opt_data.auth.validator ? opt_data.auth.validator : '') + '</textarea></div></div>';
+  output += '</div><textarea placeholder="Validator">' + soy.$$escapeHtmlRcdata(opt_data.auth.validator ? opt_data.auth.validator : '') + '</textarea></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -212,11 +215,11 @@ if (goog.DEBUG) {
 Templates.ApiBuilder.arrHasItem = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   if (opt_data.array) {
-    var arrItemList184 = opt_data.array;
-    var arrItemListLen184 = arrItemList184.length;
-    for (var arrItemIndex184 = 0; arrItemIndex184 < arrItemListLen184; arrItemIndex184++) {
-      var arrItemData184 = arrItemList184[arrItemIndex184];
-      output += (opt_data.item == arrItemData184) ? '\'true\'' : '';
+    var arrItemList187 = opt_data.array;
+    var arrItemListLen187 = arrItemList187.length;
+    for (var arrItemIndex187 = 0; arrItemIndex187 < arrItemListLen187; arrItemIndex187++) {
+      var arrItemData187 = arrItemList187[arrItemIndex187];
+      output += (opt_data.item == arrItemData187) ? '\'true\'' : '';
     }
   }
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);

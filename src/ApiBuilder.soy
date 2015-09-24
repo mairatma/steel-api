@@ -297,9 +297,9 @@
 		</p>
 		<div class="builder-section-auth">
 			<div class="builder-section-auth-row">
-				<div class="builder-section-auth-roles">
-					<p class="api-section-title">Roles</p>
-					{if $roles}
+				{if $roles and $roles.length}
+					<div class="builder-section-auth-roles">
+						<p class="api-section-title">Roles</p>
 						{foreach $role in $roles}
 							<div class="builder-param-switcher-container">
 								{let $roleChecked kind="text"}
@@ -317,11 +317,11 @@
 								<span class="builder-param-label"> {$role}</span>
 							</div>
 						{/foreach}
-					{/if}
-				</div>
-				<div class="builder-section-auth-permissions">
-					<p class="api-section-title">Permissions</p>
-					{if $permissions}
+					</div>
+				{/if}
+				{if $permissions and $permissions.length}
+					<div class="builder-section-auth-permissions">
+						<p class="api-section-title">Permissions</p>
 						{foreach $permission in $permissions}
 							<div class="builder-param-switcher-container">
 								{let $permissionChecked kind="text"}
@@ -339,8 +339,8 @@
 								<span class="builder-param-label"> {$permission}</span>
 							</div>
 						{/foreach}
-					{/if}
-				</div>
+					</div>
+				{/if}
 			</div>
 			<textarea placeholder="Validator">{$auth.validator ? $auth.validator : ''}</textarea>
 		</div>
