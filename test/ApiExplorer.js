@@ -208,6 +208,16 @@ describe('ApiExplorer', function() {
 		assert.strictEqual('foo.org/data/12', requests[0].url);
 	});
 
+	it('should ignore wildcard on request path if no value was chosen for it', function() {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			path: '/data/*'
+		}).render();
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual('foo.org/data', requests[0].url);
+	});
+
 	it('should send request with chosen path params after path is changed', function(done) {
 		explorer = new ApiExplorer({
 			host: 'foo.org',

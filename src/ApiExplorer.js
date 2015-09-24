@@ -141,7 +141,8 @@ class ApiExplorer extends ApiBase {
 			method = methodSelect.items[methodSelect.selectedIndex];
 		}
 
-		var launchpad = Launchpad.url(this.host + this.replacedPath);
+		var path = this.replacedPath.replace(/\/(\*)/, () => '');
+		var launchpad = Launchpad.url(this.host + path);
 		launchpad[method](this.getBodyParams_()).then(this.handleResponse_.bind(this));
 	}
 
