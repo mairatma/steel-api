@@ -23,3 +23,56 @@
 .api-section-title-link:focus {
 	color: rgba($primary, .6);
 }
+
+/* CodeMirror
+   ========================================================================== */
+
+.CodeMirror {
+	@include anim(border);
+	border: 1px solid rgba($primary, .2);
+	border-radius: $border-radius-base;
+	padding: 0 1px;
+}
+
+.CodeMirror-sizer {
+	padding: 10px;
+}
+
+.CodeMirror-focused {
+	border-color: $brand-success;
+}
+
+.CodeMirror-lines {
+	font-family: 'Roboto Mono', monospace;
+}
+
+.CodeMirror-linenumbers {
+	background: white;
+
+}
+
+.CodeMirror-gutter-elt {
+	margin-left: -10px;
+}
+
+.CodeMirror-linenumber {
+	padding: 0 12px 0 0;
+}
+
+.CodeMirror-gutters {
+	border-color: rgba($primary, .2);
+}
+
+.CodeMirror-empty {
+	color: rgba($primary, .3);
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+	background: rgba($primary, .1);
+}
+
+.CodeMirror-line,
+.CodeMirror-line > span,
+.CodeMirror-line > span > span {
+	@include selection;
+}

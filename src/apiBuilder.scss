@@ -115,7 +115,7 @@
 
 .builder-param-item-row .CodeMirror,
 .builder-section-auth .CodeMirror {
-	height: 30px;
+	height: 52px;
 }
 
 .builder-param-actions .dropdown-menu {
@@ -134,12 +134,15 @@
 
 .builder-section-auth,
 .builder-section-auth-roles,
-.builder-section-auth-permissions,
-.builder-section-handler {
+.builder-section-auth-permissions {
 	border: 1px solid rgba($primary, .2);
 	border-radius: $border-radius-base;
 	padding: 0 30px;
 	margin-bottom: 20px;
+}
+
+.builder-section-handler .CodeMirror {
+	padding-left: 10px;
 }
 
 .builder-section-auth {

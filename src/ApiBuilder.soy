@@ -134,7 +134,7 @@
 			<textarea
 				class="form-control handler"
 				name="handler"
-				placeholder='function handler(request) {lb}{\n}&nbsp;&nbsp;return "Hello: " + request.param("world");{\n}{rb}'>
+				placeholder='function handler(request) {lb}{\n}&nbsp;&nbsp;return "Hello: " + request.param("foo");{\n}{rb}'>
 				{$handler ? $handler : ''}
 			</textarea>
 		</div>
@@ -342,7 +342,7 @@
 					{/if}
 				</div>
 			</div>
-			<textarea>{$auth.validator ? $auth.validator : ''}</textarea>
+			<textarea placeholder="Validator">{$auth.validator ? $auth.validator : ''}</textarea>
 		</div>
 	</div>
 {/template}

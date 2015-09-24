@@ -164,10 +164,9 @@
 	border-color: $brand-danger;
 }
 
-.explorer-code-container {
-	margin-right: -29px;
-}
-
 .explorer-code-container .CodeMirror {
+	border: 0;
 	height: 400px;
+	margin-left: -20px;
+	margin-right: -30px;
 }
