@@ -146,7 +146,7 @@ Templates.ApiExplorer.tryParams = function(opt_data, opt_ignored, opt_ijData) {
       output += '<div class="col-md-3"><label for="from">' + soy.$$escapeHtml(paramData285.name) + ' ' + ((paramData285.required) ? '<span class="explorer-icon-required">*</span>' : '') + '</label><input name="' + soy.$$escapeHtmlAttribute(paramData285.name) + '" class="form-control explorer-section-try-param" type="text" autocomplete="off" placeholder="' + soy.$$escapeHtmlAttribute(paramData285.value ? paramData285.value : '') + '" data-index="' + soy.$$escapeHtmlAttribute(paramIndex285) + '" data-oninput="handleParamInput_" ></div>';
     }
   }
-  output += ((('' + opt_data.path).indexOf('/*') != -1) ? '<div class="col-md-3"><label for="from">Wildcard <span class="explorer-icon-required">*</span></label><input name="Wildcard" class="form-control explorer-section-try-param" type="text" autocomplete="off" data-oninput="handleWildcardInput_" ></div>' : '') + '</div>';
+  output += ((('' + opt_data.path).indexOf('/*') != -1) ? '<div class="col-md-3"><label for="from">Wildcard</label><input name="Wildcard" class="form-control explorer-section-try-param" type="text" autocomplete="off" data-oninput="handleWildcardInput_" ></div>' : '') + '</div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
