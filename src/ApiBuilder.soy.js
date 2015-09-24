@@ -94,7 +94,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a></p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder="function(request, response) { return \'Hello World\'; }">' + soy.$$escapeHtmlRcdata(opt_data.handler ? opt_data.handler : '') + '</textarea></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a></p><div class="builder-section-handler"><textarea class="form-control handler" name="handler" placeholder=\'function handler(request) {\n&nbsp;&nbsp;return "Hello: " + request.param("world");\n}\'>' + soy.$$escapeHtmlRcdata(opt_data.handler ? opt_data.handler : '') + '</textarea></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';

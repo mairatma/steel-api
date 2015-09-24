@@ -134,7 +134,7 @@
 			<textarea
 				class="form-control handler"
 				name="handler"
-				placeholder="function(request, response) {lb} return 'Hello World'; {rb}">
+				placeholder='function handler(request) {lb}{\n}&nbsp;&nbsp;return "Hello: " + request.param("world");{\n}{rb}'>
 				{$handler ? $handler : ''}
 			</textarea>
 		</div>
