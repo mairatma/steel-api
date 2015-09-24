@@ -46,7 +46,7 @@ class ApiBuilder extends ApiBase {
 		if (!this.authValidatorCodeMirror_ || textarea !== this.authValidatorCodeMirror_.getTextArea()) {
 			this.authValidatorCodeMirror_ = this.buildCodeMirror_(textarea, this.auth.validator, true);
 			this.authValidatorCodeMirror_.on('change', () => {
-				this.auth.validator = this.authValidatorCodeMirror_.getValue();
+				this.setObjectValue_(this.auth, 'validator', this.authValidatorCodeMirror_.getValue().trim());
 				this.skipSurfaceUpdateForAttr_ = 'auth';
 			});
 		}
@@ -102,7 +102,7 @@ class ApiBuilder extends ApiBase {
 		}
 		var data = index === -1 ? this.body : this.parameters[index];
 		var codeMirror = this.buildCodeMirror_(textarea, data.validator, true);
-		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue()));
+		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue().trim()));
 		this.validatorCodeMirrors_[index] = codeMirror;
 	}
 
@@ -365,6 +365,22 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Sets the value of the given object key, removing the key if the value
+	 * is empty.
+	 * @param {!Object} obj
+	 * @param {string} key
+	 * @param {string} value
+	 * @protected
+	 */
+	setObjectValue_(obj, key, value) {
+		if (value === '') {
+			delete obj[key];
+		} else {
+			obj[key] = value;
+		}
+	}
+
+	/**
 	 * Synchronization logic for the `auth` attr. Rebuilds the CodeMirror editor
 	 * for the validator field when the textarea has been repainted.
 	 */
@@ -426,8 +442,9 @@ class ApiBuilder extends ApiBase {
 	 */
 	updateParamData_(index, name, value) {
 		var param = index === -1 ? this.body : this.parameters[index];
-		if (param[name] !== value) {
-			param[name] = value;
+		var prevValue = param[name] || '';
+		if (prevValue !== value) {
+			this.setObjectValue_(param, name, value);
 			if (index === -1) {
 				this.body = this.body;
 				this.skipSurfaceUpdateForAttr_ = 'body';

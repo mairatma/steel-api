@@ -360,6 +360,23 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('validator2', builder.toJson().parameters.foo.validator);
 		});
 
+		it('should remove key from the param when new value is empty', function() {
+			builder = new ApiBuilder({
+				parameters: {
+					foo: {
+						validator: 'value1'
+					}
+				}
+			}).render();
+
+			var advancedElement = builder.element.querySelector('.builder-params .builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			var codeMirror = builder.element.querySelector('.builder-params .CodeMirror').CodeMirror;
+
+			codeMirror.setValue('');
+			assert.ok(!('validator' in builder.parameters[0]));
+		});
+
 		it('should not update "parameters" twice if input event is triggered but value doesn\'t change', function() {
 			builder = new ApiBuilder({
 				parameters: {
@@ -467,7 +484,22 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('validator2', builder.body.validator);
 		});
 
-		it('should not allow adding line breaks to validator', function() {
+		it('should remove key from "body" when new value is empty', function() {
+			builder = new ApiBuilder({
+				body: {
+					validator: 'validator1'
+				}
+			}).render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+
+			var codeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
+			codeMirror.setValue('');
+			assert.ok(!('validator' in builder.body));
+		});
+
+		it('should not allow adding line breaks on validator', function() {
 			builder = new ApiBuilder({
 				body: {
 					validator: 'validator1'
@@ -523,7 +555,7 @@ describe('ApiBuilder', function() {
 			builder.on('bodyChanged', listener);
 
 			var element = builder.element.querySelector('.builder-param-item [data-name="description"]');
-			element.description = 'bar';
+			element.value = 'bar';
 			dom.triggerEvent(element, 'input');
 			assert.strictEqual(1, listener.callCount);
 
@@ -584,6 +616,13 @@ describe('ApiBuilder', function() {
 			var codeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
 			codeMirror.setValue('validator');
 			assert.strictEqual('validator', builder.auth.validator);
+		});
+
+		it('should remove "validator" from "auth" when new value is empty', function() {
+			var codeMirror = builder.element.querySelector('.builder-section-auth .CodeMirror').CodeMirror;
+			codeMirror.setValue('validator');
+			codeMirror.setValue('');
+			assert.ok(!('validator' in builder.auth));
 		});
 
 		it('should update CodeMirror editor for validator if value changes through attr', function(done) {
