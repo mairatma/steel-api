@@ -105,7 +105,7 @@
 			<div class="input-group">
 				<div class="input-group-addon">{$host ? $host : ''}</div>
 				<div class="input-inner-addon input-inner-addon-left">
-					<span class="input-inner-icon-helper icon-16-info"></span>
+					<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, natus!"></span>
 					<input
 						type="text"
 						class="input-group-addon-input form-control"
@@ -267,7 +267,7 @@
 					<div class="col-md-8">
 						<label class="api-section-label" for="builder-param-value-{$index}">Value</label>
 						<div class="input-inner-addon input-inner-addon-left">
-							<span class="input-inner-icon-helper icon-16-info"></span>
+							<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, quod."></span>
 							<input
 								id="builder-param-value-{$index}"
 								type="text"
@@ -284,7 +284,7 @@
 				<div class="col-md-8">
 					<label class="api-section-label" for="builder-param-validator-{$index}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
-						<span class="input-inner-icon-helper icon-16-info"></span>
+						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, magni."></span>
 						<textarea
 							id="builder-param-validator-{$index}"
 							class="builder-param-item-validator-textarea"
@@ -357,7 +357,10 @@
 				{/if}
 			</div>
 			<label class="api-section-label" for="builder-param-auth-validator">Validator</label>
-			<textarea id="builder-param-auth-validator" placeholder="$auth !== null">{$auth.validator ? $auth.validator : ''}</textarea>
+			<div class="input-inner-addon input-inner-addon-left">
+				<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, natus!"></span>
+				<textarea id="builder-param-auth-validator" placeholder="$auth !== null">{$auth.validator ? $auth.validator : ''}</textarea>
+			</div>
 		</div>
 	</div>
 {/template}
