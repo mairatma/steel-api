@@ -73,7 +73,7 @@
 {template .methods}
 	<div id="{$id}-methods" class="api-builder-methods">
 		<p class="api-section-title">
-			Method <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Method <a class="api-section-title-link show-tooltip" alt="Learn more about Methods" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		{call Templates.ButtonGroup.content}
 			{param buttons: [
@@ -99,7 +99,7 @@
 {template .path}
 	<div id="{$id}-path">
 		<p class="api-section-title">
-			Endpoint <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more about Endpoints" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="form-group">
 			<div class="input-group">
@@ -128,7 +128,7 @@
 {template .handler}
 	<div id="{$id}-handler" class="form-group">
 		<p class="api-section-title">
-			Handler <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Handler <a class="api-section-title-link show-tooltip" alt="Learn more about Handlers" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-handler">
 			<textarea
@@ -148,7 +148,7 @@
 {template .body}
 	<div id="{$id}-body">
 		<p class="api-section-title">
-			Body <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Body <a class="api-section-title-link show-tooltip" alt="Learn more about Body" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-body">
 			{call .param}
@@ -167,7 +167,7 @@
 {template .params}
 	<div id="{$id}-params" class="builder-params">
 		<p class="api-section-title">
-			Parameters <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Parameters <a class="api-section-title-link show-tooltip" alt="Learn more about Parameters" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-params">
 			{if $parameters}
@@ -293,7 +293,7 @@
 {template .auth}
 	<div id="{$id}-auth" class="form-group">
 		<p class="api-section-title">
-			Authentication <a class="api-section-title-link" href="#"><span class="icon-12-external"></span></a>
+			Authentication <a class="api-section-title-link show-tooltip" alt="Learn more about Authentication" href="#"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-auth">
 			<div class="builder-section-auth-row">
