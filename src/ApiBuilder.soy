@@ -105,7 +105,7 @@
 			<div class="input-group">
 				<div class="input-group-addon">{$host ? $host : ''}</div>
 				<div class="input-inner-addon input-inner-addon-left">
-					<span class="icon-16-info"></span>
+					<span class="input-inner-icon-helper icon-16-info"></span>
 					<input
 						type="text"
 						class="input-group-addon-input form-control"
@@ -205,16 +205,18 @@
 		<div class="row builder-param-item-row">
 			{if not $isBody}
 				<div class="col-md-4">
-					<input type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
+					<label class="api-section-label" for="builder-param-name-{$index}">Name</label>
+					<input id="builder-param-name-{$index}" type="text" class="form-control" placeholder="How is this parameter called?" value="{$param.name}" data-name="name" />
 				</div>
 			{/if}
 			<div class="col-md-4">
-				{let $typesMap0: quoteKeysIfJs(['number': 1, 'string': 2, 'boolean': 3, 'array': 4, 'object': 5]) /}
+				<label class="api-section-label" for="builder-param-type-{$index}-{$suffix}">Type</label>
+				{let $typesMap0: quoteKeysIfJs(['any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4,  'string': 5]) /}
 				{call Templates.Select.content}
+					{param id: 'builder-param-type-' + $index + '-' + $suffix /}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
-					{param id: $id + '-typeSelect' + $suffix /}
-					{param items: ['Any Type', 'Number', 'String', 'Boolean', 'Array', 'Object'] /}
+					{param items: ['Any', 'Array', 'Boolean', 'Number', 'Object', 'String'] /}
 					{param label: 'Type' /}
 					{param selectedIndex: $param.type ? $typesMap0[$param.type] : 0 /}
 				{/call}
@@ -245,10 +247,12 @@
 		</div>
 		<div class="row builder-param-item-row">
 			<div class="col-md-8">
+				<label class="api-section-label" for="builder-param-description-{$index}">Description</label>
 				<input
+					id="builder-param-description-{$index}"
 					type="text"
 					class="form-control"
-					placeholder="Description"
+					placeholder="What this parameter does?"
 					value="{$param.description ? $param.description : ''}"
 					data-name="description"
 				/>
@@ -261,23 +265,33 @@
 			{if not $isBody}
 				<div class="row builder-param-item-row">
 					<div class="col-md-8">
-						<input
-							type="text"
-							class="form-control"
-							placeholder="Value"
-							value="{$param.value ? $param.value : ''}"
-							data-name="value"
-						/>
+						<label class="api-section-label" for="builder-param-value-{$index}">Value</label>
+						<div class="input-inner-addon input-inner-addon-left">
+							<span class="input-inner-icon-helper icon-16-info"></span>
+							<input
+								id="builder-param-value-{$index}"
+								type="text"
+								class="form-control"
+								placeholder="What is the default value?"
+								value="{$param.value ? $param.value : ''}"
+								data-name="value"
+							/>
+						</div>
 					</div>
 				</div>
 			{/if}
 			<div class="row builder-param-item-row">
 				<div class="col-md-8">
-					<textarea
-						class="builder-param-item-validator-textarea"
-						placeholder="Validator">
-						{$param.validator ? $param.validator : ''}
-					</textarea>
+					<label class="api-section-label" for="builder-param-validator-{$index}">Validator</label>
+					<div class="input-inner-addon input-inner-addon-left">
+						<span class="input-inner-icon-helper icon-16-info"></span>
+						<textarea
+							id="builder-param-validator-{$index}"
+							class="builder-param-item-validator-textarea"
+							placeholder="$auth !== null">
+							{$param.validator ? $param.validator : ''}
+						</textarea>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -342,7 +356,8 @@
 					</div>
 				{/if}
 			</div>
-			<textarea placeholder="Validator">{$auth.validator ? $auth.validator : ''}</textarea>
+			<label class="api-section-label" for="builder-param-auth-validator">Validator</label>
+			<textarea id="builder-param-auth-validator" placeholder="$auth !== null">{$auth.validator ? $auth.validator : ''}</textarea>
 		</div>
 	</div>
 {/template}

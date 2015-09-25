@@ -135,8 +135,9 @@
 		{if $parameters}
 			{foreach $param in $parameters}
 				<div class="col-md-3">
-					<label for="from">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
+					<label for="explorer-param-{$param.name}" class="api-section-label">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
 					<input
+						id="explorer-param-{$param.name}"
 						name="{$param.name}"
 						class="form-control explorer-section-try-param"
 						type="text"
@@ -150,8 +151,9 @@
 		{/if}
 		{if strContains($path, '/*')}
 			<div class="col-md-3">
-				<label for="from">Wildcard</label>
+				<label for="explorer-param-wildcard" class="api-section-label">Wildcard</label>
 				<input
+					id="explorer-param-wildcard"
 					name="Wildcard"
 					class="form-control explorer-section-try-param"
 					type="text"

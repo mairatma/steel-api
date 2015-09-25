@@ -24,6 +24,11 @@
 	color: rgba($primary, .6);
 }
 
+.api-section-label {
+	color: rgba($primary, .4);
+	font-size: 12px;
+}
+
 /* CodeMirror
    ========================================================================== */
 
@@ -35,7 +40,7 @@
 }
 
 .CodeMirror-sizer {
-	padding: 10px;
+	padding: 11px 10px;
 }
 
 .CodeMirror-focused {
@@ -48,7 +53,6 @@
 
 .CodeMirror-linenumbers {
 	background: white;
-
 }
 
 .CodeMirror-gutter-elt {
@@ -75,4 +79,12 @@
 .CodeMirror-line > span,
 .CodeMirror-line > span > span {
 	@include selection;
+}
+
+.input-inner-addon-left .CodeMirror {
+	padding-right: 80px;
+}
+
+.input-inner-addon-right .CodeMirror {
+	padding-left: 80px;
 }
