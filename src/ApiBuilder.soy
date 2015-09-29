@@ -245,24 +245,43 @@
 				</div>
 			{/if}
 		</div>
-		<div class="row builder-param-item-row">
-			<div class="col-md-8">
-				<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
-				<input
-					id="builder-param-description-{$suffix}"
-					type="text"
-					class="form-control"
-					placeholder="What this parameter does?"
-					value="{$param.description ? $param.description : ''}"
-					data-name="description"
-				/>
+		{if not $isBody}
+			<div class="row builder-param-item-row">
+				<div class="col-md-8">
+					<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
+					<input
+						id="builder-param-description-{$suffix}"
+						type="text"
+						class="form-control"
+						placeholder="Type what this parameter does"
+						value="{$param.description ? $param.description : ''}"
+						data-name="description"
+					/>
+				</div>
 			</div>
-		</div>
+		{/if}
 		<div class="builder-param-item-advanced" data-index="{$index}">
 			<button class="builder-param-item-advanced-btn btn-transparent" type="button" data-onclick="handleAdvancedSetupClick_">
 				Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span>
 			</button>
-			{if not $isBody}
+			{if $isBody}
+				<div class="row builder-param-item-row">
+					<div class="col-md-8">
+						<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
+						<div class="input-inner-addon input-inner-addon-left">
+							<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, quod."></span>
+							<input
+								id="builder-param-description-{$suffix}"
+								type="text"
+								class="form-control"
+								placeholder="Type what the body does"
+								value="{$param.description ? $param.description : ''}"
+								data-name="description"
+							/>
+						</div>
+					</div>
+				</div>
+			{else}
 				<div class="row builder-param-item-row">
 					<div class="col-md-8">
 						<label class="api-section-label" for="builder-param-value-{$suffix}">Value</label>

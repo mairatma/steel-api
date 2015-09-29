@@ -431,12 +431,29 @@ describe('ApiBuilder', function() {
 			assert.ok(builder.body.required);
 		});
 
+		it('should expand/collapse advanced setup when its button is clicked for body', function() {
+			builder = new ApiBuilder().render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			assert.ok(dom.hasClass(advancedElement, 'expanded'));
+			assert.strictEqual(builder.element.querySelector('.builder-param-item [data-name="description"]'), document.activeElement);
+
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
+			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
+		});
+
 		it('should update "body" when its description is changed via input', function(done) {
 			builder = new ApiBuilder({
 				body: {
 					description: 'desc1'
 				}
 			}).render();
+
+			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
+			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
 
 			var listener = sinon.stub();
 			builder.once('bodyChanged', listener);
@@ -449,20 +466,6 @@ describe('ApiBuilder', function() {
 				assert.strictEqual('desc2', builder.body.description);
 				done();
 			});
-		});
-
-		it('should expand/collapse advanced setup when its button is clicked for body', function() {
-			builder = new ApiBuilder().render();
-
-			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
-			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
-
-			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
-			assert.ok(dom.hasClass(advancedElement, 'expanded'));
-			assert.strictEqual(advancedElement.parentNode.querySelector('.CodeMirror textarea'), document.activeElement);
-
-			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
-			assert.ok(!dom.hasClass(advancedElement, 'expanded'));
 		});
 
 		it('should update "body" when its validator is changed via input', function() {

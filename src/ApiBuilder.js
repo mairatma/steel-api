@@ -153,7 +153,7 @@ class ApiBuilder extends ApiBase {
 			this.buildValidatorCodeMirror_(container.querySelector('textarea'), index);
 		}
 
-		container.querySelector('input[type="text"], .CodeMirror textarea').focus();
+		container.querySelector('input[type="text"]').focus();
 	}
 
 	/**
