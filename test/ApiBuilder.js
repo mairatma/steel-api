@@ -77,12 +77,12 @@ describe('ApiBuilder', function() {
 		var paramRows = builder.element.querySelectorAll('.builder-params .builder-param-item');
 		assert.strictEqual(2, paramRows.length);
 		assert.strictEqual('foo', paramRows[0].querySelectorAll('input')[0].value);
-		assert.strictEqual(2, builder.components[builder.id + '-typeSelect0'].selectedIndex);
+		assert.strictEqual(5, builder.components['builder-param-type-0'].selectedIndex);
 		assert.ok(builder.components[builder.id + '-requiredSwitcher0'].checked);
 		assert.strictEqual('desc', paramRows[0].querySelector('input[data-name="description"]').value);
 
 		assert.strictEqual('bar', paramRows[1].querySelectorAll('input')[0].value);
-		assert.strictEqual(3, builder.components[builder.id + '-typeSelect1'].selectedIndex);
+		assert.strictEqual(2, builder.components['builder-param-type-1'].selectedIndex);
 		assert.ok(!builder.components[builder.id + '-requiredSwitcher1'].checked);
 		assert.strictEqual('', paramRows[1].querySelector('input[data-name="description"]').value);
 	});
@@ -215,8 +215,8 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('parametersChanged', listener);
 
-			var select = builder.components[builder.id + '-typeSelect0'];
-			select.selectedIndex = 1;
+			var select = builder.components['builder-param-type-0'];
+			select.selectedIndex = 3;
 			assert.strictEqual(1, listener.callCount);
 			assert.strictEqual('number', builder.parameters[0].type);
 			assert.strictEqual('number', builder.toJson().parameters.foo.type);
@@ -409,10 +409,10 @@ describe('ApiBuilder', function() {
 			var listener = sinon.stub();
 			builder.once('bodyChanged', listener);
 
-			var select = builder.components[builder.id + '-typeSelectBody'];
+			var select = builder.components['builder-param-type-Body'];
 			select.selectedIndex = 1;
 			assert.strictEqual(1, listener.callCount);
-			assert.strictEqual('number', builder.body.type);
+			assert.strictEqual('array', builder.body.type);
 		});
 
 		it('should update "body" when its "required" field is changed via input', function() {

@@ -358,9 +358,9 @@ class ApiBuilder extends ApiBase {
 		var item = event.target.items[data.newVal];
 		this.updateParamDataFromComponentEvent_(
 			event,
-			this.id + '-typeSelect',
+			'builder-param-type-',
 			'type',
-			item !== 'Any Type' ? item.toLowerCase() : null
+			item.toLowerCase()
 		);
 	}
 

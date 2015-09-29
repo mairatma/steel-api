@@ -205,15 +205,15 @@
 		<div class="row builder-param-item-row">
 			{if not $isBody}
 				<div class="col-md-4">
-					<label class="api-section-label" for="builder-param-name-{$index}">Name</label>
-					<input id="builder-param-name-{$index}" type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
+					<label class="api-section-label" for="builder-param-name-{$suffix}">Name</label>
+					<input id="builder-param-name-{$suffix}" type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
 				</div>
 			{/if}
 			<div class="col-md-4">
-				<label class="api-section-label" for="builder-param-type-{$index}-{$suffix}">Type</label>
+				<label class="api-section-label" for="builder-param-type-{$suffix}">Type</label>
 				{let $typesMap0: quoteKeysIfJs(['any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4,  'string': 5]) /}
 				{call Templates.Select.content}
-					{param id: 'builder-param-type-' + $index + '-' + $suffix /}
+					{param id: 'builder-param-type-' + $suffix /}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
 					{param items: ['Any', 'Array', 'Boolean', 'Number', 'Object', 'String'] /}
@@ -247,9 +247,9 @@
 		</div>
 		<div class="row builder-param-item-row">
 			<div class="col-md-8">
-				<label class="api-section-label" for="builder-param-description-{$index}">Description</label>
+				<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
 				<input
-					id="builder-param-description-{$index}"
+					id="builder-param-description-{$suffix}"
 					type="text"
 					class="form-control"
 					placeholder="What this parameter does?"
@@ -265,11 +265,11 @@
 			{if not $isBody}
 				<div class="row builder-param-item-row">
 					<div class="col-md-8">
-						<label class="api-section-label" for="builder-param-value-{$index}">Value</label>
+						<label class="api-section-label" for="builder-param-value-{$suffix}">Value</label>
 						<div class="input-inner-addon input-inner-addon-left">
 							<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, quod."></span>
 							<input
-								id="builder-param-value-{$index}"
+								id="builder-param-value-{$suffix}"
 								type="text"
 								class="form-control"
 								placeholder="What is the default value?"
@@ -282,11 +282,11 @@
 			{/if}
 			<div class="row builder-param-item-row">
 				<div class="col-md-8">
-					<label class="api-section-label" for="builder-param-validator-{$index}">Validator</label>
+					<label class="api-section-label" for="builder-param-validator-{$suffix}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
 						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, magni."></span>
 						<textarea
-							id="builder-param-validator-{$index}"
+							id="builder-param-validator-{$suffix}"
 							class="builder-param-item-validator-textarea"
 							placeholder="">
 							{$param.validator ? $param.validator : ''}
