@@ -7,10 +7,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..')));
 
 app.post('/email/:from/:to', function(req, res) {
-	res.json({
+	var json = {
 		body: req.body,
 		params: req.params
-	});
+	};
+	for (var i = 0; i < 25; i++) {
+		json['item' + i] = 'Item ' + i;
+	}
+	res.json(json);
 });
 app.put('/email/:from/:to', function(req, res) {
 	res.send('Email Sent');

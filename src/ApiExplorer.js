@@ -83,7 +83,8 @@ class ApiExplorer extends ApiBase {
 					{
 						lineNumbers: true,
 						mode: this.response.type,
-						readOnly: true
+						readOnly: true,
+						viewportMargin: Infinity
 					}
 				);
 				this.responseCodeMirror_.setValue(this.response.bodyString);
