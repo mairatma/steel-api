@@ -111,10 +111,12 @@ class ApiExplorer extends ApiBase {
 			textarea,
 			{
 				lineNumbers: true,
-				mode: 'javascript',
-				readOnly: true
+				mode: 'javascript'
 			}
 		);
+		this.snippetsCodeMirror_.on('change', () => {
+			this.snippet_ = this.snippetsCodeMirror_.getValue();
+		});
 	}
 
 	/**
