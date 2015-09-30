@@ -4,7 +4,7 @@ import core from 'bower:metal/src/core';
 import dom from 'bower:metal/src/dom/dom';
 import ApiBase from './ApiBase';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
-import Launchpad from 'bower:api.js/src/api/Launchpad';
+import Launchpad from 'bower:api.js/src/api/Launchpad'; // jshint ignore:line
 import Clipboard from 'bower:steel-clipboard/src/Clipboard';
 import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
@@ -36,6 +36,8 @@ class ApiExplorer extends ApiBase {
 		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
 
 		this.on('pathChanged', this.handlePathChanged_);
+		this.on('methodChanged', this.updateSnippet_);
+		this.on('replacedPathChanged', this.updateSnippet_);
 	}
 
 	/**
@@ -204,11 +206,15 @@ class ApiExplorer extends ApiBase {
 	handleClickRun_() {
 		this.closeRealTimeConnection_();
 
-		var method = this.getRequestMethod_();
-		var launchpad = Launchpad.url(this.getRequestUrl_()).body(this.getBodyParams_());
+		var request;
 
-		if (this.isRequestRealTime_(method)) {
-			this.realTimeCon_ = launchpad.sort('id', 'desc').watch();
+		/* jshint ignore:start */
+		var params = this.getBodyParams_();
+		request = eval(this.snippet_);
+		/* jshint ignore:end */
+
+		if (this.isRequestRealTime_(this.getRequestMethod_())) {
+			this.realTimeCon_ = request;
 			this.realTimeCon_.on('changes', this.realTimeListener_);
 			this.response = {
 				statusCode: 200,
@@ -216,7 +222,7 @@ class ApiExplorer extends ApiBase {
 			};
 			dom.addClasses(this.element, 'real-time');
 		} else {
-			launchpad[method]().then(this.handleResponse_.bind(this));
+			request.then(this.handleResponse_.bind(this));
 		}
 	}
 
@@ -370,15 +376,6 @@ class ApiExplorer extends ApiBase {
 	syncPath() {
 		if (this.wasRendered) {
 			this.replacedPath = this.replacePathParams_();
-		}
-	}
-
-	/**
-	 * Synchronization logic for the `replacedPath` attr. Updates the code snippet.
-	 */
-	syncReplacedPath() {
-		if (this.wasRendered) {
-			this.updateSnippet_();
 		}
 	}
 

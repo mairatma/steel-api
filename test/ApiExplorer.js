@@ -11,17 +11,17 @@ describe('ApiExplorer', function() {
 	var requests;
 
 	beforeEach(function() {
-		requests = [];
-		this.xhr = sinon.useFakeXMLHttpRequest();
-		this.xhr.onCreate = function(xhr) {
-			requests.push(xhr);
-		};
-
 		ioInstance = new EventEmitter();
 		window.io = function() {
 			return ioInstance;
 		};
 		sinon.spy(window, 'io');
+
+		requests = [];
+		this.xhr = sinon.useFakeXMLHttpRequest();
+		this.xhr.onCreate = function(xhr) {
+			requests.push(xhr);
+		};
 	});
 
 	afterEach(function() {
