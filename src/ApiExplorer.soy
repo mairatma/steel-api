@@ -18,8 +18,8 @@
 			<form>
 				{call .tryParams data="all" /}
 				{call .tryIt data="all" /}
+				{call .tryResponse data="all" /}
 			</form>
-			{call .tryResponse data="all" /}
 		</div>
 	</div>
 {/template}
@@ -237,9 +237,10 @@
  * @param response
  */
 {template .tryResponse}
-	<div id="{$id}-tryResponse">
+	<div id="{$id}-tryResponse" class="row">
 		{if $response}
-			<div class="explorer-section-response">
+			<div class="explorer-section-response col-md-12">
+				<label class="api-section-label">Results</label>
 				<div class="explorer-status-container">
 					<span class="explorer-status-streaming">Streaming results...</span>
 					<span class="explorer-status explorer-status-{floor($response.statusCode / 100)}xx">
