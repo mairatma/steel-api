@@ -134,7 +134,28 @@
 	color: rgba($primary, .6);
 }
 
+// Section / Snippets ----------------------------------------------------------
+
+.explorer-snippets-container {
+	border: 1px solid rgba($brand-primary, .2);
+	border-radius: 4px 4px 0 0;
+	padding: 20px 0 40px;
+}
+
+.explorer-snippets-container .api-section-title {
+	margin: 0 0 20px 30px;
+}
+
+.explorer-snippets-container .CodeMirror {
+	border: none;
+	height: 200px;
+}
+
 // Section / Response ----------------------------------------------------------
+
+.explorer-section-response {
+	margin-top: 25px;
+}
 
 .explorer-status-container {
 	border: 1px solid rgba($brand-primary, .2);

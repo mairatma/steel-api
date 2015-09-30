@@ -69,7 +69,9 @@ class ApiExplorer extends ApiBase {
 	 */
 	attached() {
 		this.buildResponseCodeMirror_();
+		this.buildSnippetsCodeMirror_();
 		this.buildClipboard_();
+		this.updateSnippet_();
 	}
 
 	/**
@@ -79,8 +81,7 @@ class ApiExplorer extends ApiBase {
 	buildResponseCodeMirror_() {
 		var textarea = this.element.querySelector('.explorer-code-container textarea');
 		if (textarea) {
-			if (textarea !== this.responseTextarea_) {
-				this.responseTextarea_ = textarea;
+			if (!this.responseCodeMirror_ || textarea !== this.responseCodeMirror_.getTextArea()) {
 				this.responseCodeMirror_ = CodeMirror.fromTextArea(
 					textarea,
 					{
@@ -96,6 +97,22 @@ class ApiExplorer extends ApiBase {
 				this.responseCodeMirror_.setValue(this.response.bodyString);
 			}
 		}
+	}
+
+	/**
+	 * Builds the CodeMirror text editor for the snippets section.
+	 * @protected
+	 */
+	buildSnippetsCodeMirror_() {
+		var textarea = this.element.querySelector('.explorer-snippets-container textarea');
+		this.snippetsCodeMirror_ = CodeMirror.fromTextArea(
+			textarea,
+			{
+				lineNumbers: true,
+				mode: 'javascript',
+				readOnly: true
+			}
+		);
 	}
 
 	/**
@@ -125,7 +142,6 @@ class ApiExplorer extends ApiBase {
 		this.closeRealTimeConnection_();
 		super.disposeInternal();
 		this.responseCodeMirror_ = null;
-		this.responseTextarea_ = null;
 		this.clipboard.dispose();
 	}
 
@@ -160,23 +176,38 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Gets the currently selected method, which will be used in the request.
+	 * @return {string}
+	 * @protected
+	 */
+	getRequestMethod_() {
+		var method = this.method[0];
+		if (this.method.length > 1) {
+			method = this.method[this.methodSelectedIndex];
+		}
+		return method;
+	}
+
+	/**
+	 * Gets the full url that the request will be sent to.
+	 * @return {string}
+	 * @protected
+	 */
+	getRequestUrl_() {
+		return this.host + this.replacedPath.replace(/\/(\*)/, () => '');
+	}
+
+	/**
 	 * Handles a `click` event on the button for running the API.
 	 * @protected
 	 */
 	handleClickRun_() {
 		this.closeRealTimeConnection_();
 
-		var method = this.method[0];
-		if (this.method.length > 1) {
-			method = this.method[this.methodSelectedIndex];
-		}
+		var method = this.getRequestMethod_();
+		var launchpad = Launchpad.url(this.getRequestUrl_()).body(this.getBodyParams_());
 
-		var path = this.replacedPath.replace(/\/(\*)/, () => '');
-		var launchpad = Launchpad.url(this.host + path).body(this.getBodyParams_());
-
-		var realTimeSwitcher = this.components[this.id + '-realTimeSwitcher'];
-		var realTime = method === 'get' && realTimeSwitcher.checked;
-		if (realTime) {
+		if (this.isRequestRealTime_(method)) {
 			this.realTimeCon_ = launchpad.sort('id', 'desc').watch();
 			this.realTimeCon_.on('changes', this.realTimeListener_);
 			this.response = {
@@ -198,6 +229,7 @@ class ApiExplorer extends ApiBase {
 	 */
 	handleMethodSelectedIndexChanged_(data, event) {
 		this.methodSelectedIndex = event.target.selectedIndex;
+		this.updateSnippet_();
 	}
 
 	/**
@@ -236,6 +268,7 @@ class ApiExplorer extends ApiBase {
 		if (!event.target.checked) {
 			this.closeRealTimeConnection_();
 		}
+		this.updateSnippet_();
 	}
 
 	/**
@@ -275,6 +308,17 @@ class ApiExplorer extends ApiBase {
 	handleWildcardInput_() {
 		this.wildcardValue_ = event.delegateTarget.value.trim();
 		this.replacedPath = this.replacePathParams_();
+	}
+
+	/**
+	 * Checks if the request will be real time.
+	 * @param {string} method
+	 * @return {boolean}
+	 * @protected
+	 */
+	isRequestRealTime_(method) {
+		var realTimeSwitcher = this.components[this.id + '-realTimeSwitcher'];
+		return method === 'get' && realTimeSwitcher.checked;
 	}
 
 	/**
@@ -330,6 +374,15 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Synchronization logic for the `replacedPath` attr. Updates the code snippet.
+	 */
+	syncReplacedPath() {
+		if (this.wasRendered) {
+			this.updateSnippet_();
+		}
+	}
+
+	/**
 	 * Synchronization logic for the `response` attr. Updates the CodeMirror
 	 * text editor for the response body.
 	 */
@@ -354,6 +407,24 @@ class ApiExplorer extends ApiBase {
 			statusCode: statusCode,
 			statusText: statusText
 		};
+	}
+
+	/**
+	 * Updates the code snippet that will be shown to the user.
+	 * @protected
+	 */
+	updateSnippet_() {
+		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n' +
+			'    .body(params)\n';
+
+		var method = this.getRequestMethod_();
+		if (this.isRequestRealTime_(method)) {
+			this.snippet_ += '    .sort(\'id\', \'desc\')\n' +
+				'    .watch();';
+		} else {
+			this.snippet_ += '    .' + method + '();';
+		}
+		this.snippetsCodeMirror_.setValue(this.snippet_);
 	}
 }
 

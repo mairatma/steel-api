@@ -7,6 +7,7 @@ import EventEmitter from 'bower:metal/src/events/EventEmitter';
 
 describe('ApiExplorer', function() {
 	var explorer;
+	var ioInstance;
 	var requests;
 
 	beforeEach(function() {
@@ -15,6 +16,12 @@ describe('ApiExplorer', function() {
 		this.xhr.onCreate = function(xhr) {
 			requests.push(xhr);
 		};
+
+		ioInstance = new EventEmitter();
+		window.io = function() {
+			return ioInstance;
+		};
+		sinon.spy(window, 'io');
 	});
 
 	afterEach(function() {
@@ -427,7 +434,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			var codeMirror = explorer.element.querySelector('.CodeMirror').CodeMirror;
+			var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
 
 			explorer.response = {
 				bodyString: 'Body',
@@ -436,7 +443,7 @@ describe('ApiExplorer', function() {
 				type: 'application/javascript'
 			};
 			explorer.once('attrsChanged', function() {
-				var newCodeMirror = explorer.element.querySelector('.CodeMirror').CodeMirror;
+				var newCodeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
 				assert.strictEqual(codeMirror, newCodeMirror);
 				assert.strictEqual('application/javascript', newCodeMirror.getOption('mode'));
 				done();
@@ -445,16 +452,6 @@ describe('ApiExplorer', function() {
 	});
 
 	describe('Response - Real Time', function() {
-		var ioInstance;
-
-		beforeEach(function() {
-			ioInstance = new EventEmitter();
-			window.io = function() {
-				return ioInstance;
-			};
-			sinon.spy(window, 'io');
-		});
-
 		it('should not render real time response if button is not clicked', function() {
 			explorer = new ApiExplorer({
 				method: ['get', 'post']
@@ -578,6 +575,67 @@ describe('ApiExplorer', function() {
 					done();
 				});
 			});
+		});
+	});
+
+	describe('Snippet - JavaScript', function() {
+		it('should render correct snippet for sending request via js', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data'
+			}).render();
+
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .get();';
+			assert.strictEqual(expectedStr, codeMirror.getValue());
+		});
+
+		it('should render correct snippet when method changes', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				method: ['get', 'post'],
+				path: '/data'
+			}).render();
+
+			explorer.methodSelectedIndex = 1;
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .post();';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
+		});
+
+		it('should render correct snippet when path param changes', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data/:foo'
+			}).render();
+
+			var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
+			inputs[0].value = 12;
+			dom.triggerEvent(inputs[0], 'input');
+
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .body(params)\n    .get();';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
+		});
+
+		it('should render correct snippet when request is real time', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data'
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .sort(\'id\', \'desc\')\n    .watch();';
+			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 	});
 
