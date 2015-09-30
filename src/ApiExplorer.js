@@ -149,13 +149,23 @@ class ApiExplorer extends ApiBase {
 	handleClickRun_() {
 		var method = this.method[0];
 		if (this.method.length > 1) {
-			var methodSelect = this.components[this.id + '-methodSelect'];
-			method = methodSelect.items[methodSelect.selectedIndex];
+			method = this.method[this.methodSelectedIndex];
 		}
 
 		var path = this.replacedPath.replace(/\/(\*)/, () => '');
 		var launchpad = Launchpad.url(this.host + path);
 		launchpad[method](this.getBodyParams_()).then(this.handleResponse_.bind(this));
+	}
+
+	/**
+	 * Handles a `selectedIndexChanged` event from the method `Select` instance.
+	 * Updates the `methodSelectedIndex` attr accordingly.
+	 * @param {!Object} data
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleMethodSelectedIndexChanged_(data, event) {
+		this.methodSelectedIndex = event.target.selectedIndex;
 	}
 
 	/**
@@ -282,6 +292,15 @@ class ApiExplorer extends ApiBase {
  * @static
  */
 ApiExplorer.ATTRS = {
+	/**
+	 * The index of the currently selected method.
+	 * @type {number}
+	 */
+	methodSelectedIndex: {
+		validator: core.isNumber,
+		value: 0
+	},
+
 	/**
 	 * The api's path url.
 	 * @type {string}

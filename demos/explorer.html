@@ -39,7 +39,7 @@
 			title: 'Email API',
 			host: 'http://localhost:3000/email',
 			path: '/:from@/:to/*',
-			method: ['post', 'put'],
+			method: ['post', 'put', 'get'],
 			handler: 'com.liferay.launchpad.email.EmailAction#post',
 			parameters: {
 				from: {

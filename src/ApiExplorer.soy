@@ -169,24 +169,29 @@
  * @param host
  * @param id
  * @param method
+ * @param? methodSelectedIndex
  * @param replacedPath
  */
 {template .tryIt}
 	<div id="{$id}-tryIt" class="row">
+		{let $methodItems: $method ? $method : ['get'] /}
+		{let $selectedIndex: $methodSelectedIndex ? $methodSelectedIndex : 0 /}
 		<div class="col-md-12">
 			<div class="input-group">
-				{if length($method) > 1}
+				{if length($methodItems) > 1}
 					<div class="input-group-btn">
 						{call Templates.Select.content}
+							{param events: ['selectedIndexChanged': $id + ':handleMethodSelectedIndexChanged_'] /}
 							{param id: $id + '-methodSelect' /}
 							{param label: '' /}
-							{param items: $method ? $method : ['get'] /}
+							{param items: $methodItems /}
 							{param buttonClass: 'btn btn-default btn-sm dropdown-select-group-left' /}
 							{param hiddenFieldName: 'method' /}
+							{param selectedIndex: $selectedIndex /}
 						{/call}
 					</div>
 				{else}
-					<div class="input-group-addon explorer-section-try-method">{$method[0]}</div>
+					<div class="input-group-addon explorer-section-try-method">{$methodItems[0]}</div>
 				{/if}
 
 				<div class="input-inner-addon input-inner-addon-left">
@@ -201,9 +206,29 @@
 						Try It!
 					</button>
 				</div>
+				<div class="input-group-btn">
+					{call .tryRealTime}
+						{param id: $id /}
+						{param methodName: $methodItems[$selectedIndex] /}
+						{param surfaceId: 'tryRealTime' /}
+					{/call}
+				</div>
 			</div>
 		</div>
 	</div>
+{/template}
+
+/**
+ * @param id
+ * @param methodName
+ */
+{template .tryRealTime}
+	<span id="{$id}-tryRealTime" class="{$methodName == 'get' ? '' : ' hidden'}">
+		<p class="api-section-title">Real Time</p>
+		{call Templates.Switcher.content}
+			{param id: $id + '-realTimeSwitcher' /}
+		{/call}
+	</span>
 {/template}
 
 /**
