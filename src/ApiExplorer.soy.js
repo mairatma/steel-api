@@ -181,7 +181,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.tryRealTime = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<span id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryRealTime" class="' + soy.$$escapeHtmlAttribute(opt_data.methodName == 'get' ? '' : ' hidden') + '"><p class="api-section-title">Real Time</p>' + soy.$$escapeHtml(Templates.Switcher.content({id: opt_data.id + '-realTimeSwitcher'}, null, opt_ijData)) + '</span>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<span id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryRealTime" class="' + soy.$$escapeHtmlAttribute(opt_data.methodName == 'get' ? '' : ' hidden') + '"><p class="api-section-title">Real Time</p>' + soy.$$escapeHtml(Templates.Switcher.content({events: {checkedChanged: opt_data.id + ':handleRealTimeCheckedChanged_'}, id: opt_data.id + '-realTimeSwitcher'}, null, opt_ijData)) + '</span>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.tryRealTime.soyTemplateName = 'Templates.ApiExplorer.tryRealTime';

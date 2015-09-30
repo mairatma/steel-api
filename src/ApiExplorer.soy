@@ -226,6 +226,7 @@
 	<span id="{$id}-tryRealTime" class="{$methodName == 'get' ? '' : ' hidden'}">
 		<p class="api-section-title">Real Time</p>
 		{call Templates.Switcher.content}
+			{param events: ['checkedChanged': $id + ':handleRealTimeCheckedChanged_'] /}
 			{param id: $id + '-realTimeSwitcher' /}
 		{/call}
 	</span>

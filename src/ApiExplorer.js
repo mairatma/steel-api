@@ -33,6 +33,8 @@ class ApiExplorer extends ApiBase {
 		 */
 		this.pathParams_ = {};
 
+		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
+
 		this.on('pathChanged', this.handlePathChanged_);
 	}
 
@@ -91,6 +93,7 @@ class ApiExplorer extends ApiBase {
 				this.responseCodeMirror_.setValue(this.response.bodyString);
 			} else {
 				this.responseCodeMirror_.setOption('mode', this.response.type);
+				this.responseCodeMirror_.setValue(this.response.bodyString);
 			}
 		}
 	}
@@ -104,9 +107,22 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Closes the open real time connection, if there is one.
+	 * @protected
+	 */
+	closeRealTimeConnection_() {
+		if (this.realTimeCon_) {
+			dom.removeClasses(this.element, 'real-time');
+			this.realTimeCon_.off('changes', this.realTimeListener_);
+			this.realTimeCon_ = null;
+		}
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	disposeInternal() {
+		this.closeRealTimeConnection_();
 		super.disposeInternal();
 		this.responseCodeMirror_ = null;
 		this.responseTextarea_ = null;
@@ -148,6 +164,8 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
+		this.closeRealTimeConnection_();
+
 		var method = this.method[0];
 		if (this.method.length > 1) {
 			method = this.method[this.methodSelectedIndex];
@@ -164,7 +182,8 @@ class ApiExplorer extends ApiBase {
 		var request = launchpad[method](this.getBodyParams_());
 
 		if (realTime) {
-			request.on('changes', this.handleStreamResponse_.bind(this));
+			this.realTimeCon_ = request;
+			request.on('changes', this.realTimeListener_);
 			this.response = {
 				statusCode: 200,
 				statusText: 'OK'
@@ -172,7 +191,6 @@ class ApiExplorer extends ApiBase {
 			dom.addClasses(this.element, 'real-time');
 		} else {
 			request.then(this.handleResponse_.bind(this));
-			dom.removeClasses(this.element, 'real-time');
 		}
 	}
 
@@ -209,6 +227,19 @@ class ApiExplorer extends ApiBase {
 	handlePathChanged_() {
 		if (this.addMissingPathParams_(this.parameters)) {
 			this.parameters = this.parameters;
+		}
+	}
+
+	/**
+	 * Handles a `checkedChanged` event from the real time `Switcher` instance.
+	 * Closes the real time connection in case it was turned off.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleRealTimeCheckedChanged_(data, event) {
+		if (!event.target.checked) {
+			this.closeRealTimeConnection_();
 		}
 	}
 

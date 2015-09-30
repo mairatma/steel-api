@@ -475,6 +475,19 @@ describe('ApiExplorer', function() {
 			assert.ok(!explorer.response);
 		});
 
+		it('should not render real time response if button is not turned off again', function() {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+
+			ioInstance.emit('changes', 'foo');
+			assert.ok(explorer.response);
+			assert.ok(!explorer.response.bodyString);
+		});
+
 		it('should add "real-time" css class to element during real time request', function() {
 			explorer = new ApiExplorer({
 				method: ['get', 'post']
@@ -527,6 +540,30 @@ describe('ApiExplorer', function() {
 				assert.strictEqual('foo', codeMirror.getValue());
 				assert.strictEqual('text/plain', codeMirror.getOption('mode'));
 				done();
+			});
+		});
+
+		it('should keep rendering received real time responses', function(done) {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			ioInstance.emit('changes', 'foo');
+
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+				assert.strictEqual('foo', codeMirror.getValue());
+				assert.strictEqual('text/plain', codeMirror.getOption('mode'));
+
+				ioInstance.emit('changes', 'bar');
+				explorer.once('attrsChanged', function() {
+					codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('bar', codeMirror.getValue());
+					assert.strictEqual('text/plain', codeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 	});
