@@ -452,6 +452,7 @@ describe('ApiExplorer', function() {
 			window.io = function() {
 				return ioInstance;
 			};
+			sinon.spy(window, 'io');
 		});
 
 		it('should not render real time response if button is not clicked', function() {
@@ -501,6 +502,18 @@ describe('ApiExplorer', function() {
 			explorer.method = ['post', 'get'];
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
+		});
+
+		it('should send "sort" query automatically with real time request', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			assert.strictEqual(1, io.callCount);
+			assert.strictEqual('foo.org?sort=' + encodeURIComponent('[{"id":"desc"}]') + '?url=%2F', io.args[0][0]);
 		});
 
 		it('should render real time response with json content', function(done) {

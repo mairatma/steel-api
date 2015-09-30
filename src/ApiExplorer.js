@@ -171,26 +171,21 @@ class ApiExplorer extends ApiBase {
 			method = this.method[this.methodSelectedIndex];
 		}
 
+		var path = this.replacedPath.replace(/\/(\*)/, () => '');
+		var launchpad = Launchpad.url(this.host + path).body(this.getBodyParams_());
+
 		var realTimeSwitcher = this.components[this.id + '-realTimeSwitcher'];
 		var realTime = method === 'get' && realTimeSwitcher.checked;
 		if (realTime) {
-			method = 'watch';
-		}
-
-		var path = this.replacedPath.replace(/\/(\*)/, () => '');
-		var launchpad = Launchpad.url(this.host + path);
-		var request = launchpad[method](this.getBodyParams_());
-
-		if (realTime) {
-			this.realTimeCon_ = request;
-			request.on('changes', this.realTimeListener_);
+			this.realTimeCon_ = launchpad.sort('id', 'desc').watch();
+			this.realTimeCon_.on('changes', this.realTimeListener_);
 			this.response = {
 				statusCode: 200,
 				statusText: 'OK'
 			};
 			dom.addClasses(this.element, 'real-time');
 		} else {
-			request.then(this.handleResponse_.bind(this));
+			launchpad[method]().then(this.handleResponse_.bind(this));
 		}
 	}
 
