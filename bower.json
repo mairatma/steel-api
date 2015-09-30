@@ -25,6 +25,7 @@
     "steel-clipboard": "metal/steel-clipboard#master",
     "steel-dropdown": "metal/steel-dropdown#master",
     "steel-select": "metal/steel-select#master",
-    "steel-switcher": "metal/steel-switcher#master"
+    "steel-switcher": "metal/steel-switcher#master",
+    "socket.io-client": "~1.3.7"
   }
 }

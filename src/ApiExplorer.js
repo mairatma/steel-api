@@ -1,6 +1,7 @@
 'use strict';
 
 import core from 'bower:metal/src/core';
+import dom from 'bower:metal/src/dom/dom';
 import ApiBase from './ApiBase';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
@@ -152,9 +153,27 @@ class ApiExplorer extends ApiBase {
 			method = this.method[this.methodSelectedIndex];
 		}
 
+		var realTimeSwitcher = this.components[this.id + '-realTimeSwitcher'];
+		var realTime = method === 'get' && realTimeSwitcher.checked;
+		if (realTime) {
+			method = 'watch';
+		}
+
 		var path = this.replacedPath.replace(/\/(\*)/, () => '');
 		var launchpad = Launchpad.url(this.host + path);
-		launchpad[method](this.getBodyParams_()).then(this.handleResponse_.bind(this));
+		var request = launchpad[method](this.getBodyParams_());
+
+		if (realTime) {
+			request.on('changes', this.handleStreamResponse_.bind(this));
+			this.response = {
+				statusCode: 200,
+				statusText: 'OK'
+			};
+			dom.addClasses(this.element, 'real-time');
+		} else {
+			request.then(this.handleResponse_.bind(this));
+			dom.removeClasses(this.element, 'real-time');
+		}
 	}
 
 	/**
@@ -201,17 +220,26 @@ class ApiExplorer extends ApiBase {
 	handleResponse_(response) {
 		var type = response.headers().get('Content-Type') || '';
 		var separatorIndex = type.indexOf(';');
-		var responseObj = {
-			type: separatorIndex === -1 ? type : type.substr(0, separatorIndex),
-			statusCode: response.statusCode(),
-			statusText: response.statusText()
-		};
-		responseObj.body = response.body();
-		responseObj.bodyString = responseObj.body;
-		if (core.isObject(responseObj.body)) {
-			responseObj.bodyString = JSON.stringify(responseObj.body, null, 4);
-		}
-		this.response = responseObj;
+		this.updateResponse_(
+			response.body(),
+			response.statusCode(),
+			response.statusText(),
+			separatorIndex === -1 ? type : type.substr(0, separatorIndex)
+		);
+	}
+
+	/**
+	 * Handles a response coming from a stream (real time) request.
+	 * @param {!Object} response
+	 * @protected
+	 */
+	handleStreamResponse_(response) {
+		this.updateResponse_(
+			response,
+			200,
+			'OK',
+			core.isObject(response) ? 'application/json' : 'text/plain'
+		);
 	}
 
 	/**
@@ -283,6 +311,23 @@ class ApiExplorer extends ApiBase {
 		if (this.wasRendered) {
 			this.buildResponseCodeMirror_();
 		}
+	}
+
+	/**
+	 * Updates the response attr according to the given information.
+	 * @param {*} content The content that should be rendered as the response.
+	 * @param {number} statusCode
+	 * @param {string} statusText
+	 * @param {string} type
+	 * @protected
+	 */
+	updateResponse_(content, statusCode, statusText, type) {
+		this.response = {
+			bodyString: core.isObject(content) ? JSON.stringify(content, null, 4) : content,
+			type: type,
+			statusCode: statusCode,
+			statusText: statusText
+		};
 	}
 }
 

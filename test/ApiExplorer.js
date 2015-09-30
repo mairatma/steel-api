@@ -3,6 +3,7 @@
 import dom from 'bower:metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
+import EventEmitter from 'bower:metal/src/events/EventEmitter';
 
 describe('ApiExplorer', function() {
 	var explorer;
@@ -438,6 +439,93 @@ describe('ApiExplorer', function() {
 				var newCodeMirror = explorer.element.querySelector('.CodeMirror').CodeMirror;
 				assert.strictEqual(codeMirror, newCodeMirror);
 				assert.strictEqual('application/javascript', newCodeMirror.getOption('mode'));
+				done();
+			});
+		});
+	});
+
+	describe('Response - Real Time', function() {
+		var ioInstance;
+
+		beforeEach(function() {
+			ioInstance = new EventEmitter();
+			window.io = function() {
+				return ioInstance;
+			};
+		});
+
+		it('should not render real time response if button is not clicked', function() {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			ioInstance.emit('changes', 'foo');
+			assert.ok(!explorer.response);
+		});
+
+		it('should not render real time response if button is clicked but selected method is not "get"', function() {
+			explorer = new ApiExplorer({
+				method: ['post', 'get']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			ioInstance.emit('changes', 'foo');
+			assert.ok(!explorer.response);
+		});
+
+		it('should add "real-time" css class to element during real time request', function() {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.ok(dom.hasClass(explorer.element, 'real-time'));
+
+			explorer.method = ['post', 'get'];
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
+		});
+
+		it('should render real time response with json content', function(done) {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			ioInstance.emit('changes', {
+				foo: 'bar'
+			});
+			assert.ok(explorer.response);
+			assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
+
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+				assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
+				assert.strictEqual('application/json', codeMirror.getOption('mode'));
+				done();
+			});
+		});
+
+		it('should render real time response without json content', function(done) {
+			explorer = new ApiExplorer({
+				method: ['get', 'post']
+			}).render();
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+
+			ioInstance.emit('changes', 'foo');
+			assert.ok(explorer.response);
+			assert.strictEqual('foo', explorer.response.bodyString);
+
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+				assert.strictEqual('foo', codeMirror.getValue());
+				assert.strictEqual('text/plain', codeMirror.getOption('mode'));
 				done();
 			});
 		});

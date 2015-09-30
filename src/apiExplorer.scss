@@ -145,6 +145,17 @@
 	margin-right: -30px;
 }
 
+.explorer-status-streaming {
+	color: rgba($primary, .6);
+	display: none;
+	float: left;
+	margin-left: 30px;
+}
+
+.real-time .explorer-status-streaming {
+	display: inline;
+}
+
 .explorer-status {
 	border-radius: $border-radius-base;
 	border: 1px solid rgba($primary, .6);
