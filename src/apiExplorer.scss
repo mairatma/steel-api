@@ -6,7 +6,7 @@
 
 .explorer-title {
 	color: rgba($primary, .8);
-	font-size: 20px;
+	font-size: 28px;
 	margin: 60px 0 30px;
 }
 
@@ -17,7 +17,11 @@
 }
 
 .explorer-title-name {
+	font-family: $font-family-secondary;
+	font-weight: 500;
 	margin-left: 4px;
+	position: relative;
+	top: 3px;
 }
 
 .explorer-visibility {

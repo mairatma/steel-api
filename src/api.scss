@@ -9,6 +9,8 @@
 	font-size: 11px;
 	margin: 40px 0 10px;
 	text-transform: uppercase;
+	font-family: $font-family-secondary;
+	font-weight: 500;
 }
 
 .api-section-title-link {
@@ -44,7 +46,7 @@
 }
 
 .CodeMirror-focused {
-	border-color: $brand-success;
+	border-color: $accent;
 }
 
 .CodeMirror-lines {
