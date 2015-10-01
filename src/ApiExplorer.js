@@ -268,7 +268,10 @@ class ApiExplorer extends ApiBase {
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(container, 'expanded');
-		this.buildBodyCodeMirror_();
+		if (dom.hasClass(container, 'expanded')) {
+			this.buildBodyCodeMirror_();
+			this.bodyCodeMirror_.getInputField().focus();
+		}
 	}
 
 	/**

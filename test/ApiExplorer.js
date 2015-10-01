@@ -287,7 +287,7 @@ describe('ApiExplorer', function() {
 		});
 	});
 
-	it('should only create CodeMirror editor after toggler is clicked for the first time', function() {
+	it('should only create body CodeMirror editor after toggler is clicked for the first time', function() {
 		explorer = new ApiExplorer({
 			method: ['post']
 		}).render();
@@ -300,6 +300,19 @@ describe('ApiExplorer', function() {
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+		assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+	});
+
+	it('should focus on body CodeMirror editor when it\'s opened', function() {
+		explorer = new ApiExplorer({
+			method: ['post']
+		}).render();
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+		var textarea = explorer.element.querySelector('.explorer-section-body .CodeMirror textarea');
+		assert.strictEqual(document.activeElement, textarea);
 	});
 
 	it('should send request with chosen text body', function() {
