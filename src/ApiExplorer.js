@@ -204,22 +204,8 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		this.closeRealTimeConnection_();
-
-		var method = this.getRequestMethod_();
 		var launchpad = Launchpad.url(this.getRequestUrl_()).body(this.getBodyParams_());
-
-		if (this.isRequestRealTime_(method)) {
-			this.realTimeCon_ = launchpad.sort('id', 'desc').watch();
-			this.realTimeCon_.on('changes', this.realTimeListener_);
-			this.response = {
-				statusCode: 200,
-				statusText: 'OK'
-			};
-			dom.addClasses(this.element, 'real-time');
-		} else {
-			launchpad[method]().then(this.handleResponse_.bind(this));
-		}
+		launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
 	}
 
 	/**
@@ -232,6 +218,7 @@ class ApiExplorer extends ApiBase {
 	handleMethodSelectedIndexChanged_(data, event) {
 		this.methodSelectedIndex = event.target.selectedIndex;
 		this.updateSnippet_();
+		this.updateRealTimeConnection_();
 	}
 
 	/**
@@ -262,14 +249,10 @@ class ApiExplorer extends ApiBase {
 	/**
 	 * Handles a `checkedChanged` event from the real time `Switcher` instance.
 	 * Closes the real time connection in case it was turned off.
-	 * @param {!Object} data
-	 * @param {!Object} event
 	 * @protected
 	 */
-	handleRealTimeCheckedChanged_(data, event) {
-		if (!event.target.checked) {
-			this.closeRealTimeConnection_();
-		}
+	handleRealTimeCheckedChanged_() {
+		this.updateRealTimeConnection_();
 		this.updateSnippet_();
 	}
 
@@ -321,6 +304,20 @@ class ApiExplorer extends ApiBase {
 	isRequestRealTime_(method) {
 		var realTimeSwitcher = this.components[this.id + '-realTimeSwitcher'];
 		return method === 'get' && realTimeSwitcher.checked;
+	}
+
+	/**
+	 * Opens a real time connection and listens to its updates.
+	 * @protected
+	 */
+	openRealTimeConnection_() {
+		this.realTimeCon_ = Launchpad
+			.url(this.getRequestUrl_())
+			.body(this.getBodyParams_())
+			.sort('id', 'desc')
+			.watch();
+		this.realTimeCon_.on('changes', this.realTimeListener_);
+		dom.addClasses(this.element, 'real-time');
 	}
 
 	/**
@@ -382,6 +379,18 @@ class ApiExplorer extends ApiBase {
 	syncResponse() {
 		if (this.wasRendered) {
 			this.buildResponseCodeMirror_();
+		}
+	}
+
+	/**
+	 * Updates the real time connection, creating or closing it as necessary.
+	 * @protected
+	 */
+	updateRealTimeConnection_() {
+		if (this.isRequestRealTime_(this.getRequestMethod_())) {
+			this.openRealTimeConnection_();
+		} else {
+			this.closeRealTimeConnection_();
 		}
 	}
 

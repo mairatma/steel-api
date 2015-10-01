@@ -473,7 +473,7 @@ describe('ApiExplorer', function() {
 			assert.ok(!explorer.response);
 		});
 
-		it('should not render real time response if button is not turned off again', function() {
+		it('should not render real time response if button is turned off again', function() {
 			explorer = new ApiExplorer({
 				method: ['get', 'post']
 			}).render();
@@ -482,22 +482,25 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
 
 			ioInstance.emit('changes', 'foo');
-			assert.ok(explorer.response);
-			assert.ok(!explorer.response.bodyString);
+			assert.ok(!explorer.response);
 		});
 
 		it('should add "real-time" css class to element during real time request', function() {
 			explorer = new ApiExplorer({
 				method: ['get', 'post']
 			}).render();
+			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
+
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
+			assert.ok(dom.hasClass(explorer.element, 'real-time'));
+
 			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
 			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
 
-			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
 			assert.ok(dom.hasClass(explorer.element, 'real-time'));
 
-			explorer.method = ['post', 'get'];
-			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			explorer.components[explorer.id + '-methodSelect'].selectedIndex = 1;
 			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
 		});
 

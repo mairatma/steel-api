@@ -223,13 +223,6 @@
 						Run
 					</button>
 				</div>
-				<div class="input-group-btn">
-					{call .tryRealTime}
-						{param id: $id /}
-						{param methodName: $methodItems[$selectedIndex] /}
-						{param surfaceId: 'tryRealTime' /}
-					{/call}
-				</div>
 			</div>
 		</div>
 	</div>
@@ -240,13 +233,13 @@
  * @param methodName
  */
 {template .tryRealTime}
-	<span id="{$id}-tryRealTime" class="{$methodName == 'get' ? '' : ' hidden'}">
+	<div id="{$id}-tryRealTime" class="explorer-real-time-container col-md-4 {$methodName == 'get' ? '' : ' hidden'}">
 		<p class="api-section-title">Real Time</p>
 		{call Templates.Switcher.content}
 			{param events: ['checkedChanged': $id + ':handleRealTimeCheckedChanged_'] /}
 			{param id: $id + '-realTimeSwitcher' /}
 		{/call}
-	</span>
+	</div>
 {/template}
 
 /**
@@ -266,36 +259,42 @@
 
 /**
  * @param id
+ * @param method
+ * @param? methodSelectedIndex
  * @param response
  */
 {template .tryResponse}
 	<div id="{$id}-tryResponse" class="row">
-		{if $response}
-			<div class="explorer-section-response col-md-12">
-				<label class="api-section-label">Results</label>
-				<div class="explorer-status-container">
-					<div class="row">
-						<div class="col-md-4">
-							<span class="explorer-status-streaming">
-								<span class="explorer-status-streaming-pulse"></span> Streaming results...
-							</span>
-						</div>
-						<div class="col-md-4">
-							<span class="explorer-status explorer-status-{floor($response.statusCode / 100)}xx">
-								{$response.statusCode} {$response.statusText}
-							</span>
-						</div>
-						<div class="col-md-4">
-							// Switcher comes here
-						</div>
+		<div class="explorer-section-response col-md-12{$response ? '' : ' hidden'}">
+			<label class="api-section-label">Results</label>
+			<div class="explorer-status-container">
+				<div class="row">
+					<div class="col-md-4">
+						<span class="explorer-status-streaming">
+							<span class="explorer-status-streaming-pulse"></span> Streaming results...
+						</span>
 					</div>
+					<div class="col-md-4">
+						{let $statusCode: $response ? $response.statusCode: '' /}
+						{let $statusText: $response ? $response.statusText: '' /}
+						<span class="explorer-status explorer-status-{floor($statusCode / 100)}xx">
+							{$statusCode} {$statusText}
+						</span>
+					</div>
+					{let $methodItems: $method ? $method : ['get'] /}
+					{let $selectedIndex: $methodSelectedIndex ? $methodSelectedIndex : 0 /}
+					{call .tryRealTime}
+						{param id: $id /}
+						{param methodName: $methodItems[$selectedIndex] /}
+						{param surfaceId: 'tryRealTime' /}
+					{/call}
 				</div>
-				{if $response.bodyString}
-					<div class="explorer-code-container">
-						<textarea>{$response.bodyString}</textarea>
-					</div>
-				{/if}
 			</div>
-		{/if}
+			{if $response and $response.bodyString}
+				<div class="explorer-code-container">
+					<textarea>{$response.bodyString}</textarea>
+				</div>
+			{/if}
+		</div>
 	</div>
 {/template}

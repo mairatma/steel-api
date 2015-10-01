@@ -29,6 +29,10 @@ app.put('/email/:from/:to', function(req, res) {
 	res.send('Email Sent');
 });
 
+app.get('/email/:from/:to', function(req, res) {
+	res.json(data);
+});
+
 var server = http.Server(app);
 var io = require('socket.io')(server, {
 	path: '/email/liferay/:to'
