@@ -186,6 +186,8 @@ class ApiExplorer extends ApiBase {
 
 		var bodyString = this.getRequestBody_(type === 'js');
 		if (type === 'java') {
+			snippet += '    .header("content-type", "application/json")\n';
+
 			if (bodyString instanceof Embodied) {
 				bodyString = bodyString.body();
 			}
