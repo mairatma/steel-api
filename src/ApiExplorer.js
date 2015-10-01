@@ -190,6 +190,9 @@ class ApiExplorer extends ApiBase {
 				bodyString = bodyString.body();
 			}
 			bodyString = '"' + JSON.stringify(bodyString).replace(/"/g, '\\"') + '"';
+			if (bodyString === '"{}"') {
+				bodyString = '';
+			}
 		} else if (core.isObject(bodyString)) {
 			bodyString = JSON.stringify(bodyString);
 		}
