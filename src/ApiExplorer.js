@@ -2,6 +2,7 @@
 
 import core from 'bower:metal/src/core';
 import dom from 'bower:metal/src/dom/dom';
+import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
@@ -72,6 +73,7 @@ class ApiExplorer extends ApiBase {
 	attached() {
 		this.buildResponseCodeMirror_();
 		this.buildSnippetsCodeMirror_();
+		this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
 		this.buildClipboard_();
 		this.updateSnippet_();
 	}
@@ -84,16 +86,12 @@ class ApiExplorer extends ApiBase {
 		var textarea = this.element.querySelector('.explorer-code-container textarea');
 		if (textarea) {
 			if (!this.responseCodeMirror_ || textarea !== this.responseCodeMirror_.getTextArea()) {
-				this.responseCodeMirror_ = CodeMirror.fromTextArea(
-					textarea,
-					{
-						lineNumbers: true,
-						mode: this.response.type,
-						readOnly: true,
-						viewportMargin: Infinity
-					}
-				);
-				this.responseCodeMirror_.setValue(this.response.bodyString);
+				this.responseCodeMirror_ = this.buildCodeMirror_(textarea, {
+					mode: this.response.type,
+					readOnly: true,
+					value: this.response.bodyString,
+					viewportMargin: Infinity
+				});
 			} else {
 				this.responseCodeMirror_.setOption('mode', this.response.type);
 				this.responseCodeMirror_.setValue(this.response.bodyString);
@@ -106,15 +104,27 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildSnippetsCodeMirror_() {
-		var textarea = this.element.querySelector('.explorer-snippets-container textarea');
-		this.snippetsCodeMirror_ = CodeMirror.fromTextArea(
-			textarea,
+		this.snippetsCodeMirror_ = this.buildCodeMirror_(
+			this.element.querySelector('.explorer-snippets-container textarea'),
 			{
-				lineNumbers: true,
-				mode: 'javascript',
 				readOnly: true
 			}
 		);
+	}
+
+	/**
+	 * Builds a CodeMirror text editor.
+	 * @param {!Element} textarea
+	 * @param {Object=} opt_options
+	 * @return {!CodeMirror}
+	 * @protected
+	 */
+	buildCodeMirror_(textarea, opt_options) {
+		var options = object.mixin({
+			lineNumbers: true,
+			mode: 'javascript'
+		}, opt_options);
+		return CodeMirror.fromTextArea(textarea, options);
 	}
 
 	/**
@@ -144,6 +154,8 @@ class ApiExplorer extends ApiBase {
 		this.closeRealTimeConnection_();
 		super.disposeInternal();
 		this.responseCodeMirror_ = null;
+		this.snippetsCodeMirror_ = null;
+		this.bodyCodeMirror_ = null;
 		this.clipboard.dispose();
 	}
 
