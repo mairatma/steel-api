@@ -104,12 +104,16 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildSnippetsCodeMirror_() {
+		var textarea = this.element.querySelector('.explorer-snippets-container textarea');
 		this.snippetsCodeMirror_ = this.buildCodeMirror_(
-			this.element.querySelector('.explorer-snippets-container textarea'),
+			textarea,
 			{
 				readOnly: true
 			}
 		);
+		this.snippetsCodeMirror_.on('change', () => {
+			textarea.value = this.snippetsCodeMirror_.getValue();
+		});
 	}
 
 	/**

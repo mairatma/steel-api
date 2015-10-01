@@ -250,7 +250,16 @@
 		<div class="explorer-section-snippets col-md-12">
 			<label class="api-section-label">Snippets</label>
 			<div class="explorer-snippets-container">
-				<p class="api-section-title">JavaScript</p>
+				<div class="clearfix">
+					<button
+						class="btn btn-default explorer-section-snippets-copy"
+						type="button"
+						data-clipboard
+						data-target="#{$id} .explorer-snippets-container textarea">
+						Copy
+					</button>
+					<p class="api-section-title">JavaScript</p>
+				</div>
 				<textarea></textarea>
 			</div>
 		</div>
