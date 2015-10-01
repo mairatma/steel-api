@@ -175,20 +175,28 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
-	 * Builds the JS code snippet for sending the configured request.
+	 * Builds the code snippet for sending the configured request via Launchpad.
+	 * @param {string} type Either 'java' or 'js'.
 	 * @return {string}
 	 * @protected
 	 */
-	buildJsSnippet_() {
+	buildLaunchpadSnippet_(type) {
 		var snippet = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
 		var method = this.getRequestMethod_();
-		var bodyString = this.getRequestBody_(true);
-		if (core.isObject(bodyString)) {
+
+		var bodyString = this.getRequestBody_(type === 'js');
+		if (type === 'java') {
+			if (bodyString instanceof Embodied) {
+				bodyString = bodyString.body();
+			}
+			bodyString = '"' + JSON.stringify(bodyString).replace(/"/g, '\\"') + '"';
+		} else if (core.isObject(bodyString)) {
 			bodyString = JSON.stringify(bodyString);
 		}
 		if (bodyString === '{}') {
 			bodyString = '';
 		}
+
 		if (this.isRequestRealTime_(method)) {
 			snippet += '    .watch(' + bodyString + ');';
 		} else {
@@ -581,7 +589,8 @@ class ApiExplorer extends ApiBase {
 		}
 		switch (this.snippetType_) {
 			case 'js':
-				this.snippet_ = this.buildJsSnippet_();
+			case 'java':
+				this.snippet_ = this.buildLaunchpadSnippet_(this.snippetType_);
 				break;
 			case 'curl':
 				this.snippet_ = this.buildCurlSnippet_();
