@@ -153,8 +153,12 @@
 
 .explorer-snippets-container {
 	border: 1px solid rgba($brand-primary, .2);
-	border-radius: 4px 4px 0 0;
-	padding: 20px 0 40px;
+	border-radius: $border-radius-base;
+	padding: 20px 0 0;
+}
+
+.explorer-snippets-header {
+	border-bottom: 1px solid rgba($primary, .2);
 }
 
 .explorer-snippets-type {
@@ -177,17 +181,17 @@
 	color: $accent;
 }
 
-.explorer-snippets-container .CodeMirror {
-	border: none;
-	height: 200px;
-}
-
 .explorer-section-snippets-copy {
 	float: right;
 	font-size: 12px;
 	line-height: 10px;
-	margin-right: 30px;
-	padding: 10px 10px;
+	margin: -5px 30px 0 0;
+	padding: 10px;
+}
+
+.explorer-snippets-container .CodeMirror {
+	border: none;
+	height: auto;
 }
 
 // Section / Response ----------------------------------------------------------

@@ -111,7 +111,8 @@ class ApiExplorer extends ApiBase {
 			this.snippetsCodeMirror_ = this.buildCodeMirror_(
 				textarea,
 				{
-					readOnly: true
+					readOnly: true,
+					viewportMargin: Infinity
 				}
 			);
 		}
