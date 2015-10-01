@@ -82,8 +82,29 @@
 
 // Section / Body --------------------------------------------------------------
 
+.explorer-section-body {
+	display: none;
+}
+
+.explorer-section-body-container.expanded .explorer-section-body {
+	display: block;
+}
+
 .explorer-section-body .CodeMirror {
 	padding-left: 10px;
+}
+
+.explorer-section-body-toggler {
+	@include anim(color);
+	color: rgba(35, 50, 64, 0.4);
+	font-size: 11px;
+	margin: 20px 0 15px 0;
+	text-transform: uppercase;
+}
+
+.explorer-section-body-toggler:hover,
+.explorer-section-body-toggler:focus {
+	color: rgba(35, 50, 64, 0.8);
 }
 
 // Section / Try it out --------------------------------------------------------

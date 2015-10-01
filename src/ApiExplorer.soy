@@ -171,8 +171,10 @@
  * @param id
  */
 {template .tryBody}
-	<div id="{$id}-tryBody" class="form-group">
-		<p class="api-section-title">Body</p>
+	<div id="{$id}-tryBody" class="form-group explorer-section-body-container">
+		<button class="explorer-section-body-toggler btn-transparent" type="button" data-onclick="handleBodyTogglerClick_">
+			Set Body <span class="explorer-section-body-toggler-arrow icon-12-arrow-down-short"></span>
+		</button>
 		<div class="explorer-section-body">
 			<textarea
 				class="form-control"

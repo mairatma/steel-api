@@ -62,7 +62,6 @@ class ApiExplorer extends ApiBase {
 	 * text editor for the response body.
 	 */
 	attached() {
-		this.buildBodyCodeMirror_();
 		this.buildResponseCodeMirror_();
 		this.buildSnippetsCodeMirror_();
 		this.buildClipboard_();
@@ -73,8 +72,10 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildBodyCodeMirror_() {
-		this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
-		this.bodyCodeMirror_.on('changes', this.updateSnippet_.bind(this));
+		if (!this.bodyCodeMirror_) {
+			this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
+			this.bodyCodeMirror_.on('changes', this.updateSnippet_.bind(this));
+		}
 	}
 
 	/**
@@ -222,7 +223,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	getRequestBody_() {
-		var body = this.bodyCodeMirror_.getValue();
+		var body = this.bodyCodeMirror_ ? this.bodyCodeMirror_.getValue() : '';
 		if (body.trim() === '') {
 			body = this.getBodyParams_();
 		} else {
@@ -253,6 +254,21 @@ class ApiExplorer extends ApiBase {
 	 */
 	getRequestUrl_() {
 		return this.host + this.replacedPath.replace(/\/(\*)/, () => '');
+	}
+
+	/**
+	 * Handles a `click` event on the toggler for the body section. Expands/collapses
+	 * the body when clicked.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleBodyTogglerClick_(event) {
+		var container = event.delegateTarget.parentNode;
+		var arrow = event.delegateTarget.querySelector('.explorer-section-body-toggler-arrow');
+		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
+		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
+		dom.toggleClasses(container, 'expanded');
+		this.buildBodyCodeMirror_();
 	}
 
 	/**

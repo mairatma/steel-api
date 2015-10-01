@@ -287,11 +287,27 @@ describe('ApiExplorer', function() {
 		});
 	});
 
+	it('should only create CodeMirror editor after toggler is clicked for the first time', function() {
+		explorer = new ApiExplorer({
+			method: ['post']
+		}).render();
+
+		assert.ok(!explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+		var codeMirrorElement = explorer.element.querySelector('.explorer-section-body .CodeMirror');
+		assert.ok(codeMirrorElement);
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+		assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+	});
+
 	it('should send request with chosen text body', function() {
 		explorer = new ApiExplorer({
 			method: ['post']
 		}).render();
 
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 		codeMirror.setValue('My Body');
 
@@ -306,6 +322,7 @@ describe('ApiExplorer', function() {
 			method: ['post']
 		}).render();
 
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 		codeMirror.setValue('{"foo":"bar"}');
 
@@ -326,6 +343,7 @@ describe('ApiExplorer', function() {
 			]
 		}).render();
 
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 		codeMirror.setValue('My Body');
 
@@ -686,6 +704,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('{"foo":"bar"}');
 
@@ -703,6 +722,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('10');
 
