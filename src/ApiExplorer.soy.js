@@ -211,7 +211,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.trySnippets = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label><div class="explorer-snippets-container"><div class="clearfix"><button class="btn btn-default explorer-section-snippets-copy" type="button">Copy</button><button class="explorer-snippets-type-selected explorer-snippets-type btn-transparent">JavaScript</button><button class="explorer-snippets-type btn-transparent">Java</button><button class="explorer-snippets-type btn-transparent">cURL</button></div><textarea></textarea></div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label><div class="explorer-snippets-container"><div class="clearfix"><button class="btn btn-default explorer-section-snippets-copy" type="button">Copy</button><button class="explorer-snippets-type-selected explorer-snippets-type btn-transparent">JavaScript</button><button class="explorer-snippets-type btn-transparent">Java</button><button class="explorer-snippets-type btn-transparent">cURL</button></div><textarea></textarea></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.trySnippets.soyTemplateName = 'Templates.ApiExplorer.trySnippets';
@@ -226,13 +226,13 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row"><div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(opt_data.response ? '' : ' hidden') + '"><label class="api-section-label">Results</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
-  var statusCode__soy392 = opt_data.response ? opt_data.response.statusCode : 0;
-  var statusText__soy393 = opt_data.response ? opt_data.response.statusText : '';
-  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy392 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy392) + ' ' + soy.$$escapeHtml(statusText__soy393) + '</span></div>';
-  var methodItems__soy401 = opt_data.method ? opt_data.method : ['get'];
-  var selectedIndex__soy402 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
-  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy401[selectedIndex__soy402], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div>' + ((opt_data.response && opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div></div>';
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row"><div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><label class="api-section-label">Results</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
+  var statusCode__soy394 = opt_data.response ? opt_data.response.statusCode : 0;
+  var statusText__soy395 = opt_data.response ? opt_data.response.statusText : '';
+  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy394 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy394) + ' ' + soy.$$escapeHtml(statusText__soy395) + '</span></div>';
+  var methodItems__soy403 = opt_data.method ? opt_data.method : ['get'];
+  var selectedIndex__soy404 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
+  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy403[selectedIndex__soy404], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div>' + ((opt_data.response && opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

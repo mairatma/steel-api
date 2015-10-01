@@ -244,9 +244,11 @@
 
 /**
  * @param id
+ * @param? response
+ * @skipUpdates response
  */
 {template .trySnippets}
-	<div id="{$id}-trySnippets" class="row">
+	<div id="{$id}-trySnippets" class="row{$response and $response.statusText ? '' : ' hidden'}">
 		<div class="explorer-section-snippets col-md-12">
 			<label class="api-section-label">Snippets</label>
 			<div class="explorer-snippets-container">
@@ -270,11 +272,11 @@
  * @param id
  * @param method
  * @param? methodSelectedIndex
- * @param response
+ * @param? response
  */
 {template .tryResponse}
 	<div id="{$id}-tryResponse" class="row">
-		<div class="explorer-section-response col-md-12{$response ? '' : ' hidden'}">
+		<div class="explorer-section-response col-md-12{$response and $response.statusText ? '' : ' hidden'}">
 			<label class="api-section-label">Results</label>
 			<div class="explorer-status-container">
 				<div class="row">

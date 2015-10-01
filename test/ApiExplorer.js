@@ -343,7 +343,6 @@ describe('ApiExplorer', function() {
 			requests[0].respond(100);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual(100, explorer.response.statusCode);
 				assert.strictEqual('Continue', explorer.response.statusText);
 
@@ -361,7 +360,6 @@ describe('ApiExplorer', function() {
 			requests[0].respond(200);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual(200, explorer.response.statusCode);
 				assert.strictEqual('OK', explorer.response.statusText);
 
@@ -379,7 +377,6 @@ describe('ApiExplorer', function() {
 			requests[0].respond(301);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual(301, explorer.response.statusCode);
 				assert.strictEqual('Moved Permanently', explorer.response.statusText);
 
@@ -397,7 +394,6 @@ describe('ApiExplorer', function() {
 			requests[0].respond(404);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual(404, explorer.response.statusCode);
 				assert.strictEqual('Not Found', explorer.response.statusText);
 
@@ -415,7 +411,6 @@ describe('ApiExplorer', function() {
 			requests[0].respond(500);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual(500, explorer.response.statusCode);
 				assert.strictEqual('Internal Server Error', explorer.response.statusText);
 
@@ -439,7 +434,6 @@ describe('ApiExplorer', function() {
 			);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
 
 				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
@@ -462,7 +456,6 @@ describe('ApiExplorer', function() {
 			);
 
 			explorer.once('attrsChanged', function() {
-				assert.ok(explorer.response);
 				assert.strictEqual('foo', explorer.response.bodyString);
 
 				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
@@ -507,7 +500,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			ioInstance.emit('changes', 'foo');
-			assert.ok(!explorer.response);
+			assert.ok(!explorer.response.bodyString);
 		});
 
 		it('should not render real time response if button is clicked but selected method is not "get"', function() {
@@ -518,7 +511,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			ioInstance.emit('changes', 'foo');
-			assert.ok(!explorer.response);
+			assert.ok(!explorer.response.bodyString);
 		});
 
 		it('should not render real time response if button is turned off again', function() {
@@ -530,7 +523,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
 
 			ioInstance.emit('changes', 'foo');
-			assert.ok(!explorer.response);
+			assert.ok(!explorer.response.bodyString);
 		});
 
 		it('should add "real-time" css class to element during real time request', function() {
@@ -562,7 +555,6 @@ describe('ApiExplorer', function() {
 			ioInstance.emit('changes', {
 				foo: 'bar'
 			});
-			assert.ok(explorer.response);
 			assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
 
 			explorer.once('attrsChanged', function() {
@@ -581,7 +573,6 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			ioInstance.emit('changes', 'foo');
-			assert.ok(explorer.response);
 			assert.strictEqual('foo', explorer.response.bodyString);
 
 			explorer.once('attrsChanged', function() {
@@ -618,10 +609,22 @@ describe('ApiExplorer', function() {
 	});
 
 	describe('Snippet - JavaScript', function() {
-		it('should render correct snippet for sending request via js', function() {
+		it('should not initialize CodeMirror if response is not set', function() {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
 				path: '/data'
+			}).render();
+
+			assert.ok(!explorer.element.querySelector('.explorer-snippets-container .CodeMirror'));
+		});
+
+		it('should render correct snippet for sending request via js', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
 			}).render();
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
@@ -633,7 +636,10 @@ describe('ApiExplorer', function() {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
 				method: ['get', 'post'],
-				path: '/data'
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
 			}).render();
 
 			explorer.methodSelectedIndex = 1;
@@ -648,7 +654,10 @@ describe('ApiExplorer', function() {
 		it('should render correct snippet when path param changes', function(done) {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
-				path: '/data/:foo'
+				path: '/data/:foo',
+				response: {
+					statusText: 'OK'
+				}
 			}).render();
 
 			var inputs = explorer.element.querySelectorAll('.explorer-section-try-param');
@@ -666,7 +675,10 @@ describe('ApiExplorer', function() {
 		it('should render correct snippet when request is real time', function() {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
-				path: '/data'
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
 			}).render();
 
 			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
@@ -675,6 +687,26 @@ describe('ApiExplorer', function() {
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
 			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .watch(params);';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
+		});
+
+		it('should hide snippet when response becomes empty', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			var snippetsElement = explorer.getSurfaceElement('trySnippets');
+			assert.ok(!dom.hasClass(snippetsElement, 'hidden'));
+
+			explorer.response = {};
+			explorer.once('attrsChanged', function() {
+				snippetsElement = explorer.getSurfaceElement('trySnippets');
+				assert.ok(dom.hasClass(snippetsElement, 'hidden'));
+				done();
+			});
 		});
 	});
 

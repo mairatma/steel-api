@@ -75,7 +75,6 @@ class ApiExplorer extends ApiBase {
 		this.buildSnippetsCodeMirror_();
 		this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
 		this.buildClipboard_();
-		this.updateSnippet_();
 	}
 
 	/**
@@ -104,6 +103,10 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildSnippetsCodeMirror_() {
+		if (this.snippetsCodeMirror_ || !this.response.statusText) {
+			return;
+		}
+
 		var textarea = this.element.querySelector('.explorer-snippets-container textarea');
 		this.snippetsCodeMirror_ = this.buildCodeMirror_(
 			textarea,
@@ -111,6 +114,7 @@ class ApiExplorer extends ApiBase {
 				readOnly: true
 			}
 		);
+		this.updateSnippet_();
 	}
 
 	/**
@@ -423,6 +427,12 @@ class ApiExplorer extends ApiBase {
 	 */
 	syncResponse() {
 		if (this.wasRendered) {
+			if (this.response.statusText) {
+				dom.removeClasses(this.getSurfaceElement('trySnippets'), 'hidden');
+			} else {
+				dom.addClasses(this.getSurfaceElement('trySnippets'), 'hidden');
+			}
+			this.buildSnippetsCodeMirror_();
 			this.buildResponseCodeMirror_();
 		}
 	}
@@ -461,8 +471,11 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	updateSnippet_() {
-		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
+		if (!this.snippetsCodeMirror_) {
+			return;
+		}
 
+		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
 		var method = this.getRequestMethod_();
 		if (this.isRequestRealTime_(method)) {
 			this.snippet_ += '    .watch(params);';
@@ -512,7 +525,10 @@ ApiExplorer.ATTRS = {
 	 * @type {!Object}
 	 */
 	response: {
-		validator: core.isObject
+		validator: core.isObject,
+		valueFn: () => {
+			return {};
+		}
 	}
 };
 
