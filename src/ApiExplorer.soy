@@ -236,7 +236,7 @@
  */
 {template .tryRealTime}
 	<div id="{$id}-tryRealTime" class="explorer-real-time-container col-md-4 {$methodName == 'get' ? '' : ' hidden'}">
-		<p class="api-section-title">Real Time</p>
+		<span class="explorer-real-time-label">Real Time</span>
 		{call Templates.Switcher.content}
 			{param events: ['checkedChanged': $id + ':handleRealTimeCheckedChanged_'] /}
 			{param id: $id + '-realTimeSwitcher' /}
