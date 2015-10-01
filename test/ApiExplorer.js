@@ -287,6 +287,54 @@ describe('ApiExplorer', function() {
 		});
 	});
 
+	it('should send request with chosen text body', function() {
+		explorer = new ApiExplorer({
+			method: ['post']
+		}).render();
+
+		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+		codeMirror.setValue('My Body');
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual(1, requests.length);
+		assert.strictEqual('My Body', requests[0].requestBody);
+		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+	});
+
+	it('should send request with chosen json body', function() {
+		explorer = new ApiExplorer({
+			method: ['post']
+		}).render();
+
+		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+		codeMirror.setValue('{"foo":"bar"}');
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual(1, requests.length);
+		assert.strictEqual('{"foo":"bar"}', requests[0].requestBody);
+		assert.strictEqual('application/json', requests[0].requestHeaders['Content-Type'].substr(0, 16));
+	});
+
+	it('should send request with chosen body when defined instead of parameters', function() {
+		explorer = new ApiExplorer({
+			method: ['post'],
+			parameters: [
+				{
+					name: 'name',
+					value: 'foo'
+				}
+			]
+		}).render();
+
+		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+		codeMirror.setValue('My Body');
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual(1, requests.length);
+		assert.strictEqual('My Body', requests[0].requestBody);
+		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+	});
+
 	describe('Response', function() {
 		it('should render the response status code and text (1xx)', function(done) {
 			explorer = new ApiExplorer().render();

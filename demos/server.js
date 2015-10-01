@@ -5,6 +5,7 @@ var http = require('http');
 
 var app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(express.static(path.join(__dirname, '..')));
 
 var data = [];

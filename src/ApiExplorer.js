@@ -136,6 +136,18 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Builds a `Launchpad` request with the currently chosen argument.
+	 * @return {!Launchpad}
+	 * @protected
+	 */
+	buildLaunchpadRequest_() {
+		var body = this.getRequestBody_();
+		return Launchpad.url(this.getRequestUrl_())
+			.header('Content-Type', core.isObject(body) ? 'application/json' : 'text/plain')
+			.body(body);
+	}
+
+	/**
 	 * Closes the open real time connection, if there is one.
 	 * @protected
 	 */
@@ -190,6 +202,23 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Gets the body content that should be sent with the request.
+	 * @return {*}
+	 * @protected
+	 */
+	getRequestBody_() {
+		var body = this.bodyCodeMirror_.getValue();
+		if (body.trim() === '') {
+			body = this.getBodyParams_();
+		} else {
+			try {
+				body = JSON.parse(body);
+			} catch (error) {}
+		}
+		return body;
+	}
+
+	/**
 	 * Gets the currently selected method, which will be used in the request.
 	 * @return {string}
 	 * @protected
@@ -216,7 +245,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		var launchpad = Launchpad.url(this.getRequestUrl_()).body(this.getBodyParams_());
+		var launchpad = this.buildLaunchpadRequest_();
 		launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
 	}
 
@@ -323,9 +352,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	openRealTimeConnection_() {
-		this.realTimeCon_ = Launchpad
-			.url(this.getRequestUrl_())
-			.body(this.getBodyParams_())
+		this.realTimeCon_ = this.buildLaunchpadRequest_()
 			.sort('id', 'desc')
 			.watch();
 		this.realTimeCon_.on('changes', this.realTimeListener_);
