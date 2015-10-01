@@ -338,8 +338,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		var launchpad = this.buildLaunchpadRequest_();
-		launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
+		this.sendRequest_();
 	}
 
 	/**
@@ -460,6 +459,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	openRealTimeConnection_() {
+		this.sendRequest_();
 		this.realTimeCon_ = this.buildLaunchpadRequest_().watch();
 		this.realTimeCon_.on('changes', this.realTimeListener_);
 		dom.addClasses(this.element, 'real-time');
@@ -481,6 +481,15 @@ class ApiExplorer extends ApiBase {
 			replacedPath = replacedPath.replace(/\/(\*)/, () => '/' + this.wildcardValue_);
 		}
 		return replacedPath;
+	}
+
+	/**
+	 * Sends a request with the current chosen configuration.
+	 * @protected
+	 */
+	sendRequest_() {
+		var launchpad = this.buildLaunchpadRequest_();
+		launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
 	}
 
 	/**
