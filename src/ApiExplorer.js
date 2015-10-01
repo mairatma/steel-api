@@ -111,9 +111,6 @@ class ApiExplorer extends ApiBase {
 				readOnly: true
 			}
 		);
-		this.snippetsCodeMirror_.on('change', () => {
-			textarea.value = this.snippetsCodeMirror_.getValue();
-		});
 	}
 
 	/**
@@ -136,7 +133,11 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildClipboard_() {
-		this.clipboard = new Clipboard();
+		this.clipboard_ = new Clipboard();
+		this.clipboardSnippets_ = new Clipboard({
+			selector: '#' + this.id + ' .explorer-section-snippets-copy',
+			text: () => this.snippetsCodeMirror_.getValue()
+		})
 	}
 
 	/**
@@ -172,7 +173,10 @@ class ApiExplorer extends ApiBase {
 		this.responseCodeMirror_ = null;
 		this.snippetsCodeMirror_ = null;
 		this.bodyCodeMirror_ = null;
-		this.clipboard.dispose();
+		this.clipboard_.dispose();
+		this.clipboard_ = null;
+		this.clipboardSnippets_.dispose();
+		this.clipboardSnippets_ = null;
 	}
 
 	/**
