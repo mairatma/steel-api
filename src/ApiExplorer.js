@@ -27,17 +27,9 @@ class ApiExplorer extends ApiBase {
 		 */
 		this.paramValues_ = null;
 
-		/**
-		 * The params that should be sent with the path, instead of with the body.
-		 * @type {!Object<string, boolean>}
-		 * @protected
-		 */
-		this.pathParams_ = {};
-
 		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
 
 		this.on('pathChanged', this.handlePathChanged_);
-		this.on('replacedPathChanged', this.updateSnippet_);
 	}
 
 	/**
@@ -70,10 +62,34 @@ class ApiExplorer extends ApiBase {
 	 * text editor for the response body.
 	 */
 	attached() {
+		this.buildBodyCodeMirror_();
 		this.buildResponseCodeMirror_();
 		this.buildSnippetsCodeMirror_();
-		this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
 		this.buildClipboard_();
+	}
+
+	/**
+	 * Builds the `CodeMirror` text editor for the body section.
+	 * @protected
+	 */
+	buildBodyCodeMirror_() {
+		this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
+		this.bodyCodeMirror_.on('changes', this.updateSnippet_.bind(this));
+	}
+
+	/**
+	 * Builds a CodeMirror text editor.
+	 * @param {!Element} textarea
+	 * @param {Object=} opt_options
+	 * @return {!CodeMirror}
+	 * @protected
+	 */
+	buildCodeMirror_(textarea, opt_options) {
+		var options = object.mixin({
+			lineNumbers: true,
+			mode: 'javascript'
+		}, opt_options);
+		return CodeMirror.fromTextArea(textarea, options);
 	}
 
 	/**
@@ -117,21 +133,6 @@ class ApiExplorer extends ApiBase {
 			);
 		}
 		this.updateSnippet_();
-	}
-
-	/**
-	 * Builds a CodeMirror text editor.
-	 * @param {!Element} textarea
-	 * @param {Object=} opt_options
-	 * @return {!CodeMirror}
-	 * @protected
-	 */
-	buildCodeMirror_(textarea, opt_options) {
-		var options = object.mixin({
-			lineNumbers: true,
-			mode: 'javascript'
-		}, opt_options);
-		return CodeMirror.fromTextArea(textarea, options);
 	}
 
 	/**
@@ -288,6 +289,7 @@ class ApiExplorer extends ApiBase {
 		var index = inputElement.getAttribute('data-index');
 		this.getParamValues_()[name] = value === '' ? this.parameters[index].value : value;
 		this.replacedPath = this.replacePathParams_();
+		this.updateSnippet_();
 	}
 
 	/**
@@ -479,10 +481,14 @@ class ApiExplorer extends ApiBase {
 
 		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
 		var method = this.getRequestMethod_();
+		var bodyString = this.getRequestBody_();
+		if (core.isObject(bodyString)) {
+			bodyString = JSON.stringify(bodyString);
+		}
 		if (this.isRequestRealTime_(method)) {
-			this.snippet_ += '    .watch(params);';
+			this.snippet_ += '    .watch(' + bodyString + ');';
 		} else {
-			this.snippet_ += '    .' + method + '(params);';
+			this.snippet_ += '    .' + method + '(' + bodyString + ');';
 		}
 		this.snippetsCodeMirror_.setValue(this.snippet_);
 	}

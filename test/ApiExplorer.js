@@ -628,7 +628,7 @@ describe('ApiExplorer', function() {
 			}).render();
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(params);';
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get({});';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 
@@ -649,7 +649,7 @@ describe('ApiExplorer', function() {
 				};
 				explorer.once('attrsChanged', function() {
 					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post(params);';
+					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post({});';
 					assert.strictEqual(expectedStr, codeMirror.getValue());
 					done();
 				});
@@ -671,10 +671,44 @@ describe('ApiExplorer', function() {
 
 			explorer.once('attrsChanged', function() {
 				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get(params);';
+				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get({});';
 				assert.strictEqual(expectedStr, codeMirror.getValue());
 				done();
 			});
+		});
+
+		it('should render correct snippet when json body is set', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('{"foo":"bar"}');
+
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get({"foo":"bar"});';
+			assert.strictEqual(expectedStr, codeMirror.getValue());
+		});
+
+		it('should render correct snippet when non json body is set', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('10');
+
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(10);';
+			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 
 		it('should render correct snippet when request is real time', function() {
@@ -690,7 +724,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .watch(params);';
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .watch({});';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 
