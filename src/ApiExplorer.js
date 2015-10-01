@@ -341,6 +341,8 @@ class ApiExplorer extends ApiBase {
 		if (dom.hasClass(container, 'expanded')) {
 			this.buildBodyCodeMirror_();
 			this.bodyCodeMirror_.getInputField().focus();
+		} else {
+			this.bodyCodeMirror_.setValue('');
 		}
 	}
 
