@@ -716,14 +716,19 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(inputs[0], 'input');
 
 			explorer.once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get();';
-				assert.strictEqual(expectedStr, codeMirror.getValue());
-				done();
+				explorer.response = {
+					statusText: 'OK'
+				};
+				explorer.once('attrsChanged', function() {
+					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get();';
+					assert.strictEqual(expectedStr, codeMirror.getValue());
+					done();
+				});
 			});
 		});
 
-		it('should render correct snippet when json body is set', function() {
+		it('should render correct snippet when json body is set', function(done) {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
 				path: '/data',
@@ -736,12 +741,18 @@ describe('ApiExplorer', function() {
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('{"foo":"bar"}');
 
-			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get({"foo":"bar"});';
-			assert.strictEqual(expectedStr, codeMirror.getValue());
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get({"foo":"bar"});';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
 		});
 
-		it('should render correct snippet when non json body is set', function() {
+		it('should render correct snippet when non json body is set', function(done) {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
 				path: '/data',
@@ -754,9 +765,15 @@ describe('ApiExplorer', function() {
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('10');
 
-			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(10);';
-			assert.strictEqual(expectedStr, codeMirror.getValue());
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(10);';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
 		});
 
 		it('should render correct snippet when request is real time', function() {
@@ -792,6 +809,58 @@ describe('ApiExplorer', function() {
 			explorer.once('attrsChanged', function() {
 				snippetsElement = explorer.getSurfaceElement('trySnippets');
 				assert.ok(dom.hasClass(snippetsElement, 'hidden'));
+				done();
+			});
+		});
+	});
+
+	describe('Snippet - cURL', function() {
+		it('should render correct snippet for sending request via cURL', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				parameters: [
+					{
+						name: 'foo',
+						value: 12
+					},
+					{
+						name: 'bar',
+						value: 1
+					}
+				],
+				path: '/data/:foo',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('curl -X "GET" "foo.org/data/12"'));
+			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"bar\\":1}"'));
+		});
+
+		it('should render correct snippet when body is set', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('{"foo":"bar"}');
+
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('curl -X "GET" "foo.org/data"'));
+				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"foo\\":\\"bar\\"}"'));
 				done();
 			});
 		});

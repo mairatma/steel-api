@@ -4,9 +4,10 @@ import core from 'bower:metal/src/core';
 import dom from 'bower:metal/src/dom/dom';
 import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
-import Launchpad from 'bower:api.js/src/api/Launchpad';
 import Clipboard from 'bower:steel-clipboard/src/Clipboard';
+import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
+import Embodied from 'bower:api.js/src/api-query/Embodied';
+import Launchpad from 'bower:api.js/src/api/Launchpad';
 import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
 
@@ -28,6 +29,7 @@ class ApiExplorer extends ApiBase {
 		this.paramValues_ = null;
 
 		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
+		this.snippetType_ = 'js';
 
 		this.on('pathChanged', this.handlePathChanged_);
 	}
@@ -74,7 +76,6 @@ class ApiExplorer extends ApiBase {
 	buildBodyCodeMirror_() {
 		if (!this.bodyCodeMirror_) {
 			this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
-			this.bodyCodeMirror_.on('changes', this.updateSnippet_.bind(this));
 		}
 	}
 
@@ -149,6 +150,54 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Builds the cURL code snippet for sending the configured request.
+	 * @return {string}
+	 * @protected
+	 */
+	buildCurlSnippet_() {
+		var method = this.getRequestMethod_();
+		var body = this.getRequestBody_();
+		var snippet = 'curl -X "' + method.toUpperCase() + '" "' + this.getRequestUrl_() + '"' +
+			' \\\n  -H "Content-Type: ' + this.getRequestContentType_(body) + '"';
+
+		if (document.cookie) {
+			snippet += ' \\\n  -H "Cookie: ' + document.cookie + '"';
+		}
+
+		if (body instanceof Embodied) {
+			body = body.body();
+		}
+		body = JSON.stringify(body).replace(/"/g, '\\"');
+		if (body !== '{}') {
+			snippet += ' \\\n  -d "' + body + '"';
+		}
+		return snippet;
+	}
+
+	/**
+	 * Builds the JS code snippet for sending the configured request.
+	 * @return {string}
+	 * @protected
+	 */
+	buildJsSnippet_() {
+		var snippet = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
+		var method = this.getRequestMethod_();
+		var bodyString = this.getRequestBody_(true);
+		if (core.isObject(bodyString)) {
+			bodyString = JSON.stringify(bodyString);
+		}
+		if (bodyString === '{}') {
+			bodyString = '';
+		}
+		if (this.isRequestRealTime_(method)) {
+			snippet += '    .watch(' + bodyString + ');';
+		} else {
+			snippet += '    .' + method + '(' + bodyString + ');';
+		}
+		return snippet;
+	}
+
+	/**
 	 * Builds a `Launchpad` request with the currently chosen argument.
 	 * @return {!Launchpad}
 	 * @protected
@@ -156,7 +205,7 @@ class ApiExplorer extends ApiBase {
 	buildLaunchpadRequest_() {
 		var body = this.getRequestBody_();
 		return Launchpad.url(this.getRequestUrl_())
-			.header('Content-Type', core.isObject(body) ? 'application/json' : 'text/plain')
+			.header('Content-Type', this.getRequestContentType_(body))
 			.body(body);
 	}
 
@@ -235,6 +284,16 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
+	 * Gets the request's content type according to its body content.
+	 * @param {*} body
+	 * @return {string}
+	 * @protected
+	 */
+	getRequestContentType_(body) {
+		return core.isObject(body) ? 'application/json' : 'text/plain';
+	}
+
+	/**
 	 * Gets the currently selected method, which will be used in the request.
 	 * @return {string}
 	 * @protected
@@ -308,7 +367,6 @@ class ApiExplorer extends ApiBase {
 		var index = inputElement.getAttribute('data-index');
 		this.getParamValues_()[name] = value === '' ? this.parameters[index].value : value;
 		this.replacedPath = this.replacePathParams_();
-		this.updateSnippet_();
 	}
 
 	/**
@@ -346,6 +404,21 @@ class ApiExplorer extends ApiBase {
 			response.statusText(),
 			separatorIndex === -1 ? type : type.substr(0, separatorIndex)
 		);
+	}
+
+	/**
+	 * Handles a `click` event for one of the snippet language buttons.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleSnippetLanguageClick_(event) {
+		dom.removeClasses(
+			this.element.querySelector('.explorer-snippets-type-selected'),
+			'explorer-snippets-type-selected'
+		);
+		dom.addClasses(event.delegateTarget, 'explorer-snippets-type-selected');
+		this.snippetType_ = event.delegateTarget.getAttribute('data-lang');
+		this.updateSnippet_();
 	}
 
 	/**
@@ -497,20 +570,13 @@ class ApiExplorer extends ApiBase {
 		if (!this.snippetsCodeMirror_) {
 			return;
 		}
-
-		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
-		var method = this.getRequestMethod_();
-		var bodyString = this.getRequestBody_(true);
-		if (core.isObject(bodyString)) {
-			bodyString = JSON.stringify(bodyString);
-		}
-		if (bodyString === '{}') {
-			bodyString = '';
-		}
-		if (this.isRequestRealTime_(method)) {
-			this.snippet_ += '    .watch(' + bodyString + ');';
-		} else {
-			this.snippet_ += '    .' + method + '(' + bodyString + ');';
+		switch (this.snippetType_) {
+			case 'js':
+				this.snippet_ = this.buildJsSnippet_();
+				break;
+			case 'curl':
+				this.snippet_ = this.buildCurlSnippet_();
+				break;
 		}
 		this.snippetsCodeMirror_.setValue(this.snippet_);
 	}
