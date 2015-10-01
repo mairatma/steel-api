@@ -211,7 +211,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.trySnippets = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label><div class="explorer-snippets-container"><div class="clearfix"><button class="btn btn-default explorer-section-snippets-copy" type="button">Copy</button><p class="api-section-title">JavaScript</p></div><textarea></textarea></div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label><div class="explorer-snippets-container"><div class="clearfix"><button class="btn btn-default explorer-section-snippets-copy" type="button">Copy</button><button class="explorer-snippets-type-selected explorer-snippets-type btn-transparent">JavaScript</button><button class="explorer-snippets-type btn-transparent">Java</button><button class="explorer-snippets-type btn-transparent">cURL</button></div><textarea></textarea></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.trySnippets.soyTemplateName = 'Templates.ApiExplorer.trySnippets';
