@@ -296,3 +296,7 @@
 	border-radius: 0 0 4px 4px;
 	height: auto;
 }
+
+.explorer-code-container .CodeMirror-focused {
+	border-color: rgba($primary, .2);
+}
