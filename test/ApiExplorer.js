@@ -552,18 +552,6 @@ describe('ApiExplorer', function() {
 			assert.ok(!dom.hasClass(explorer.element, 'real-time'));
 		});
 
-		it('should send "sort" query automatically with real time request', function() {
-			explorer = new ApiExplorer({
-				host: 'foo.org',
-				method: ['get', 'post']
-			}).render();
-			dom.triggerEvent(explorer.element.querySelector('.switcher'), 'click');
-			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-
-			assert.strictEqual(1, io.callCount);
-			assert.strictEqual('foo.org?sort=' + encodeURIComponent('[{"id":"desc"}]') + '?url=%2F', io.args[0][0]);
-		});
-
 		it('should render real time response with json content', function(done) {
 			explorer = new ApiExplorer({
 				method: ['get', 'post']
@@ -685,7 +673,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .sort(\'id\', \'desc\')\n    .watch();';
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .watch();';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 	});

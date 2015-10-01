@@ -360,9 +360,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	openRealTimeConnection_() {
-		this.realTimeCon_ = this.buildLaunchpadRequest_()
-			.sort('id', 'desc')
-			.watch();
+		this.realTimeCon_ = this.buildLaunchpadRequest_().watch();
 		this.realTimeCon_.on('changes', this.realTimeListener_);
 		dom.addClasses(this.element, 'real-time');
 	}
@@ -468,8 +466,7 @@ class ApiExplorer extends ApiBase {
 
 		var method = this.getRequestMethod_();
 		if (this.isRequestRealTime_(method)) {
-			this.snippet_ += '    .sort(\'id\', \'desc\')\n' +
-				'    .watch();';
+			this.snippet_ += '    .watch();';
 		} else {
 			this.snippet_ += '    .' + method + '();';
 		}
