@@ -17,6 +17,7 @@
 		<div class="explorer-section-try">
 			<form>
 				{call .tryParams data="all" /}
+				{call .tryBody data="all" /}
 				{call .tryIt data="all" /}
 				{call .tryResponse data="all" /}
 				{call .trySnippets data="all" /}
@@ -163,6 +164,21 @@
 				>
 			</div>
 		{/if}
+	</div>
+{/template}
+
+/**
+ * @param id
+ */
+{template .tryBody}
+	<div id="{$id}-tryBody" class="form-group">
+		<p class="api-section-title">Body</p>
+		<div class="explorer-section-body">
+			<textarea
+				class="form-control"
+				name="body">
+			</textarea>
+		</div>
 	</div>
 {/template}
 

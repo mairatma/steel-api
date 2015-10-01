@@ -80,6 +80,12 @@
 	color: $brand-success;
 }
 
+// Section / Body --------------------------------------------------------------
+
+.explorer-section-body .CodeMirror {
+	padding-left: 10px;
+}
+
 // Section / Try it out --------------------------------------------------------
 
 .explorer-section-try {
