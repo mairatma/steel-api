@@ -258,12 +258,21 @@
 			<div class="explorer-section-response col-md-12">
 				<label class="api-section-label">Results</label>
 				<div class="explorer-status-container">
-					<span class="explorer-status-streaming">
-						<span class="explorer-status-streaming-pulse"></span> Streaming results...
-					</span>
-					<span class="explorer-status explorer-status-{floor($response.statusCode / 100)}xx">
-						{$response.statusCode} {$response.statusText}
-					</span>
+					<div class="row">
+						<div class="col-md-4">
+							<span class="explorer-status-streaming">
+								<span class="explorer-status-streaming-pulse"></span> Streaming results...
+							</span>
+						</div>
+						<div class="col-md-4">
+							<span class="explorer-status explorer-status-{floor($response.statusCode / 100)}xx">
+								{$response.statusCode} {$response.statusText}
+							</span>
+						</div>
+						<div class="col-md-4">
+							// Switcher comes here
+						</div>
+					</div>
 				</div>
 				{if $response.bodyString}
 					<div class="explorer-code-container">
