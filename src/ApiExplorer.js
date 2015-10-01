@@ -137,7 +137,7 @@ class ApiExplorer extends ApiBase {
 		this.clipboardSnippets_ = new Clipboard({
 			selector: '#' + this.id + ' .explorer-section-snippets-copy',
 			text: () => this.snippetsCodeMirror_.getValue()
-		})
+		});
 	}
 
 	/**
@@ -461,14 +461,13 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	updateSnippet_() {
-		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n' +
-			'    .body(params)\n';
+		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
 
 		var method = this.getRequestMethod_();
 		if (this.isRequestRealTime_(method)) {
-			this.snippet_ += '    .watch();';
+			this.snippet_ += '    .watch(params);';
 		} else {
-			this.snippet_ += '    .' + method + '();';
+			this.snippet_ += '    .' + method + '(params);';
 		}
 		this.snippetsCodeMirror_.setValue(this.snippet_);
 	}

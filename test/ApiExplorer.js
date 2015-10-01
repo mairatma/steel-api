@@ -625,7 +625,7 @@ describe('ApiExplorer', function() {
 			}).render();
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .get();';
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(params);';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 
@@ -639,7 +639,7 @@ describe('ApiExplorer', function() {
 			explorer.methodSelectedIndex = 1;
 			explorer.once('attrsChanged', function() {
 				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .post();';
+				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post(params);';
 				assert.strictEqual(expectedStr, codeMirror.getValue());
 				done();
 			});
@@ -657,7 +657,7 @@ describe('ApiExplorer', function() {
 
 			explorer.once('attrsChanged', function() {
 				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .body(params)\n    .get();';
+				var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get(params);';
 				assert.strictEqual(expectedStr, codeMirror.getValue());
 				done();
 			});
@@ -673,7 +673,7 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .watch();';
+			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .watch(params);';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
 	});
