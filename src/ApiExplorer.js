@@ -219,17 +219,17 @@ class ApiExplorer extends ApiBase {
 
 	/**
 	 * Gets the body content that should be sent with the request.
+	 * @param {boolean=} opt_raw If true, will return the raw value of the body,
+	 *   without calling "eval" on it.
 	 * @return {*}
 	 * @protected
 	 */
-	getRequestBody_() {
+	getRequestBody_(opt_raw) {
 		var body = this.bodyCodeMirror_ ? this.bodyCodeMirror_.getValue() : '';
 		if (body.trim() === '') {
 			body = this.getBodyParams_();
-		} else {
-			try {
-				body = JSON.parse(body);
-			} catch (error) {}
+		} else if (!opt_raw) {
+			body = eval('(function() {return ' + body + ';})()'); // jshint ignore:line
 		}
 		return body;
 	}
@@ -497,7 +497,7 @@ class ApiExplorer extends ApiBase {
 
 		this.snippet_ = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
 		var method = this.getRequestMethod_();
-		var bodyString = this.getRequestBody_();
+		var bodyString = this.getRequestBody_(true);
 		if (core.isObject(bodyString)) {
 			bodyString = JSON.stringify(bodyString);
 		}

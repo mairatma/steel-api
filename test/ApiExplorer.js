@@ -309,7 +309,7 @@ describe('ApiExplorer', function() {
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('My Body');
+		codeMirror.setValue('\'My Body\'');
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
@@ -324,12 +324,27 @@ describe('ApiExplorer', function() {
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('{"foo":"bar"}');
+		codeMirror.setValue('{foo: \'bar\'}');
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
 		assert.strictEqual('{"foo":"bar"}', requests[0].requestBody);
 		assert.strictEqual('application/json', requests[0].requestHeaders['Content-Type'].substr(0, 16));
+	});
+
+	it('should send request with chosen js code body', function() {
+		explorer = new ApiExplorer({
+			method: ['post']
+		}).render();
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+		codeMirror.setValue('2 + 2');
+
+		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+		assert.strictEqual(1, requests.length);
+		assert.strictEqual(4, requests[0].requestBody);
+		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
 	});
 
 	it('should send request with chosen body when defined instead of parameters', function() {
@@ -345,7 +360,7 @@ describe('ApiExplorer', function() {
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('My Body');
+		codeMirror.setValue('\'My Body\'');
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
