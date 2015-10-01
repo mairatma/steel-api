@@ -227,7 +227,7 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row"><div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(opt_data.response ? '' : ' hidden') + '"><label class="api-section-label">Results</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
-  var statusCode__soy394 = opt_data.response ? opt_data.response.statusCode : '';
+  var statusCode__soy394 = opt_data.response ? opt_data.response.statusCode : 0;
   var statusText__soy395 = opt_data.response ? opt_data.response.statusText : '';
   output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy394 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy394) + ' ' + soy.$$escapeHtml(statusText__soy395) + '</span></div>';
   var methodItems__soy403 = opt_data.method ? opt_data.method : ['get'];
