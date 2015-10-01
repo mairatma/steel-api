@@ -644,10 +644,15 @@ describe('ApiExplorer', function() {
 
 			explorer.methodSelectedIndex = 1;
 			explorer.once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post(params);';
-				assert.strictEqual(expectedStr, codeMirror.getValue());
-				done();
+				explorer.response = {
+					statusText: 'OK'
+				};
+				explorer.once('attrsChanged', function() {
+					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post(params);';
+					assert.strictEqual(expectedStr, codeMirror.getValue());
+					done();
+				});
 			});
 		});
 

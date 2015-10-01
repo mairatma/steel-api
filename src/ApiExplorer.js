@@ -37,7 +37,6 @@ class ApiExplorer extends ApiBase {
 		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
 
 		this.on('pathChanged', this.handlePathChanged_);
-		this.on('methodChanged', this.updateSnippet_);
 		this.on('replacedPathChanged', this.updateSnippet_);
 	}
 
@@ -103,17 +102,19 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildSnippetsCodeMirror_() {
-		if (this.snippetsCodeMirror_ || !this.response.statusText) {
+		if (!this.response.statusText) {
 			return;
 		}
 
-		var textarea = this.element.querySelector('.explorer-snippets-container textarea');
-		this.snippetsCodeMirror_ = this.buildCodeMirror_(
-			textarea,
-			{
-				readOnly: true
-			}
-		);
+		if (!this.snippetsCodeMirror_) {
+			var textarea = this.element.querySelector('.explorer-snippets-container textarea');
+			this.snippetsCodeMirror_ = this.buildCodeMirror_(
+				textarea,
+				{
+					readOnly: true
+				}
+			);
+		}
 		this.updateSnippet_();
 	}
 
@@ -270,8 +271,8 @@ class ApiExplorer extends ApiBase {
 	 */
 	handleMethodSelectedIndexChanged_(data, event) {
 		this.methodSelectedIndex = event.target.selectedIndex;
-		this.updateSnippet_();
-		this.updateRealTimeConnection_();
+		this.response = {};
+		this.closeRealTimeConnection_();
 	}
 
 	/**
@@ -427,13 +428,13 @@ class ApiExplorer extends ApiBase {
 	 */
 	syncResponse() {
 		if (this.wasRendered) {
+			this.buildResponseCodeMirror_();
 			if (this.response.statusText) {
 				dom.removeClasses(this.getSurfaceElement('trySnippets'), 'hidden');
+				this.buildSnippetsCodeMirror_();
 			} else {
 				dom.addClasses(this.getSurfaceElement('trySnippets'), 'hidden');
 			}
-			this.buildSnippetsCodeMirror_();
-			this.buildResponseCodeMirror_();
 		}
 	}
 
