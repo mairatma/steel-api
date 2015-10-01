@@ -504,6 +504,9 @@ class ApiExplorer extends ApiBase {
 		if (core.isObject(bodyString)) {
 			bodyString = JSON.stringify(bodyString);
 		}
+		if (bodyString === '{}') {
+			bodyString = '';
+		}
 		if (this.isRequestRealTime_(method)) {
 			this.snippet_ += '    .watch(' + bodyString + ');';
 		} else {
