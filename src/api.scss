@@ -62,7 +62,7 @@
 }
 
 .CodeMirror-linenumber {
-	padding: 0 12px 0 0;
+	padding: 0 8px;
 }
 
 .CodeMirror-gutters {
@@ -80,6 +80,7 @@
 .CodeMirror-scroll {
 	overflow-x: scroll !important;
 	overflow-y: hidden !important;
+	z-index: 0;
 }
 
 .CodeMirror-line,
