@@ -637,19 +637,6 @@ describe('ApiExplorer', function() {
 			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .body(params)\n    .sort(\'id\', \'desc\')\n    .watch();';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
-
-		it('should run request according to snippet code if it\'s changed', function() {
-			explorer = new ApiExplorer({
-				host: 'foo.org',
-				path: '/data'
-			}).render();
-
-			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			codeMirror.setValue(codeMirror.getValue().replace('get', 'post'));
-
-			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-			assert.strictEqual('POST', requests[0].method);
-		});
 	});
 
 	it('should render path on header', function() {
