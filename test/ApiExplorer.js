@@ -860,7 +860,7 @@ describe('ApiExplorer', function() {
 			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"bar\\":1}"'));
 		});
 
-		it('should render correct snippet when body is set', function(done) {
+		it('should render correct cURL snippet when body is set', function(done) {
 			explorer = new ApiExplorer({
 				host: 'foo.org',
 				path: '/data',
@@ -883,6 +883,24 @@ describe('ApiExplorer', function() {
 				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"foo\\":\\"bar\\"}"'));
 				done();
 			});
+		});
+
+		it('should render correct cURL snippet when cookie is set', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data/:foo',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			document.cookie = 'My Cookie';
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: My Cookie"'));
+
+			document.cookie = null;
 		});
 	});
 
