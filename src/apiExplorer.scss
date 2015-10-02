@@ -150,7 +150,8 @@
 	cursor: pointer;
 }
 
-.explorer-section-try-icon:hover {
+.explorer-section-try-icon:hover,
+.explorer-section-try-icon:focus {
 	color: rgba($primary, .6);
 }
 
@@ -205,7 +206,8 @@
 }
 
 .explorer-snippets-type-selected,
-.explorer-snippets-type-selected:hover {
+.explorer-snippets-type-selected:hover,
+.explorer-snippets-type-selected:focus {
 	color: $accent;
 }
 
