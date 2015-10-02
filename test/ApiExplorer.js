@@ -886,6 +886,27 @@ describe('ApiExplorer', function() {
 		});
 	});
 
+	it('should copy snippet code to clipboard when button is clicked', function() {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			path: '/data',
+			response: {
+				statusText: 'OK'
+			}
+		}).render();
+
+		sinon.spy(document, 'execCommand');
+
+		var button = explorer.element.querySelector('.explorer-section-snippets-copy');
+		dom.triggerEvent(button, 'click');
+
+		var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get();';
+		assert.strictEqual(expectedStr, window.getSelection().toString());
+		assert.strictEqual(1, document.execCommand.callCount);
+
+		document.execCommand.restore();
+	});
+
 	it('should render path on header', function() {
 		explorer = new ApiExplorer({
 			path: '/data/:name'
