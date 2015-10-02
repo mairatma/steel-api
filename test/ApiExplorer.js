@@ -894,13 +894,151 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			document.cookie = 'My Cookie';
+			var previousCookie = document.cookie;
+			document.cookie = 'foo=bar';
 
 			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
 			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: My Cookie"'));
+			assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: foo=bar"'));
 
-			document.cookie = null;
+			document.cookie = previousCookie;
+		});
+	});
+
+	describe('Snippet - Java', function() {
+		it('should render correct snippet for sending request via Java', function() {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				parameters: [
+					{
+						name: 'foo',
+						value: 12
+					},
+					{
+						name: 'bar',
+						value: 1
+					}
+				],
+				path: '/data/:foo',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var expectedStr = 'Launchpad.url("foo.org/data/12")\n' +
+				'    .header("content-type", "application/json")\n' +
+				'    .get("{\\"bar\\":1}");';
+			assert.strictEqual(expectedStr, codeMirror.getValue());
+		});
+
+		it('should render correct Java snippet when body is set to an object', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('{foo: \'bar\'}');
+
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url("foo.org/data")\n' +
+					'    .header("content-type", "application/json")\n' +
+					'    .get("{\\"foo\\":\\"bar\\"}");';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
+		});
+
+		it('should render correct Java snippet when body is set to string', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('\'My string\'');
+
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url("foo.org/data")\n' +
+					'    .header("content-type", "application/json")\n' +
+					'    .get("My string");';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
+		});
+
+		it('should render correct Java snippet when body is set to number', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('2 + 3');
+
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url("foo.org/data")\n' +
+					'    .header("content-type", "application/json")\n' +
+					'    .get(5);';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
+		});
+
+		it('should render correct Java snippet when body is set Embodied instance', function(done) {
+			explorer = new ApiExplorer({
+				host: 'foo.org',
+				path: '/data',
+				response: {
+					statusText: 'OK'
+				}
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			bodyCodeMirror.setValue('Query.filter(Filter.gt(\'age\', 12))');
+
+			explorer.response = {
+				statusText: 'OK'
+			};
+			explorer.once('attrsChanged', function() {
+				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var expectedStr = 'Launchpad.url("foo.org/data")\n' +
+					'    .header("content-type", "application/json")\n' +
+					'    .get("{\\"filter\\":[{\\"age\\":{\\"operator\\":\\">\\",\\"value\\":12}}]}");';
+				assert.strictEqual(expectedStr, codeMirror.getValue());
+				done();
+			});
 		});
 	});
 
