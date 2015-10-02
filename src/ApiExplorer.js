@@ -298,9 +298,16 @@ class ApiExplorer extends ApiBase {
 		if (body.trim() === '') {
 			body = this.getBodyParams_();
 		} else if (!opt_raw) {
-			body = eval('(function() {return ' + body + ';})()'); // jshint ignore:line
-			if (body instanceof Embodied) {
-				body = body.body();
+			try {
+				body = eval('(function() {return ' + body + ';})()'); // jshint ignore:line
+				if (body instanceof Embodied) {
+					body = body.body();
+				}
+			} catch (error) {
+				this.emit('bodyError', {
+					error: error
+				});
+				body = this.getBodyParams_();
 			}
 		}
 		return body;

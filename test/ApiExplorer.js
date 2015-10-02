@@ -287,98 +287,118 @@ describe('ApiExplorer', function() {
 		});
 	});
 
-	it('should only create body CodeMirror editor after toggler is clicked for the first time', function() {
-		explorer = new ApiExplorer({
-			method: ['post']
-		}).render();
+	describe('Body', function() {
+		it('should only create body CodeMirror editor after toggler is clicked for the first time', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		assert.ok(!explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+			assert.ok(!explorer.element.querySelector('.explorer-section-body .CodeMirror'));
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var codeMirrorElement = explorer.element.querySelector('.explorer-section-body .CodeMirror');
-		assert.ok(codeMirrorElement);
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirrorElement = explorer.element.querySelector('.explorer-section-body .CodeMirror');
+			assert.ok(codeMirrorElement);
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
-	});
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			assert.strictEqual(codeMirrorElement, explorer.element.querySelector('.explorer-section-body .CodeMirror'));
+		});
 
-	it('should focus on body CodeMirror editor when it\'s opened', function() {
-		explorer = new ApiExplorer({
-			method: ['post']
-		}).render();
+		it('should focus on body CodeMirror editor when it\'s opened', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var textarea = explorer.element.querySelector('.explorer-section-body .CodeMirror textarea');
-		assert.strictEqual(document.activeElement, textarea);
-	});
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var textarea = explorer.element.querySelector('.explorer-section-body .CodeMirror textarea');
+			assert.strictEqual(document.activeElement, textarea);
+		});
 
-	it('should send request with chosen text body', function() {
-		explorer = new ApiExplorer({
-			method: ['post']
-		}).render();
+		it('should send request with chosen text body', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('\'My Body\'');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			codeMirror.setValue('\'My Body\'');
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual(1, requests.length);
-		assert.strictEqual('My Body', requests[0].requestBody);
-		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
-	});
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual(1, requests.length);
+			assert.strictEqual('My Body', requests[0].requestBody);
+			assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+		});
 
-	it('should send request with chosen json body', function() {
-		explorer = new ApiExplorer({
-			method: ['post']
-		}).render();
+		it('should send request with chosen json body', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('{foo: \'bar\'}');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			codeMirror.setValue('{foo: \'bar\'}');
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual(1, requests.length);
-		assert.strictEqual('{"foo":"bar"}', requests[0].requestBody);
-		assert.strictEqual('application/json', requests[0].requestHeaders['Content-Type'].substr(0, 16));
-	});
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual(1, requests.length);
+			assert.strictEqual('{"foo":"bar"}', requests[0].requestBody);
+			assert.strictEqual('application/json', requests[0].requestHeaders['Content-Type'].substr(0, 16));
+		});
 
-	it('should send request with chosen js code body', function() {
-		explorer = new ApiExplorer({
-			method: ['post']
-		}).render();
+		it('should send request with chosen js code body', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('2 + 2');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			codeMirror.setValue('2 + 2');
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual(1, requests.length);
-		assert.strictEqual(4, requests[0].requestBody);
-		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
-	});
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual(1, requests.length);
+			assert.strictEqual(4, requests[0].requestBody);
+			assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+		});
 
-	it('should send request with chosen body when defined instead of parameters', function() {
-		explorer = new ApiExplorer({
-			method: ['post'],
-			parameters: [
-				{
-					name: 'name',
-					value: 'foo'
-				}
-			]
-		}).render();
+		it('should emit event with error if body js code throws error', function() {
+			explorer = new ApiExplorer({
+				method: ['post']
+			}).render();
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
-		var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
-		codeMirror.setValue('\'My Body\'');
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			codeMirror.setValue('2a + 2b');
 
-		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual(1, requests.length);
-		assert.strictEqual('My Body', requests[0].requestBody);
-		assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+			var listener = sinon.stub();
+			explorer.on('bodyError', listener);
+			assert.doesNotThrow(function() {
+				dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			});
+			assert.strictEqual(1, listener.callCount);
+			assert.ok(listener.args[0][0].error instanceof Error);
+		});
+
+		it('should send request with chosen body when defined instead of parameters', function() {
+			explorer = new ApiExplorer({
+				method: ['post'],
+				parameters: [
+					{
+						name: 'name',
+						value: 'foo'
+					}
+				]
+			}).render();
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
+			var codeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
+			codeMirror.setValue('\'My Body\'');
+
+			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
+			assert.strictEqual(1, requests.length);
+			assert.strictEqual('My Body', requests[0].requestBody);
+			assert.strictEqual('text/plain', requests[0].requestHeaders['Content-Type'].substr(0, 10));
+		});
 	});
 
 	describe('Response', function() {
