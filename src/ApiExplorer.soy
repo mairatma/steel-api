@@ -280,7 +280,11 @@
 						Copy
 					</button>
 				</div>
-				<textarea></textarea>
+				{call Templates.CodeMirror.content}
+					{param config: ['readOnly': true] /}
+					{param id: $id + '-snippetsCodeMirror' /}
+					{param visible: false /}
+				{/call}
 			</div>
 		</div>
 	</div>

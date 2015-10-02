@@ -8,6 +8,7 @@ import Clipboard from 'bower:steel-clipboard/src/Clipboard';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Embodied from 'bower:api.js/src/api-query/Embodied';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
+import 'bower:steel-codemirror/src/CodeMirror';
 import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
 
@@ -65,7 +66,6 @@ class ApiExplorer extends ApiBase {
 	 */
 	attached() {
 		this.buildResponseCodeMirror_();
-		this.buildSnippetsCodeMirror_();
 		this.buildClipboard_();
 	}
 
@@ -123,17 +123,7 @@ class ApiExplorer extends ApiBase {
 		if (!this.response.statusText) {
 			return;
 		}
-
-		if (!this.snippetsCodeMirror_) {
-			var textarea = this.element.querySelector('.explorer-snippets-container textarea');
-			this.snippetsCodeMirror_ = this.buildCodeMirror_(
-				textarea,
-				{
-					readOnly: true,
-					viewportMargin: Infinity
-				}
-			);
-		}
+		this.components[this.id + '-snippetsCodeMirror'].visible = true;
 		this.updateSnippet_();
 	}
 
@@ -145,7 +135,7 @@ class ApiExplorer extends ApiBase {
 		this.clipboard_ = new Clipboard();
 		this.clipboardSnippets_ = new Clipboard({
 			selector: '#' + this.id + ' .explorer-section-snippets-copy',
-			text: () => this.snippetsCodeMirror_.getValue()
+			text: () => this.components[this.id + '-snippetsCodeMirror'].value
 		});
 	}
 
@@ -248,7 +238,6 @@ class ApiExplorer extends ApiBase {
 		this.closeRealTimeConnection_();
 		super.disposeInternal();
 		this.responseCodeMirror_ = null;
-		this.snippetsCodeMirror_ = null;
 		this.bodyCodeMirror_ = null;
 		this.clipboard_.dispose();
 		this.clipboard_ = null;
@@ -567,11 +556,11 @@ class ApiExplorer extends ApiBase {
 			this.buildResponseCodeMirror_();
 			if (this.response.statusText) {
 				dom.removeClasses(this.getSurfaceElement('trySnippets'), 'hidden');
-				this.buildSnippetsCodeMirror_();
 			} else {
 				dom.addClasses(this.getSurfaceElement('trySnippets'), 'hidden');
 			}
 		}
+		this.buildSnippetsCodeMirror_();
 	}
 
 	/**
@@ -608,7 +597,8 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	updateSnippet_() {
-		if (!this.snippetsCodeMirror_) {
+		var codeMirror = this.components[this.id + '-snippetsCodeMirror'];
+		if (!codeMirror) {
 			return;
 		}
 		switch (this.snippetType_) {
@@ -622,7 +612,7 @@ class ApiExplorer extends ApiBase {
 				this.snippet_ = this.buildCurlSnippet_();
 				break;
 		}
-		this.snippetsCodeMirror_.setValue(this.snippet_);
+		codeMirror.value = this.snippet_;
 	}
 }
 

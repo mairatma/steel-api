@@ -23,6 +23,7 @@
     "steel-bootstrap": "metal/steel-bootstrap#master",
     "steel-button-group": "metal/steel-button-group#master",
     "steel-clipboard": "metal/steel-clipboard#master",
+    "steel-codemirror": "metal/steel-codemirror#master",
     "steel-dropdown": "metal/steel-dropdown#master",
     "steel-select": "metal/steel-select#master",
     "steel-switcher": "metal/steel-switcher#master",
