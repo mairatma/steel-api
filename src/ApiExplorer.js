@@ -164,9 +164,6 @@ class ApiExplorer extends ApiBase {
 			snippet += ' \\\n  -H "Cookie: ' + document.cookie + '"';
 		}
 
-		if (body instanceof Embodied) {
-			body = body.body();
-		}
 		body = JSON.stringify(body).replace(/"/g, '\\"');
 		if (body !== '{}') {
 			snippet += ' \\\n  -d "' + body + '"';
@@ -175,39 +172,49 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
-	 * Builds the code snippet for sending the configured request via Launchpad.
-	 * @param {string} type Either 'java' or 'js'.
+	 * Builds the Java code snippet for sending the configured request.
 	 * @return {string}
 	 * @protected
 	 */
-	buildLaunchpadSnippet_(type) {
+	buildJavaSnippet_() {
+		var snippet = 'Launchpad.url("' + this.getRequestUrl_() + '")\n' +
+			'    .header("content-type", "application/json")\n';
+		var body = this.getRequestBody_();
+		if (core.isObject(body)) {
+			body = JSON.stringify(body);
+		}
+		if (core.isString(body)) {
+			body = '"' + body.replace(/"/g, '\\"') + '"';
+		}
+		return snippet + this.buildLauchpadMethodCall_(body);
+	}
+
+	/**
+	 * Builds the JavaScript code snippet for sending the configured request.
+	 * @return {string}
+	 * @protected
+	 */
+	buildJsSnippet_() {
 		var snippet = 'Launchpad.url(\'' + this.getRequestUrl_() + '\')\n';
+		var body = this.getRequestBody_(true);
+		return snippet + this.buildLauchpadMethodCall_(core.isObject(body) ? JSON.stringify(body) : body);
+	}
+
+	/**
+	 * Builds the method call part of the code snippet for a Launchpad request.
+	 * @param {string} body
+	 * @protected
+	 */
+	buildLauchpadMethodCall_(body) {
 		var method = this.getRequestMethod_();
-
-		var bodyString = this.getRequestBody_(type === 'js');
-		if (type === 'java') {
-			snippet += '    .header("content-type", "application/json")\n';
-
-			if (bodyString instanceof Embodied) {
-				bodyString = bodyString.body();
-			}
-			bodyString = '"' + JSON.stringify(bodyString).replace(/"/g, '\\"') + '"';
-			if (bodyString === '"{}"') {
-				bodyString = '';
-			}
-		} else if (core.isObject(bodyString)) {
-			bodyString = JSON.stringify(bodyString);
+		if (body === '{}') {
+			body = '';
 		}
-		if (bodyString === '{}') {
-			bodyString = '';
-		}
-
 		if (this.isRequestRealTime_(method)) {
-			snippet += '    .watch(' + bodyString + ');';
+			return '    .watch(' + body + ');';
 		} else {
-			snippet += '    .' + method + '(' + bodyString + ');';
+			return '    .' + method + '(' + body + ');';
 		}
-		return snippet;
 	}
 
 	/**
@@ -292,6 +299,9 @@ class ApiExplorer extends ApiBase {
 			body = this.getBodyParams_();
 		} else if (!opt_raw) {
 			body = eval('(function() {return ' + body + ';})()'); // jshint ignore:line
+			if (body instanceof Embodied) {
+				body = body.body();
+			}
 		}
 		return body;
 	}
@@ -596,8 +606,10 @@ class ApiExplorer extends ApiBase {
 		}
 		switch (this.snippetType_) {
 			case 'js':
+				this.snippet_ = this.buildJsSnippet_();
+				break;
 			case 'java':
-				this.snippet_ = this.buildLaunchpadSnippet_(this.snippetType_);
+				this.snippet_ = this.buildJavaSnippet_();
 				break;
 			case 'curl':
 				this.snippet_ = this.buildCurlSnippet_();
