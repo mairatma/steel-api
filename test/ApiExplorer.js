@@ -910,13 +910,14 @@ describe('ApiExplorer', function() {
 			}).render();
 
 			var previousCookie = document.cookie;
+			document.cookie = 'token=mytoken';
 			document.cookie = 'foo=bar';
 
 			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
 
 			explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
 				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
-				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: foo=bar"'));
+				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: token=mytoken"'));
 
 				document.cookie = previousCookie;
 				done();

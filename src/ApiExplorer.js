@@ -150,8 +150,9 @@ class ApiExplorer extends ApiBase {
 		var snippet = 'curl -X "' + method.toUpperCase() + '" "' + this.getRequestUrl_() + '"' +
 			' \\\n  -H "Content-Type: ' + this.getRequestContentType_(body) + '"';
 
-		if (document.cookie) {
-			snippet += ' \\\n  -H "Cookie: ' + document.cookie + '"';
+		var token = /token=([^;]+)/.exec(document.cookie);
+		if (token) {
+			snippet += ' \\\n  -H "Cookie: ' + token[0] + '"';
 		}
 
 		body = JSON.stringify(body).replace(/"/g, '\\"');
