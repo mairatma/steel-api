@@ -360,7 +360,12 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	handleClickRun_() {
-		this.sendRequest_();
+		if (this.isRequestRealTime_(this.getRequestMethod_())) {
+			this.closeRealTimeConnection_();
+			this.openRealTimeConnection_();
+		} else {
+			this.sendRequest_();
+		}
 	}
 
 	/**
