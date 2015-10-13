@@ -284,10 +284,12 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	getRequestBody_(opt_raw) {
-		var body = this.bodyCodeMirror_ ? this.bodyCodeMirror_.getValue() : '';
-		if (body.trim() === '') {
+		var body = this.bodyCodeMirror_ ? this.bodyCodeMirror_.getValue().trim() : '';
+		if (body === '') {
 			body = this.getBodyParams_();
-		} else if (!opt_raw) {
+		} else if (opt_raw) {
+			body = body.replace(/\n/g, '\n    ');
+		} else {
 			try {
 				body = eval('(function() {return ' + body + ';})()'); // jshint ignore:line
 				if (body instanceof Embodied) {
