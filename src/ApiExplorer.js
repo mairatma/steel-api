@@ -606,9 +606,6 @@ class ApiExplorer extends ApiBase {
 	 */
 	updateSnippet_() {
 		var codeMirror = this.components[this.id + '-snippetsCodeMirror'];
-		if (!codeMirror) {
-			return;
-		}
 		switch (this.snippetType_) {
 			case 'js':
 				this.snippet_ = this.buildJsSnippet_();
