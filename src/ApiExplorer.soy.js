@@ -232,7 +232,7 @@ Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) 
   output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy403 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy403) + ' ' + soy.$$escapeHtml(statusText__soy404) + '</span></div>';
   var methodItems__soy412 = opt_data.method ? opt_data.method : ['get'];
   var selectedIndex__soy413 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
-  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy412[selectedIndex__soy413], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div>' + ((opt_data.response && opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div></div>';
+  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy412[selectedIndex__soy413], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div><div class="explorer-code-container">' + soy.$$escapeHtml(Templates.CodeMirror.content({id: opt_data.id + '-responseCodeMirror', visible: false}, null, opt_ijData)) + '</div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

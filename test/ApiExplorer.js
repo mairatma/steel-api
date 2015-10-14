@@ -500,12 +500,14 @@ describe('ApiExplorer', function() {
 			);
 
 			explorer.once('attrsChanged', function() {
-				assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
+				explorer.components[explorer.id + '-responseCodeMirror'].once('attrsChanged', function() {
+					assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
 
-				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
-				assert.strictEqual('application/json', codeMirror.getOption('mode'));
-				done();
+					var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
+					assert.strictEqual('application/json', codeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 
@@ -522,12 +524,14 @@ describe('ApiExplorer', function() {
 			);
 
 			explorer.once('attrsChanged', function() {
-				assert.strictEqual('foo', explorer.response.bodyString);
+				explorer.components[explorer.id + '-responseCodeMirror'].once('attrsChanged', function() {
+					assert.strictEqual('foo', explorer.response.bodyString);
 
-				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('foo', codeMirror.getValue());
-				assert.strictEqual('text/html', codeMirror.getOption('mode'));
-				done();
+					var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('foo', codeMirror.getValue());
+					assert.strictEqual('text/html', codeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 
@@ -550,10 +554,12 @@ describe('ApiExplorer', function() {
 				type: 'application/javascript'
 			};
 			explorer.once('attrsChanged', function() {
-				var newCodeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual(codeMirror, newCodeMirror);
-				assert.strictEqual('application/javascript', newCodeMirror.getOption('mode'));
-				done();
+				explorer.components[explorer.id + '-responseCodeMirror'].once('attrsChanged', function() {
+					var newCodeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual(codeMirror, newCodeMirror);
+					assert.strictEqual('application/javascript', newCodeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 	});
@@ -624,10 +630,12 @@ describe('ApiExplorer', function() {
 			assert.strictEqual('{\n    "foo": "bar"\n}', explorer.response.bodyString);
 
 			explorer.once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
-				assert.strictEqual('application/json', codeMirror.getOption('mode'));
-				done();
+				explorer.components[explorer.id + '-responseCodeMirror'].once('attrsChanged', function() {
+					var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('{\n    "foo": "bar"\n}', codeMirror.getValue());
+					assert.strictEqual('application/json', codeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 
@@ -642,10 +650,12 @@ describe('ApiExplorer', function() {
 			assert.strictEqual('foo', explorer.response.bodyString);
 
 			explorer.once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('foo', codeMirror.getValue());
-				assert.strictEqual('text/plain', codeMirror.getOption('mode'));
-				done();
+				explorer.components[explorer.id + '-responseCodeMirror'].once('attrsChanged', function() {
+					var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('foo', codeMirror.getValue());
+					assert.strictEqual('text/plain', codeMirror.getOption('mode'));
+					done();
+				});
 			});
 		});
 
@@ -659,16 +669,21 @@ describe('ApiExplorer', function() {
 			ioInstance.emit('changes', 'foo');
 
 			explorer.once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-				assert.strictEqual('foo', codeMirror.getValue());
-				assert.strictEqual('text/plain', codeMirror.getOption('mode'));
-
-				ioInstance.emit('changes', 'bar');
-				explorer.once('attrsChanged', function() {
-					codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
-					assert.strictEqual('bar', codeMirror.getValue());
+				var codeMirrorComp = explorer.components[explorer.id + '-responseCodeMirror'];
+				codeMirrorComp.once('attrsChanged', function() {
+					var codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+					assert.strictEqual('foo', codeMirror.getValue());
 					assert.strictEqual('text/plain', codeMirror.getOption('mode'));
-					done();
+
+					ioInstance.emit('changes', 'bar');
+					explorer.once('attrsChanged', function() {
+						codeMirrorComp.once('attrsChanged', function() {
+							codeMirror = explorer.element.querySelector('.explorer-code-container .CodeMirror').CodeMirror;
+							assert.strictEqual('bar', codeMirror.getValue());
+							assert.strictEqual('text/plain', codeMirror.getOption('mode'));
+							done();
+						});
+					});
 				});
 			});
 		});

@@ -302,11 +302,12 @@
 					{/call}
 				</div>
 			</div>
-			{if $response and $response.bodyString}
-				<div class="explorer-code-container">
-					<textarea>{$response.bodyString}</textarea>
-				</div>
-			{/if}
+			<div class="explorer-code-container">
+				{call Templates.CodeMirror.content}
+					{param id: $id + '-responseCodeMirror' /}
+					{param visible: false /}
+				{/call}
+			</div>
 		</div>
 	</div>
 {/template}

@@ -64,7 +64,6 @@ class ApiExplorer extends ApiBase {
 	 * text editor for the response body.
 	 */
 	attached() {
-		this.buildResponseCodeMirror_();
 		this.buildClipboard_();
 	}
 
@@ -98,20 +97,16 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	buildResponseCodeMirror_() {
-		var textarea = this.element.querySelector('.explorer-code-container textarea');
-		if (textarea) {
-			if (!this.responseCodeMirror_ || textarea !== this.responseCodeMirror_.getTextArea()) {
-				this.responseCodeMirror_ = this.buildCodeMirror_(textarea, {
-					mode: this.response.type,
-					readOnly: true,
-					value: this.response.bodyString,
-					viewportMargin: Infinity
-				});
-			} else {
-				this.responseCodeMirror_.setOption('mode', this.response.type);
-				this.responseCodeMirror_.setValue(this.response.bodyString);
-			}
+		if (!this.response.statusText) {
+			return;
 		}
+		var codeMirror = this.components[this.id + '-responseCodeMirror'];
+		codeMirror.config = {
+			mode: this.response.type,
+			readOnly: true,
+			value: this.response.bodyString || ''
+		};
+		codeMirror.visible = true;
 	}
 
 	/**
@@ -545,13 +540,13 @@ class ApiExplorer extends ApiBase {
 	 */
 	syncResponse() {
 		if (this.wasRendered) {
-			this.buildResponseCodeMirror_();
 			if (this.response.statusText) {
 				dom.removeClasses(this.getSurfaceElement('trySnippets'), 'hidden');
 			} else {
 				dom.addClasses(this.getSurfaceElement('trySnippets'), 'hidden');
 			}
 		}
+		this.buildResponseCodeMirror_();
 		this.buildSnippetsCodeMirror_();
 	}
 
