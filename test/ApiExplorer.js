@@ -681,7 +681,7 @@ describe('ApiExplorer', function() {
 				path: '/data'
 			}).render();
 
-			assert.ok(!explorer.element.querySelector('.explorer-snippets-container .CodeMirror'));
+			assert.ok(!explorer.element.querySelector('.explorer-section-snippets .CodeMirror'));
 		});
 
 		it('should render correct snippet for sending request via js', function() {
@@ -693,7 +693,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+			var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 			var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get();';
 			assert.strictEqual(expectedStr, codeMirror.getValue());
 		});
@@ -714,7 +714,7 @@ describe('ApiExplorer', function() {
 					statusText: 'OK'
 				};
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .post();';
 					assert.strictEqual(expectedStr, codeMirror.getValue());
 					done();
@@ -740,7 +740,7 @@ describe('ApiExplorer', function() {
 					statusText: 'OK'
 				};
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url(\'foo.org/data/12\')\n    .get();';
 					assert.strictEqual(expectedStr, codeMirror.getValue());
 					done();
@@ -767,7 +767,7 @@ describe('ApiExplorer', function() {
 
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get({"foo":"bar"});';
 					assert.strictEqual(expectedStr, codeMirror.getValue());
 					done();
@@ -793,7 +793,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .get(10);';
 					assert.strictEqual(expectedStr, codeMirror.getValue());
 					done();
@@ -815,7 +815,7 @@ describe('ApiExplorer', function() {
 
 
 			explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 				var expectedStr = 'Launchpad.url(\'foo.org/data\')\n    .watch();';
 				assert.strictEqual(expectedStr, codeMirror.getValue());
 				done();
@@ -863,10 +863,10 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[2], 'click');
 
 			explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('curl -X "GET" "foo.org/data/12"'));
 				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"bar\\":1}"'));
 				done();
@@ -882,7 +882,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[2], 'click');
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('{"foo":"bar"}');
@@ -892,7 +892,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					assert.notStrictEqual(-1, codeMirror.getValue().indexOf('curl -X "GET" "foo.org/data"'));
 					assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-d "{\\"foo\\":\\"bar\\"}"'));
 					done();
@@ -913,10 +913,10 @@ describe('ApiExplorer', function() {
 			document.cookie = 'token=mytoken';
 			document.cookie = 'foo=bar';
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="curl"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[2], 'click');
 
 			explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 				assert.notStrictEqual(-1, codeMirror.getValue().indexOf('-H "Cookie: token=mytoken"'));
 
 				document.cookie = previousCookie;
@@ -945,10 +945,10 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[1], 'click');
 
 			explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-				var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+				var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 				var expectedStr = 'Launchpad.url("foo.org/data/12")\n' +
 					'    .header("content-type", "application/json")\n' +
 					'    .get("{\\"bar\\":1}");';
@@ -966,7 +966,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[1], 'click');
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('{foo: \'bar\'}');
@@ -976,7 +976,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url("foo.org/data")\n' +
 						'    .header("content-type", "application/json")\n' +
 						'    .get("{\\"foo\\":\\"bar\\"}");';
@@ -995,7 +995,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[1], 'click');
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('\'My string\'');
@@ -1005,7 +1005,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url("foo.org/data")\n' +
 						'    .header("content-type", "application/json")\n' +
 						'    .get("My string");';
@@ -1024,7 +1024,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[1], 'click');
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('2 + 3');
@@ -1034,7 +1034,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url("foo.org/data")\n' +
 						'    .header("content-type", "application/json")\n' +
 						'    .get(5);';
@@ -1053,7 +1053,7 @@ describe('ApiExplorer', function() {
 				}
 			}).render();
 
-			dom.triggerEvent(explorer.element.querySelector('[data-lang="java"]'), 'click');
+			dom.triggerEvent(explorer.element.querySelectorAll('.codeMirrorTabs-tab')[1], 'click');
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-body-toggler'), 'click');
 			var bodyCodeMirror = explorer.element.querySelector('.explorer-section-body .CodeMirror').CodeMirror;
 			bodyCodeMirror.setValue('Query.filter(Filter.gt(\'age\', 12))');
@@ -1063,7 +1063,7 @@ describe('ApiExplorer', function() {
 			};
 			explorer.once('attrsChanged', function() {
 				explorer.components[explorer.id + '-snippetsCodeMirror'].once('attrsChanged', function() {
-					var codeMirror = explorer.element.querySelector('.explorer-snippets-container .CodeMirror').CodeMirror;
+					var codeMirror = explorer.element.querySelector('.explorer-section-snippets .CodeMirror').CodeMirror;
 					var expectedStr = 'Launchpad.url("foo.org/data")\n' +
 						'    .header("content-type", "application/json")\n' +
 						'    .get("{\\"filter\\":[{\\"age\\":{\\"operator\\":\\">\\",\\"value\\":12}}]}");';

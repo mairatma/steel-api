@@ -8,7 +8,7 @@ import Clipboard from 'bower:steel-clipboard/src/Clipboard';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import Embodied from 'bower:api.js/src/api-query/Embodied';
 import Launchpad from 'bower:api.js/src/api/Launchpad';
-import 'bower:steel-codemirror/src/CodeMirror';
+import 'bower:steel-codemirror-tabs/src/CodeMirrorTabs';
 import 'bower:steel-select/src/Select';
 import './ApiExplorer.soy';
 
@@ -30,7 +30,6 @@ class ApiExplorer extends ApiBase {
 		this.paramValues_ = null;
 
 		this.realTimeListener_ = this.handleStreamResponse_.bind(this);
-		this.snippetType_ = 'js';
 
 		this.on('pathChanged', this.handlePathChanged_);
 	}
@@ -435,21 +434,6 @@ class ApiExplorer extends ApiBase {
 	}
 
 	/**
-	 * Handles a `click` event for one of the snippet language buttons.
-	 * @param {!Event} event
-	 * @protected
-	 */
-	handleSnippetLanguageClick_(event) {
-		dom.removeClasses(
-			this.element.querySelector('.explorer-snippets-type-selected'),
-			'explorer-snippets-type-selected'
-		);
-		dom.addClasses(event.delegateTarget, 'explorer-snippets-type-selected');
-		this.snippetType_ = event.delegateTarget.getAttribute('data-lang');
-		this.updateSnippet_();
-	}
-
-	/**
 	 * Handles a response coming from a stream (real time) request.
 	 * @param {!Object} response
 	 * @protected
@@ -606,14 +590,14 @@ class ApiExplorer extends ApiBase {
 	 */
 	updateSnippet_() {
 		var codeMirror = this.components[this.id + '-snippetsCodeMirror'];
-		switch (this.snippetType_) {
-			case 'js':
+		switch (codeMirror.selectedTabIndex) {
+			case 0:
 				this.snippet_ = this.buildJsSnippet_();
 				break;
-			case 'java':
+			case 1:
 				this.snippet_ = this.buildJavaSnippet_();
 				break;
-			case 'curl':
+			case 2:
 				this.snippet_ = this.buildCurlSnippet_();
 				break;
 		}

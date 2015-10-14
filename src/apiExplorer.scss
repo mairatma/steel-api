@@ -1,5 +1,6 @@
 @import "steel-bootstrap/src/variables";
 @import "steel-bootstrap/src/mixins";
+@import "steel-codemirror-tabs/src/codeMirrorTabs";
 
 /* API Explorer
 	 ========================================================================== */
@@ -180,37 +181,6 @@
 	margin: 25px 0;
 }
 
-.explorer-snippets-container {
-	border: 1px solid rgba($brand-primary, .2);
-	border-radius: $border-radius-base;
-	padding: 20px 0 0;
-}
-
-.explorer-snippets-header {
-	border-bottom: 1px solid rgba($primary, .2);
-}
-
-.explorer-snippets-type {
-	@include anim(color);
-	color: rgba($primary, .6);
-	font-family: $font-family-secondary;
-	font-size: 11px;
-	font-weight: 700;
-	margin: 0 0 20px 30px;
-	text-transform: uppercase;
-}
-
-.explorer-snippets-type:hover,
-.explorer-snippets-type:focus {
-	color: $primary;
-}
-
-.explorer-snippets-type-selected,
-.explorer-snippets-type-selected:hover,
-.explorer-snippets-type-selected:focus {
-	color: $accent;
-}
-
 .explorer-section-snippets-copy {
 	float: right;
 	font-size: 12px;
@@ -219,8 +189,7 @@
 	padding: 10px;
 }
 
-.explorer-snippets-container .CodeMirror {
-	border: none;
+.explorer-section-snippets .CodeMirror {
 	height: auto;
 }
 

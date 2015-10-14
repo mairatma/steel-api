@@ -211,7 +211,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.trySnippets = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label><div class="explorer-snippets-container"><div class="explorer-snippets-header"><button class="explorer-snippets-type-selected explorer-snippets-type btn-transparent" type="button" data-lang="js" data-onclick="handleSnippetLanguageClick_">JavaScript</button><button class="explorer-snippets-type btn-transparent" type="button" data-lang="java" data-onclick="handleSnippetLanguageClick_">Java</button><button class="explorer-snippets-type btn-transparent" type="button" data-lang="curl" data-onclick="handleSnippetLanguageClick_">cURL</button><button class="explorer-section-snippets-copy btn btn-default" type="button">Copy</button></div>' + soy.$$escapeHtml(Templates.CodeMirror.content({config: {readOnly: true}, id: opt_data.id + '-snippetsCodeMirror', visible: false}, null, opt_ijData)) + '</div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-trySnippets" class="row' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><div class="explorer-section-snippets col-md-12"><label class="api-section-label">Snippets</label>' + soy.$$escapeHtml(Templates.CodeMirrorTabs.content({config: {readOnly: true}, events: {selectedTabIndexChanged: opt_data.id + ':updateSnippet_'}, extraHeaderContent: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="explorer-section-snippets-copy btn btn-default" type="button">Copy</button>'), id: opt_data.id + '-snippetsCodeMirror', tabs: ['JavaScript', 'Java', 'cURL'], visible: false}, null, opt_ijData)) + '</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiExplorer.trySnippets.soyTemplateName = 'Templates.ApiExplorer.trySnippets';
@@ -227,12 +227,12 @@ if (goog.DEBUG) {
  */
 Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row"><div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><label class="api-section-label">Response</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
-  var statusCode__soy399 = opt_data.response ? opt_data.response.statusCode : 0;
-  var statusText__soy400 = opt_data.response ? opt_data.response.statusText : '';
-  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy399 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy399) + ' ' + soy.$$escapeHtml(statusText__soy400) + '</span></div>';
-  var methodItems__soy408 = opt_data.method ? opt_data.method : ['get'];
-  var selectedIndex__soy409 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
-  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy408[selectedIndex__soy409], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div>' + ((opt_data.response && opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div></div>';
+  var statusCode__soy403 = opt_data.response ? opt_data.response.statusCode : 0;
+  var statusText__soy404 = opt_data.response ? opt_data.response.statusText : '';
+  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy403 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy403) + ' ' + soy.$$escapeHtml(statusText__soy404) + '</span></div>';
+  var methodItems__soy412 = opt_data.method ? opt_data.method : ['get'];
+  var selectedIndex__soy413 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
+  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy412[selectedIndex__soy413], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div>' + ((opt_data.response && opt_data.response.bodyString) ? '<div class="explorer-code-container"><textarea>' + soy.$$escapeHtmlRcdata(opt_data.response.bodyString) + '</textarea></div>' : '') + '</div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
