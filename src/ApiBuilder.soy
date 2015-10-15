@@ -131,12 +131,16 @@
 			Handler <a class="api-section-title-link show-tooltip" alt="Learn more" href="/learn/custom-apis.html#handler-configuration"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-handler">
-			<textarea
-				class="form-control handler"
-				name="handler"
-				placeholder='function handler() {lb}{\n}&nbsp;&nbsp;return "Hello World";{\n}{rb}'>
-				{$handler ? $handler : ''}
-			</textarea>
+			{call Templates.CodeMirror.content}
+				{{param config: [
+					'lineNumbers': true,
+					'mode': 'javascript',
+					'placeholder': 'function handler() {\n  return "Hello World";\n}',
+					'value': $handler
+				] /}}
+				{param events: ['valueChanged': $id + ':handleHandlerCodeMirrorValueChanged_'] /}
+				{param id: $id + '-handlerCodeMirror' /}
+			{/call}
 		</div>
 	</div>
 {/template}

@@ -744,9 +744,11 @@ describe('ApiBuilder', function() {
 
 		builder.handler = 'foo';
 		builder.once('attrsChanged', function() {
-			var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
-			assert.strictEqual('foo', codeMirror.getValue());
-			done();
+			builder.components[builder.id + '-handlerCodeMirror'].once('attrsChanged', function() {
+				var codeMirror = builder.element.querySelector('.builder-section-handler .CodeMirror').CodeMirror;
+				assert.strictEqual('foo', codeMirror.getValue());
+				done();
+			});
 		});
 	});
 

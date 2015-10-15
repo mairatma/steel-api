@@ -33,7 +33,6 @@ class ApiBuilder extends ApiBase {
 	 * text editors.
 	 */
 	attached() {
-		this.buildHandlerCodeMirror_();
 		this.buildAuthValidatorCodeMirror_();
 	}
 
@@ -44,7 +43,7 @@ class ApiBuilder extends ApiBase {
 	buildAuthValidatorCodeMirror_() {
 		var textarea = this.element.querySelector('.builder-section-auth textarea');
 		if (!this.authValidatorCodeMirror_ || textarea !== this.authValidatorCodeMirror_.getTextArea()) {
-			this.authValidatorCodeMirror_ = this.buildCodeMirror_(textarea, this.auth.validator, true);
+			this.authValidatorCodeMirror_ = this.buildCodeMirror_(textarea, this.auth.validator);
 			this.authValidatorCodeMirror_.on('change', () => {
 				this.setObjectValue_(this.auth, 'validator', this.authValidatorCodeMirror_.getValue().trim());
 				this.skipSurfaceUpdateForAttr_ = 'auth';
@@ -56,38 +55,20 @@ class ApiBuilder extends ApiBase {
 	 * Builds a CodeMirror instance with the given configuration.
 	 * @param {!Element} textarea
 	 * @param {string} value
-	 * @param {boolean=} opt_singleLine
 	 * @return {!CodeMirror}
 	 * @protected
 	 */
-	buildCodeMirror_(textarea, value, opt_singleLine) {
+	buildCodeMirror_(textarea, value) {
 		var options = {
+			extraKeys: {
+				// Prevent ENTER keys, to avoid line breaks.
+				Enter: function() {}
+			},
 			lineNumbers: true,
 			mode: 'javascript',
 			value: value
 		};
-		if (opt_singleLine) {
-			options.extraKeys = {
-				// Prevent ENTER keys, to avoid line breaks.
-				Enter: function() {}
-			};
-		}
 		return CodeMirror.fromTextArea(textarea, options);
-	}
-
-	/**
-	 * Builds the CodeMirror text editor for the handler field.
-	 * @protected
-	 */
-	buildHandlerCodeMirror_() {
-		this.handlerCodeMirror_ = this.buildCodeMirror_(
-			this.element.querySelector('.builder-section-handler textarea'),
-			this.handler
-		);
-		this.handlerCodeMirror_.on('change', () => {
-			this.handler = this.handlerCodeMirror_.getValue();
-			this.skipSurfaceUpdateForAttr_ = 'handler';
-		});
 	}
 
 	/**
@@ -101,7 +82,7 @@ class ApiBuilder extends ApiBase {
 			return;
 		}
 		var data = index === -1 ? this.body : this.parameters[index];
-		var codeMirror = this.buildCodeMirror_(textarea, data.validator, true);
+		var codeMirror = this.buildCodeMirror_(textarea, data.validator);
 		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue().trim()));
 		this.validatorCodeMirrors_[index] = codeMirror;
 	}
@@ -130,7 +111,6 @@ class ApiBuilder extends ApiBase {
 	disposeInternal() {
 		super.disposeInternal();
 		this.authValidatorCodeMirror_ = null;
-		this.handlerCodeMirror_ = null;
 		this.validatorCodeMirrors_ = null;
 	}
 
@@ -195,6 +175,16 @@ class ApiBuilder extends ApiBase {
 		});
 		this.parameters = this.parameters;
 		this.hasAddedParam_ = true;
+	}
+
+	/**
+	 * Handles a `valueChanged` event on the `CodeMirror` instance used for the handler.
+	 * @param {!Object} data
+	 * @protected
+	 */
+	handleHandlerCodeMirrorValueChanged_(data) {
+		this.handler = data.newVal;
+		this.skipSurfaceUpdateForAttr_ = 'handler';
 	}
 
 	/**
@@ -395,9 +385,7 @@ class ApiBuilder extends ApiBase {
 	 * CodeMirror editor.
 	 */
 	syncHandler() {
-		if (this.handlerCodeMirror_ && this.handlerCodeMirror_.getValue() !== this.handler) {
-			this.handlerCodeMirror_.setValue(this.handler);
-		}
+		this.components[this.id + '-handlerCodeMirror'].value = this.handler;
 	}
 
 	/**
