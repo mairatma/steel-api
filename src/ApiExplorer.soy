@@ -176,10 +176,11 @@
 			Set Body <span class="explorer-section-body-toggler-arrow icon-12-arrow-down-short"></span>
 		</button>
 		<div class="explorer-section-body">
-			<textarea
-				class="form-control"
-				name="body">
-			</textarea>
+			{call Templates.CodeMirror.content}
+				{param config: ['lineNumbers': true, 'mode': 'javascript'] /}
+				{param id: $id + '-bodyCodeMirror' /}
+				{param visible: false /}
+			{/call}
 		</div>
 	</div>
 {/template}

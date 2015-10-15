@@ -2,7 +2,6 @@
 
 import core from 'bower:metal/src/core';
 import dom from 'bower:metal/src/dom/dom';
-import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
 import Clipboard from 'bower:steel-clipboard/src/Clipboard';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
@@ -65,31 +64,6 @@ class ApiExplorer extends ApiBase {
 	 */
 	attached() {
 		this.buildClipboard_();
-	}
-
-	/**
-	 * Builds the `CodeMirror` text editor for the body section.
-	 * @protected
-	 */
-	buildBodyCodeMirror_() {
-		if (!this.bodyCodeMirror_) {
-			this.bodyCodeMirror_ = this.buildCodeMirror_(this.element.querySelector('.explorer-section-body textarea'));
-		}
-	}
-
-	/**
-	 * Builds a CodeMirror text editor.
-	 * @param {!Element} textarea
-	 * @param {Object=} opt_options
-	 * @return {!CodeMirror}
-	 * @protected
-	 */
-	buildCodeMirror_(textarea, opt_options) {
-		var options = object.mixin({
-			lineNumbers: true,
-			mode: 'javascript'
-		}, opt_options);
-		return CodeMirror.fromTextArea(textarea, options);
 	}
 
 	/**
@@ -232,8 +206,6 @@ class ApiExplorer extends ApiBase {
 	disposeInternal() {
 		this.closeRealTimeConnection_();
 		super.disposeInternal();
-		this.responseCodeMirror_ = null;
-		this.bodyCodeMirror_ = null;
 		this.clipboard_.dispose();
 		this.clipboard_ = null;
 		this.clipboardSnippets_.dispose();
@@ -278,7 +250,8 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	getRequestBody_(opt_raw) {
-		var body = this.bodyCodeMirror_ ? this.bodyCodeMirror_.getValue().trim() : '';
+		var codeMirror = this.components[this.id + '-bodyCodeMirror'].getCodeMirror();
+		var body = codeMirror ? codeMirror.getValue().trim() : '';
 		if (body === '') {
 			body = this.getBodyParams_();
 		} else if (opt_raw) {
@@ -343,11 +316,13 @@ class ApiExplorer extends ApiBase {
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(container, 'expanded');
+
+		var codeMirror = this.components[this.id + '-bodyCodeMirror'];
 		if (dom.hasClass(container, 'expanded')) {
-			this.buildBodyCodeMirror_();
-			this.bodyCodeMirror_.getInputField().focus();
+			codeMirror.visible = true;
+			codeMirror.focus();
 		} else {
-			this.bodyCodeMirror_.setValue('');
+			codeMirror.value = '';
 		}
 	}
 
