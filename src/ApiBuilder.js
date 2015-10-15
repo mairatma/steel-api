@@ -86,7 +86,12 @@ class ApiBuilder extends ApiBase {
 			codeMirror.visible = true;
 		}
 
-		container.querySelector('input[type="text"]').focus();
+		// Focuses the first input field. Needs to reset the field's value after focus
+		// so the cursor shows up at the end instead of at the beginning of the text.
+		var field = container.querySelector('input[type="text"]');
+		field.focus();
+		field.value = field.value;
+
 		this.clearSurfaceCache(index === '-1' ? 'body' : 'params');
 	}
 
