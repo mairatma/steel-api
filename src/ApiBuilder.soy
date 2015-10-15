@@ -305,12 +305,16 @@
 					<label class="api-section-label" for="builder-param-validator-{$suffix}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
 						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-						<textarea
-							id="builder-param-validator-{$suffix}"
-							class="builder-param-item-validator-textarea"
-							placeholder="">
-							{$param.validator ? $param.validator : ''}
-						</textarea>
+						{call Templates.CodeMirror.content}
+							{{param config: [
+								'lineNumbers': true,
+								'mode': 'javascript',
+								'value': $param.validator ? $param.validator : ''
+							] /}}
+							{param events: ['valueChanged': $id + ':handleValidatorCodeMirrorValueChanged_'] /}
+							{param id: $id + '-validatorCodeMirror' + $suffix /}
+							{param visible: false /}
+						{/call}
 					</div>
 				</div>
 			</div>
@@ -384,7 +388,7 @@
 						'lineNumbers': true,
 						'mode': 'javascript',
 						'placeholder': '$auth !== null',
-						'value': $auth.validator
+						'value': $auth.validator ? $auth.validator : ''
 					] /}}
 					{param events: ['valueChanged': $id + ':handleAuthValidatorCodeMirrorValueChanged_'] /}
 					{param id: $id + '-authValidatorCodeMirror' /}

@@ -519,25 +519,6 @@ describe('ApiBuilder', function() {
 			assert.strictEqual('validator1', builder.body.validator);
 		});
 
-		it('should build a new CodeMirror if the textarea has changed when the advanced options are opened', function(done) {
-			builder = new ApiBuilder().render();
-
-			var advancedElement = builder.element.querySelector('.builder-param-item-advanced');
-			dom.triggerEvent(advancedElement.querySelector('button'), 'click');
-			var codeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
-
-			builder.body = {
-				validator: 'validator'
-			};
-			builder.once('attrsChanged', function() {
-				advancedElement = builder.element.querySelector('.builder-param-item-advanced');
-				dom.triggerEvent(advancedElement.querySelector('button'), 'click');
-				var newCodeMirror = builder.element.querySelector('.builder-param-item .CodeMirror').CodeMirror;
-				assert.notStrictEqual(codeMirror, newCodeMirror);
-				done();
-			});
-		});
-
 		it('should not build a new CodeMirror if the textarea hasn\'t change when the advanced options are opened', function() {
 			builder = new ApiBuilder().render();
 

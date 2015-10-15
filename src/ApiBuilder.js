@@ -21,7 +21,6 @@ class ApiBuilder extends ApiBase {
 	constructor(opt_config) {
 		super(opt_config);
 
-		this.validatorCodeMirrors_ = {};
 		this.skipSurfaceUpdateForAttr_ = null;
 		this.on('renderSurface', this.handleRenderSurface_);
 		this.on('attrsChanged', this.handleAttrsChanged_);
@@ -34,42 +33,6 @@ class ApiBuilder extends ApiBase {
 	 */
 	attached() {
 		this.preventCodeMirrorLineBreaks_(this.components[this.id + '-authValidatorCodeMirror']);
-	}
-
-	/**
-	 * Builds a CodeMirror instance with the given configuration.
-	 * @param {!Element} textarea
-	 * @param {string} value
-	 * @return {!CodeMirror}
-	 * @protected
-	 */
-	buildCodeMirror_(textarea, value) {
-		var options = {
-			extraKeys: {
-				// Prevent ENTER keys, to avoid line breaks.
-				Enter: function() {}
-			},
-			lineNumbers: true,
-			mode: 'javascript',
-			value: value
-		};
-		return CodeMirror.fromTextArea(textarea, options);
-	}
-
-	/**
-	 * Builds the CodeMirror text editor for the validator fields.
-	 * @param {!Element} textarea
-	 * @param {number} index
-	 * @protected
-	 */
-	buildValidatorCodeMirror_(textarea, index) {
-		if (this.validatorCodeMirrors_[index] && this.validatorCodeMirrors_[index].getTextArea() === textarea) {
-			return;
-		}
-		var data = index === -1 ? this.body : this.parameters[index];
-		var codeMirror = this.buildCodeMirror_(textarea, data.validator);
-		codeMirror.on('change', () => this.updateParamData_(index, 'validator', codeMirror.getValue().trim()));
-		this.validatorCodeMirrors_[index] = codeMirror;
 	}
 
 	/**
@@ -96,7 +59,6 @@ class ApiBuilder extends ApiBase {
 	disposeInternal() {
 		super.disposeInternal();
 		this.authValidatorCodeMirror_ = null;
-		this.validatorCodeMirrors_ = null;
 	}
 
 	/**
@@ -107,6 +69,8 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleAdvancedSetupClick_(event) {
 		var container = event.delegateTarget.parentNode;
+		var index = container.getAttribute('data-index');
+
 		var arrow = event.delegateTarget.querySelector('.builder-param-item-advanced-arrow');
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
@@ -114,11 +78,16 @@ class ApiBuilder extends ApiBase {
 
 		// Build the CodeMirror editor for the validator field when it becomes visible.
 		if (dom.hasClass(container, 'expanded')) {
-			var index = parseInt(container.getAttribute('data-index'), 10);
-			this.buildValidatorCodeMirror_(container.querySelector('textarea'), index);
+			var suffix = index === '-1' ? 'Body' : index;
+			var codeMirror = this.components[this.id + '-validatorCodeMirror' + suffix];
+			if (!codeMirror.getCodeMirror()) {
+				this.preventCodeMirrorLineBreaks_(codeMirror);
+			}
+			codeMirror.visible = true;
 		}
 
 		container.querySelector('input[type="text"]').focus();
+		this.clearSurfaceCache(index === '-1' ? 'body' : 'params');
 	}
 
 	/**
@@ -180,6 +149,18 @@ class ApiBuilder extends ApiBase {
 	handleHandlerCodeMirrorValueChanged_(data) {
 		this.handler = data.newVal;
 		this.skipSurfaceUpdateForAttr_ = 'handler';
+	}
+
+	/**
+	 * Handles a `valueChanged` event on the `CodeMirror` instance used for a validator.
+	 * @param {!Object} data
+	 * @param {!Object} event
+	 * @protected
+	 */
+	handleValidatorCodeMirrorValueChanged_(data, event) {
+		var suffix = event.target.id.substr((this.id + '-validatorCodeMirror').length);
+		var index = suffix === 'Body' ? -1 : parseInt(suffix, 10);
+		this.updateParamData_(index, 'validator', data.newVal.trim());
 	}
 
 	/**
@@ -350,17 +331,17 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Prevents line breaks on the given `CodeMirror` component.
+	 * Prevents line breaks on the given `CodeMirror` component by setting
+	 * a key handler for the ENTER key that does nothing.
 	 * @param {!CodeMirror} codeMirrorComp
 	 * @protected
 	 */
 	preventCodeMirrorLineBreaks_(codeMirrorComp) {
-		// Prevent ENTER keys, to avoid line breaks.
-		codeMirrorComp.config = {
+		codeMirrorComp.config = object.mixin({}, codeMirrorComp.config, {
 			extraKeys: {
 				Enter: function() {}
 			}
-		};
+		});
 	}
 
 	/**
