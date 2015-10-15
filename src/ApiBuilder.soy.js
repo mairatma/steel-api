@@ -197,7 +197,7 @@ Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
     }
     output += '</div>';
   }
-  output += '</div><label class="api-section-label" for="builder-param-auth-validator">Validator</label><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span><textarea id="builder-param-auth-validator" placeholder="$auth !== null">' + soy.$$escapeHtmlRcdata(opt_data.auth.validator ? opt_data.auth.validator : '') + '</textarea></div></div></div>';
+  output += '</div><label class="api-section-label" for="builder-param-auth-validator">Validator</label><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>' + soy.$$escapeHtml(Templates.CodeMirror.content({config: {lineNumbers: true, mode: 'javascript', placeholder: '$auth !== null', value: opt_data.auth.validator}, events: {valueChanged: opt_data.id + ':handleAuthValidatorCodeMirrorValueChanged_'}, id: opt_data.id + '-authValidatorCodeMirror'}, null, opt_ijData)) + '</div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
@@ -215,11 +215,11 @@ if (goog.DEBUG) {
 Templates.ApiBuilder.arrHasItem = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   if (opt_data.array) {
-    var arrItemList220 = opt_data.array;
-    var arrItemListLen220 = arrItemList220.length;
-    for (var arrItemIndex220 = 0; arrItemIndex220 < arrItemListLen220; arrItemIndex220++) {
-      var arrItemData220 = arrItemList220[arrItemIndex220];
-      output += (opt_data.item == arrItemData220) ? '\'true\'' : '';
+    var arrItemList223 = opt_data.array;
+    var arrItemListLen223 = arrItemList223.length;
+    for (var arrItemIndex223 = 0; arrItemIndex223 < arrItemListLen223; arrItemIndex223++) {
+      var arrItemData223 = arrItemList223[arrItemIndex223];
+      output += (opt_data.item == arrItemData223) ? '\'true\'' : '';
     }
   }
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);

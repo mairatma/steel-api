@@ -33,22 +33,7 @@ class ApiBuilder extends ApiBase {
 	 * text editors.
 	 */
 	attached() {
-		this.buildAuthValidatorCodeMirror_();
-	}
-
-	/**
-	 * Builds the CodeMirror text editor for the auth validator field.
-	 * @protected
-	 */
-	buildAuthValidatorCodeMirror_() {
-		var textarea = this.element.querySelector('.builder-section-auth textarea');
-		if (!this.authValidatorCodeMirror_ || textarea !== this.authValidatorCodeMirror_.getTextArea()) {
-			this.authValidatorCodeMirror_ = this.buildCodeMirror_(textarea, this.auth.validator);
-			this.authValidatorCodeMirror_.on('change', () => {
-				this.setObjectValue_(this.auth, 'validator', this.authValidatorCodeMirror_.getValue().trim());
-				this.skipSurfaceUpdateForAttr_ = 'auth';
-			});
-		}
+		this.preventCodeMirrorLineBreaks_(this.components[this.id + '-authValidatorCodeMirror']);
 	}
 
 	/**
@@ -161,6 +146,16 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleAttrsSynced_() {
 		this.skipSurfaceUpdateForAttr_ = null;
+	}
+
+	/**
+	 * Handles a `valueChanged` event on the `CodeMirror` instance used for the auth validator.
+	 * @param {!Object} data
+	 * @protected
+	 */
+	handleAuthValidatorCodeMirrorValueChanged_(data) {
+		this.setObjectValue_(this.auth, 'validator', data.newVal.trim());
+		this.skipSurfaceUpdateForAttr_ = 'auth';
 	}
 
 	/**
@@ -355,6 +350,20 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
+	 * Prevents line breaks on the given `CodeMirror` component.
+	 * @param {!CodeMirror} codeMirrorComp
+	 * @protected
+	 */
+	preventCodeMirrorLineBreaks_(codeMirrorComp) {
+		// Prevent ENTER keys, to avoid line breaks.
+		codeMirrorComp.config = {
+			extraKeys: {
+				Enter: function() {}
+			}
+		};
+	}
+
+	/**
 	 * Sets the value of the given object key, removing the key if the value
 	 * is empty.
 	 * @param {!Object} obj
@@ -371,13 +380,11 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Synchronization logic for the `auth` attr. Rebuilds the CodeMirror editor
-	 * for the validator field when the textarea has been repainted.
+	 * Synchronization logic for the `auth` attr. Updates the value of the
+	 * CodeMirror editor.
 	 */
 	syncAuth() {
-		if (this.wasRendered && this.skipSurfaceUpdateForAttr_ !== 'auth') {
-			this.buildAuthValidatorCodeMirror_();
-		}
+		this.components[this.id + '-authValidatorCodeMirror'].value = this.auth.validator;
 	}
 
 	/**

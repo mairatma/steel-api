@@ -379,7 +379,16 @@
 			<label class="api-section-label" for="builder-param-auth-validator">Validator</label>
 			<div class="input-inner-addon input-inner-addon-left">
 				<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-				<textarea id="builder-param-auth-validator" placeholder="$auth !== null">{$auth.validator ? $auth.validator : ''}</textarea>
+				{call Templates.CodeMirror.content}
+					{{param config: [
+						'lineNumbers': true,
+						'mode': 'javascript',
+						'placeholder': '$auth !== null',
+						'value': $auth.validator
+					] /}}
+					{param events: ['valueChanged': $id + ':handleAuthValidatorCodeMirrorValueChanged_'] /}
+					{param id: $id + '-authValidatorCodeMirror' /}
+				{/call}
 			</div>
 		</div>
 	</div>
