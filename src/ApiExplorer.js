@@ -166,7 +166,7 @@ class ApiExplorer extends ApiBase {
 	 */
 	buildLauchpadMethodCall_(body) {
 		var method = this.getRequestMethod_();
-		if (body === '{}') {
+		if (body === '{}' || body === '"{}"') {
 			body = '';
 		}
 		if (this.isRequestRealTime_(method)) {
