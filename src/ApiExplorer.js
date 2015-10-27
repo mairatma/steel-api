@@ -496,7 +496,7 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	setterPathFn_(path) {
-		return path.replace(/@\//g, '/');
+		return path.replace(/@\//g, '');
 	}
 
 	/**

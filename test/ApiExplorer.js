@@ -31,7 +31,7 @@ describe('ApiExplorer', function() {
 
 	it('should replace "@/" substrings from path with "/"', function() {
 		explorer = new ApiExplorer({
-			path: '/data@/:foo@/:bar'
+			path: '/data/@/:foo/@/:bar'
 		}).render();
 		assert.strictEqual('/data/:foo/:bar', explorer.path);
 	});

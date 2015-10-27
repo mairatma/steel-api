@@ -39,7 +39,7 @@
 			description: 'Enables sending emails',
 			title: 'Email API',
 			host: 'http://localhost:3000/email',
-			path: '/:from@/:to/*',
+			path: '/:from/@/:to/*',
 			method: ['post', 'put', 'get'],
 			handler: 'com.liferay.launchpad.email.EmailAction#post',
 			parameters: {
