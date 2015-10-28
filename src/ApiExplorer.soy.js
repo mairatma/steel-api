@@ -228,13 +228,15 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiExplorer.tryResponse = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row"><div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(opt_data.response && opt_data.response.statusText ? '' : ' hidden') + '"><label class="api-section-label">Response</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
-  var statusCode__soy425 = opt_data.response ? opt_data.response.statusCode : 0;
-  var statusText__soy426 = opt_data.response ? opt_data.response.statusText : '';
-  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy425 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy425) + ' ' + soy.$$escapeHtml(statusText__soy426) + '</span></div>';
-  var methodItems__soy434 = opt_data.method ? opt_data.method : ['get'];
-  var selectedIndex__soy435 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
-  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy434[selectedIndex__soy435], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div><div class="explorer-code-container">' + soy.$$escapeHtml(Templates.CodeMirror.content({id: opt_data.id + '-responseCodeMirror', visible: false}, null, opt_ijData)) + '</div></div></div>';
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-tryResponse" class="row">';
+  var visible__soy423 = opt_data.response && opt_data.response.statusText;
+  output += '<div class="explorer-section-response col-md-12' + soy.$$escapeHtmlAttribute(visible__soy423 ? '' : ' hidden') + '"><label class="api-section-label">Response</label><div class="explorer-status-container"><div class="row"><div class="col-md-4"><span class="explorer-status-streaming"><span class="explorer-status-streaming-pulse"></span> Streaming results...</span></div><div class="col-md-4">';
+  var statusCode__soy427 = opt_data.response ? opt_data.response.statusCode : 0;
+  var statusText__soy428 = opt_data.response ? opt_data.response.statusText : '';
+  output += '<span class="explorer-status explorer-status-' + soy.$$escapeHtmlAttribute(Math.floor(statusCode__soy427 / 100)) + 'xx">' + soy.$$escapeHtml(statusCode__soy427) + ' ' + soy.$$escapeHtml(statusText__soy428) + '</span></div>';
+  var methodItems__soy436 = opt_data.method ? opt_data.method : ['get'];
+  var selectedIndex__soy437 = opt_data.methodSelectedIndex ? opt_data.methodSelectedIndex : 0;
+  output += Templates.ApiExplorer.tryRealTime({id: opt_data.id, methodName: methodItems__soy436[selectedIndex__soy437], surfaceId: 'tryRealTime'}, null, opt_ijData) + '</div></div><div class="explorer-code-container">' + soy.$$escapeHtml(Templates.CodeMirror.content({id: opt_data.id + '-responseCodeMirror', visible: visible__soy423}, null, opt_ijData)) + '</div></div></div>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {

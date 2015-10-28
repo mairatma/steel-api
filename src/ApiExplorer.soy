@@ -284,7 +284,8 @@
  */
 {template .tryResponse}
 	<div id="{$id}-tryResponse" class="row">
-		<div class="explorer-section-response col-md-12{$response and $response.statusText ? '' : ' hidden'}">
+		{let $visible: $response and $response.statusText /}
+		<div class="explorer-section-response col-md-12{$visible ? '' : ' hidden'}">
 			<label class="api-section-label">Response</label>
 			<div class="explorer-status-container">
 				<div class="row">
@@ -312,7 +313,7 @@
 			<div class="explorer-code-container">
 				{call Templates.CodeMirror.content}
 					{param id: $id + '-responseCodeMirror' /}
-					{param visible: false /}
+					{param visible: $visible /}
 				{/call}
 			</div>
 		</div>
