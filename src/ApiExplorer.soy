@@ -27,6 +27,7 @@
 {/template}
 
 /**
+ * @param data
  * @param id
  * @param method
  * @param path
@@ -45,6 +46,11 @@
 		<span class="explorer-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
 			<span class="explorer-visibility-icon {$visible ? 'icon-12-check' : 'icon-12-close-short'}"></span>
 			<span class="explorer-visibility-label">{$visible ? 'Visible' : 'Invisible'}</span>
+		</span>
+		{let $dataEnabled: $data or (not isNonnull($data)) /}
+		<span class="explorer-data show-tooltip">
+			<span class="explorer-data-icon {$dataEnabled ? 'icon-12-check' : 'icon-12-close-short'}"></span>
+			<span class="explorer-data-label">Data</span>
 		</span>
 	</p>
 {/template}

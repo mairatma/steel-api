@@ -25,30 +25,39 @@
 	top: 3px;
 }
 
+.explorer-data,
 .explorer-visibility {
 	float: right;
 	margin-right: 5px;
 	position: relative;
 }
 
+.explorer-data {
+	margin-right: 15px;
+}
+
+.explorer-data-icon,
 .explorer-visibility-icon {
 	background: $white;
 	border-radius: 50%;
 	position: relative;
 }
 
+.explorer-data-icon.icon-12-check,
 .explorer-visibility-icon.icon-12-check {
 	border: 1px solid $brand-success;
 	color: $brand-success;
 	padding: 4px 5px 6px;
 }
 
+.explorer-data-icon.icon-12-close-short,
 .explorer-visibility-icon.icon-12-close-short {
 	border: 1px solid $brand-danger;
 	color: $brand-danger;
 	padding: 5px 6px;
 }
 
+.explorer-data-label,
 .explorer-visibility-label {
 	color: rgba($primary, .7);
 	font-size: 12px;
