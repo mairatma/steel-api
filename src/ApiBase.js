@@ -109,6 +109,7 @@ class ApiBase extends SoyComponent {
 ApiBase.API_ATTRS = [
 	'auth',
 	'body',
+	'data',
 	'description',
 	'handler',
 	'method',
@@ -146,6 +147,15 @@ ApiBase.ATTRS = {
 		valueFn: function() {
 			return {};
 		}
+	},
+
+	/**
+	 * Flag indicating if data is enabled or not.
+	 * @type {boolean}
+	 * @default true
+	 */
+	data: {
+		value: true
 	},
 
 	/**
