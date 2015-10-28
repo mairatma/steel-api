@@ -50,6 +50,7 @@
 {/template}
 
 /**
+ * @param? data
  * @param id
  * @param description
  */
@@ -63,6 +64,16 @@
 			data-oninput="handleInputDescription_">
 			{$description ? $description : ''}
 		</textarea>
+		<div class="builder-data show-tooltip">
+			<span class="builder-data-label">Data</span>
+			<div class="builder-data-switcher">
+				{call Templates.Switcher.content}
+					{param checked: isNonnull($data) ? $data : true /}
+					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
+					{param id: $id + '-dataSwitcher' /}
+				{/call}
+			</div>
+		</div>
 	</div>
 {/template}
 

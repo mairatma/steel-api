@@ -14,11 +14,13 @@
 	width: 620px;
 }
 
+.builder-data,
 .builder-visibility {
 	float: right;
 	position: relative;
 }
 
+.builder-data-label,
 .builder-visibility-label {
 	color: rgba($primary, .7);
 	font-size: 12px;
@@ -26,6 +28,7 @@
 	top: -5px;
 }
 
+.builder-data-switcher,
 .builder-visibility-switcher {
 	display: inline-block;
 	margin-left: 8px;
@@ -35,7 +38,7 @@
 
 .builder-description .form-control-borderless {
 	color: rgba($primary, .8);
-	width: 100%;
+	width: 620px;
 }
 
 .builder-section-body,

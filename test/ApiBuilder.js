@@ -664,6 +664,17 @@ describe('ApiBuilder', function() {
 		assert.ok(!builder.visibility);
 	});
 
+	it('should update "data" when value is changed via switcher', function() {
+		builder = new ApiBuilder().render();
+
+		var switcher = builder.components[builder.id + '-dataSwitcher'];
+		switcher.checked = true;
+		assert.ok(builder.data);
+
+		switcher.checked = false;
+		assert.ok(!builder.data);
+	});
+
 	it('should update "description" when value is changed via input', function() {
 		builder = new ApiBuilder().render();
 
