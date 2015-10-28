@@ -34,7 +34,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.title = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title ? opt_data.title : '') + '" autocomplete="off" autofocus data-oninput="handleInputTitle_" /><div class="builder-visibility show-tooltip" alt="When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it"><span class="builder-visibility-label">Visibility</span><div class="builder-visibility-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.visibility != null ? opt_data.visibility : true, events: {checkedChanged: opt_data.id + ':handleVisibilitySwitcherCheckedChanged_'}, id: opt_data.id + '-visibilitySwitcher'}, null, opt_ijData)) + '</div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title ? opt_data.title : '') + '" autocomplete="off" autofocus data-oninput="handleInputTitle_" /><div class="builder-visibility show-tooltip" alt="When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it"><div class="builder-visibility-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.visibility != null ? opt_data.visibility : true, events: {checkedChanged: opt_data.id + ':handleVisibilitySwitcherCheckedChanged_'}, id: opt_data.id + '-visibilitySwitcher'}, null, opt_ijData)) + '</div><span class="builder-visibility-label">Visibility</span></div><div class="builder-data show-tooltip"><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data != null ? opt_data.data : true, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div><span class="builder-data-label">Data</span></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.title.soyTemplateName = 'Templates.ApiBuilder.title';
@@ -49,7 +49,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.description = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." autocomplete="off" data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description ? opt_data.description : '') + '</textarea><div class="builder-data show-tooltip"><span class="builder-data-label">Data</span><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.content({checked: opt_data.data != null ? opt_data.data : true, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." autocomplete="off" data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description ? opt_data.description : '') + '</textarea></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.description.soyTemplateName = 'Templates.ApiBuilder.description';
@@ -229,8 +229,8 @@ if (goog.DEBUG) {
 }
 
 Templates.ApiBuilder.content.params = ["id"];
-Templates.ApiBuilder.title.params = ["id","title","visibility"];
-Templates.ApiBuilder.description.params = ["data","id","description"];
+Templates.ApiBuilder.title.params = ["id","title","visibility","data"];
+Templates.ApiBuilder.description.params = ["id","description"];
 Templates.ApiBuilder.methods.params = ["id","method"];
 Templates.ApiBuilder.path.params = ["host","id","path"];
 Templates.ApiBuilder.handler.params = ["id"];

@@ -23,6 +23,7 @@
  * @param id
  * @param title
  * @param? visibility
+ * @param? data
  */
 {template .title}
 	<div id="{$id}-title" class="builder-title">
@@ -37,7 +38,6 @@
 			data-oninput="handleInputTitle_"
 		/>
 		<div class="builder-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
-			<span class="builder-visibility-label">Visibility</span>
 			<div class="builder-visibility-switcher">
 				{call Templates.Switcher.content}
 					{param checked: isNonnull($visibility) ? $visibility : true /}
@@ -45,12 +45,22 @@
 					{param id: $id + '-visibilitySwitcher' /}
 				{/call}
 			</div>
+			<span class="builder-visibility-label">Visibility</span>
+		</div>
+		<div class="builder-data show-tooltip">
+			<div class="builder-data-switcher">
+				{call Templates.Switcher.content}
+					{param checked: isNonnull($data) ? $data : true /}
+					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
+					{param id: $id + '-dataSwitcher' /}
+				{/call}
+			</div>
+			<span class="builder-data-label">Data</span>
 		</div>
 	</div>
 {/template}
 
 /**
- * @param? data
  * @param id
  * @param description
  */
@@ -64,16 +74,6 @@
 			data-oninput="handleInputDescription_">
 			{$description ? $description : ''}
 		</textarea>
-		<div class="builder-data show-tooltip">
-			<span class="builder-data-label">Data</span>
-			<div class="builder-data-switcher">
-				{call Templates.Switcher.content}
-					{param checked: isNonnull($data) ? $data : true /}
-					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
-					{param id: $id + '-dataSwitcher' /}
-				{/call}
-			</div>
-		</div>
 	</div>
 {/template}
 

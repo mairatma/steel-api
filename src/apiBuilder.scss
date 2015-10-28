@@ -11,7 +11,7 @@
 .builder-title .form-control-borderless {
 	color: rgba($primary, .8);
 	font-size: 20px;
-	width: 620px;
+	width: 556px;
 }
 
 .builder-data,
@@ -24,6 +24,7 @@
 .builder-visibility-label {
 	color: rgba($primary, .7);
 	font-size: 12px;
+	margin-left: 2px;
 	position: relative;
 	top: -5px;
 }
@@ -31,14 +32,14 @@
 .builder-data-switcher,
 .builder-visibility-switcher {
 	display: inline-block;
-	margin-left: 8px;
+	margin-left: 25px;
 	position: relative;
 	top: 3px;
 }
 
 .builder-description .form-control-borderless {
 	color: rgba($primary, .8);
-	width: 620px;
+	width: 100%;
 }
 
 .builder-section-body,
