@@ -331,11 +331,13 @@ class ApiExplorer extends ApiBase {
 	 * Handles a `click` event on the button for running the API.
 	 * @protected
 	 */
-	handleClickRun_() {
+	handleClickRun_(event) {
 		if (this.isRequestRealTime_(this.getRequestMethod_())) {
 			this.closeRealTimeConnection_();
 			this.openRealTimeConnection_();
 		} else {
+			this.runButton_ = event.delegateTarget;
+			this.runButton_.setAttribute('disabled', true);
 			this.sendRequest_();
 		}
 	}
@@ -402,6 +404,7 @@ class ApiExplorer extends ApiBase {
 			response.statusText(),
 			separatorIndex === -1 ? type : type.substr(0, separatorIndex)
 		);
+		this.runButton_.removeAttribute('disabled');
 	}
 
 	/**

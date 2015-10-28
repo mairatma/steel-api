@@ -1,5 +1,6 @@
 'use strict';
 
+import async from 'bower:metal/src/async/async';
 import dom from 'bower:metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
@@ -284,6 +285,27 @@ describe('ApiExplorer', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 			assert.strictEqual('foo.org/data/foo', requests[0].url);
 			assert.strictEqual('PUT', requests[0].method);
+			done();
+		});
+	});
+
+	it('should disable button until the response arrives', function(done) {
+		explorer = new ApiExplorer({
+			host: 'foo.org',
+			path: '/data'
+		}).render();
+
+		var button = explorer.element.querySelector('.explorer-section-try-button');
+		assert.ok(!button.hasAttribute('disabled'));
+
+		dom.triggerEvent(button, 'click');
+		assert.ok(button.hasAttribute('disabled'));
+
+		requests[0].respond(200, {
+			'Content-Type': 'application/json'
+		}, '{}');
+		async.nextTick(() => {
+			assert.ok(!button.hasAttribute('disabled'));
 			done();
 		});
 	});
