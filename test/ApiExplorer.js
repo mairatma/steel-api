@@ -12,6 +12,7 @@ describe('ApiExplorer', function() {
 
 	beforeEach(function() {
 		ioInstance = new EventEmitter();
+		ioInstance.close = sinon.stub();
 		window.io = function() {
 			return ioInstance;
 		};

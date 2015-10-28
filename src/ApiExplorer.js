@@ -196,6 +196,7 @@ class ApiExplorer extends ApiBase {
 		if (this.realTimeCon_) {
 			dom.removeClasses(this.element, 'real-time');
 			this.realTimeCon_.off('changes', this.realTimeListener_);
+			this.realTimeCon_.close();
 			this.realTimeCon_ = null;
 		}
 	}
