@@ -289,23 +289,20 @@ describe('ApiExplorer', function() {
 		});
 	});
 
-	it('should disable button until the response arrives', function(done) {
+	it('should cancel request if another is sent before its response arrives', function(done) {
 		explorer = new ApiExplorer({
 			host: 'foo.org',
 			path: '/data'
 		}).render();
 
 		var button = explorer.element.querySelector('.explorer-section-try-button');
-		assert.ok(!button.hasAttribute('disabled'));
-
 		dom.triggerEvent(button, 'click');
-		assert.ok(button.hasAttribute('disabled'));
+		dom.triggerEvent(button, 'click');
+		assert.strictEqual(2, requests.length);
 
-		requests[0].respond(200, {
-			'Content-Type': 'application/json'
-		}, '{}');
-		async.nextTick(() => {
-			assert.ok(!button.hasAttribute('disabled'));
+		sinon.spy(requests[0], 'abort');
+		async.nextTick(function() {
+			assert.strictEqual(1, requests[0].abort.callCount);
 			done();
 		});
 	});

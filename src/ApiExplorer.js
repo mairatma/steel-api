@@ -211,6 +211,7 @@ class ApiExplorer extends ApiBase {
 		this.clipboard_ = null;
 		this.clipboardSnippets_.dispose();
 		this.clipboardSnippets_ = null;
+		this.requestPromise_ = null;
 	}
 
 	/**
@@ -331,13 +332,11 @@ class ApiExplorer extends ApiBase {
 	 * Handles a `click` event on the button for running the API.
 	 * @protected
 	 */
-	handleClickRun_(event) {
+	handleClickRun_() {
 		if (this.isRequestRealTime_(this.getRequestMethod_())) {
 			this.closeRealTimeConnection_();
 			this.openRealTimeConnection_();
 		} else {
-			this.runButton_ = event.delegateTarget;
-			this.runButton_.setAttribute('disabled', true);
 			this.sendRequest_();
 		}
 	}
@@ -404,7 +403,7 @@ class ApiExplorer extends ApiBase {
 			response.statusText(),
 			separatorIndex === -1 ? type : type.substr(0, separatorIndex)
 		);
-		this.runButton_.removeAttribute('disabled');
+		this.requestPromise_ = null;
 	}
 
 	/**
@@ -475,8 +474,11 @@ class ApiExplorer extends ApiBase {
 	 * @protected
 	 */
 	sendRequest_() {
+		if (this.requestPromise_) {
+			this.requestPromise_.cancel();
+		}
 		var launchpad = this.buildLaunchpadRequest_();
-		launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
+		this.requestPromise_ = launchpad[this.getRequestMethod_()]().then(this.handleResponse_.bind(this));
 	}
 
 	/**
