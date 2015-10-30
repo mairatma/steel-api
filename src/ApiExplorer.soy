@@ -42,7 +42,7 @@
 			{/foreach}
 		{/if}
 		{let $dataEnabled: $data or (not isNonnull($data)) /}
-		<span class="explorer-data show-tooltip">
+		<span class="explorer-data  show-tooltip" alt="When data is enabled your API becomes a RESTful database that can store and sync data in realtime">
 			<span class="explorer-data-icon {$dataEnabled ? 'icon-12-check' : 'icon-12-close-short'}"></span>
 			<span class="explorer-data-label">Data</span>
 		</span>

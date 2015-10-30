@@ -44,7 +44,7 @@ Templates.ApiExplorer.title = function(opt_data, opt_ignored, opt_ijData) {
     }
   }
   var dataEnabled__soy266 = opt_data.data || ! (opt_data.data != null);
-  output += '<span class="explorer-data show-tooltip"><span class="explorer-data-icon ' + soy.$$escapeHtmlAttribute(dataEnabled__soy266 ? 'icon-12-check' : 'icon-12-close-short') + '"></span><span class="explorer-data-label">Data</span></span>';
+  output += '<span class="explorer-data  show-tooltip" alt="When data is enabled your API becomes a RESTful database that can store and sync data in realtime"><span class="explorer-data-icon ' + soy.$$escapeHtmlAttribute(dataEnabled__soy266 ? 'icon-12-check' : 'icon-12-close-short') + '"></span><span class="explorer-data-label">Data</span></span>';
   var visible__soy270 = opt_data.visibility || ! (opt_data.visibility != null);
   output += '<span class="explorer-title-name">' + soy.$$escapeHtml(opt_data.title ? opt_data.title : opt_data.path) + '</span><span class="explorer-visibility show-tooltip" alt="When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it"><span class="explorer-visibility-icon ' + soy.$$escapeHtmlAttribute(visible__soy270 ? 'icon-12-check' : 'icon-12-close-short') + '"></span><span class="explorer-visibility-label">' + soy.$$escapeHtml(visible__soy270 ? 'Visible' : 'Invisible') + '</span></span></p>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
