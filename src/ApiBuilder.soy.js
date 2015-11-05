@@ -1,6 +1,10 @@
 /* jshint ignore:start */
+import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
-var Templates = ComponentRegistry.Templates;
+import SoyAop from 'bower:metal/src/soy/SoyAop';
+import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
+import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
+var Templates = SoyTemplates.get();
 // This file was automatically generated from ApiBuilder.soy.
 // Please don't edit this file by hand.
 
@@ -239,5 +243,14 @@ Templates.ApiBuilder.params.params = ["id","parameters"];
 Templates.ApiBuilder.param.private = true;
 Templates.ApiBuilder.auth.params = ["auth","id","permissions","roles"];
 Templates.ApiBuilder.arrHasItem.private = true;
-export default Templates.ApiBuilder;
+
+class ApiBuilder extends Component {
+  static setImpl(ctor) {
+    ComponentRegistry.register(ctor, 'ApiBuilder');
+  }
+}
+ApiBuilder.RENDERER = SoyRenderer;
+ApiBuilder.setImpl(ApiBuilder);
+SoyAop.registerTemplates('ApiBuilder');
+export default ApiBuilder;
 /* jshint ignore:end */

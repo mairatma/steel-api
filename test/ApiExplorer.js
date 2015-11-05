@@ -3,7 +3,7 @@
 import async from 'bower:metal/src/async/async';
 import dom from 'bower:metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
+import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
 import EventEmitter from 'bower:metal/src/events/EventEmitter';
 
 describe('ApiExplorer', function() {
@@ -1146,7 +1146,7 @@ describe('ApiExplorer', function() {
 	});
 
 	it('should decorate ApiExplorer without repainting when content is correct', function() {
-		var markup = ComponentRegistry.Templates.ApiExplorer.content({
+		var markup = SoyTemplates.get('ApiExplorer', 'content')({
 			auth: {
 				permissions: ['Edit'],
 				roles: ['Admin', 'Member']

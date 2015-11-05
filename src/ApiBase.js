@@ -2,12 +2,13 @@
 
 import core from 'bower:metal/src/core';
 import object from 'bower:metal/src/object/object';
-import SoyComponent from 'bower:metal/src/soy/SoyComponent';
+import Component from 'bower:metal/src/component/Component';
+import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
 
 /**
  * Base class for components that will handle APIs, like `ApiBuilder` and `ApiExplorer`.
  */
-class ApiBase extends SoyComponent {
+class ApiBase extends Component {
 	/**
 	 * Converts the given parameters from the array to the object format.
 	 * @param {!Array} parameters
@@ -245,5 +246,12 @@ ApiBase.ATTRS = {
  * @static
  */
 ApiBase.PATH_PARAMS_REGEX = /\/:(\w+)(?:\([^\)]+\))?/g;
+
+/**
+ * The renderer that this component should use.
+ * @type {!ComponentRenderer}
+ * @static
+ */
+ApiBase.RENDERER = SoyRenderer;
 
 export default ApiBase;

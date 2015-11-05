@@ -2,7 +2,7 @@
 
 import dom from 'bower:metal/src/dom/dom';
 import ApiBuilder from '../src/ApiBuilder';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
+import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
 
 describe('ApiBuilder', function() {
 	var builder;
@@ -762,7 +762,7 @@ describe('ApiBuilder', function() {
 	});
 
 	it('should decorate ApiBuilder without repainting when content is correct', function() {
-		var markup = ComponentRegistry.Templates.ApiBuilder.content({
+		var markup = SoyTemplates.get('ApiBuilder', 'content')({
 			auth: {
 				permissions: ['Edit'],
 				roles: ['Admin', 'Member']
