@@ -1,6 +1,5 @@
 /* jshint ignore:start */
 import Component from 'bower:metal/src/component/Component';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import SoyAop from 'bower:metal/src/soy/SoyAop';
 import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
 import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
@@ -259,13 +258,8 @@ Templates.ApiExplorer.tryRealTime.params = ["id","methodName"];
 Templates.ApiExplorer.trySnippets.params = ["id"];
 Templates.ApiExplorer.tryResponse.params = ["id","method","methodSelectedIndex","response"];
 
-class ApiExplorer extends Component {
-  static setImpl(ctor) {
-    ComponentRegistry.register(ctor, 'ApiExplorer');
-  }
-}
+class ApiExplorer extends Component {}
 ApiExplorer.RENDERER = SoyRenderer;
-ApiExplorer.setImpl(ApiExplorer);
 SoyAop.registerTemplates('ApiExplorer');
 export default ApiExplorer;
 /* jshint ignore:end */

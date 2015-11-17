@@ -1,6 +1,5 @@
 /* jshint ignore:start */
 import Component from 'bower:metal/src/component/Component';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import SoyAop from 'bower:metal/src/soy/SoyAop';
 import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
 import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
@@ -244,13 +243,8 @@ Templates.ApiBuilder.param.private = true;
 Templates.ApiBuilder.auth.params = ["auth","id","permissions","roles"];
 Templates.ApiBuilder.arrHasItem.private = true;
 
-class ApiBuilder extends Component {
-  static setImpl(ctor) {
-    ComponentRegistry.register(ctor, 'ApiBuilder');
-  }
-}
+class ApiBuilder extends Component {}
 ApiBuilder.RENDERER = SoyRenderer;
-ApiBuilder.setImpl(ApiBuilder);
 SoyAop.registerTemplates('ApiBuilder');
 export default ApiBuilder;
 /* jshint ignore:end */

@@ -4,11 +4,11 @@ import array from 'bower:metal/src/array/array';
 import dom from 'bower:metal/src/dom/dom';
 import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
-import ApiBuilderBase from './ApiBuilder.soy';
 import 'bower:steel-button-group/src/ButtonGroup';
 import 'bower:steel-dropdown/src/Dropdown';
 import 'bower:steel-select/src/Select';
 import 'bower:steel-switcher/src/Switcher';
+import './ApiBuilder.soy';
 
 /**
  * Responsible for building HTTP APIs.
@@ -513,7 +513,5 @@ ApiBuilder.ATTRS = {
  * @static
  */
 ApiBuilder.ELEMENT_CLASSES = 'builder';
-
-ApiBuilderBase.setImpl(ApiBuilder);
 
 export default ApiBuilder;

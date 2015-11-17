@@ -1,36 +1,17 @@
-var metal = require('gulp-metal');
+'use strict';
 
-var babelOptions = {
-	resolveModuleSource: metal.renameAlias,
-	sourceMap: 'both'
-};
+var metalKarmaConfig = require('metal-karma-config');
 
 module.exports = function (config) {
-	config.set({
-		frameworks: ['mocha', 'chai', 'sinon', 'source-map-support', 'commonjs'],
+	metalKarmaConfig(config);
 
-		files: [
-			'bower_components/soyutils/soyutils.js',
-			'bower_components/codemirror/lib/codemirror.js',
-			'bower_components/metal*/src/**/*.js',
-			'bower_components/crystal*/src/**/*.js',
-			'bower_components/steel*/src/**/*.js',
-			'bower_components/api.js/src/**/*.js',
-			'src/**/*.js',
-			'test/**/*.js'
-		],
-
-		preprocessors: {
-			'src/**/*.js': ['babel', 'commonjs'],
-			'bower_components/metal*/**/*.js': ['babel', 'commonjs'],
-			'bower_components/crystal*/**/*.js': ['babel', 'commonjs'],
-			'bower_components/steel*/**/*.js': ['babel', 'commonjs'],
-			'bower_components/api.js/**/*.js': ['babel', 'commonjs'],
-			'test/**/*.js': ['babel', 'commonjs']
-		},
-
-		browsers: ['Chrome'],
-
-		babelPreprocessor: {options: babelOptions}
-	});
-}
+	config.files.push(
+		'bower_components/codemirror/lib/codemirror.js',
+		'bower_components/crystal*/src/**/*.js',
+		'bower_components/steel*/src/**/*.js',
+		'bower_components/api.js/src/**/*.js'
+	);
+	config.preprocessors['bower_components/crystal*/**/*.js'] = ['babel', 'commonjs'];
+	config.preprocessors['bower_components/steel*/**/*.js'] = ['babel', 'commonjs'];
+	config.preprocessors['bower_components/api.js*/**/*.js'] = ['babel', 'commonjs'];
+};
