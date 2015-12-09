@@ -67,7 +67,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.methods = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#1-method"><span class="icon-12-external"></span></a></p>' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default http-get-bg'}, {label: 'post', cssClass: 'btn btn-default http-post-bg'}, {label: 'put', cssClass: 'btn btn-default http-put-bg'}, {label: 'patch', cssClass: 'btn btn-default http-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default http-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method ? opt_data.method : ['get']}, null, opt_ijData)) + '</div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#1-method"><span class="icon-12-external"></span></a></p>' + soy.$$escapeHtml(Templates.ButtonGroup.content({buttons: [{label: 'get', cssClass: 'btn btn-default http-get-bg'}, {label: 'post', cssClass: 'btn btn-default http-post-bg'}, {label: 'put', cssClass: 'btn btn-default http-put-bg'}, {label: 'patch', cssClass: 'btn btn-default http-patch-bg'}, {label: 'delete', cssClass: 'btn btn-default http-delete-bg'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method ? opt_data.method : ['get']}, null, opt_ijData)) + '</div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.methods.soyTemplateName = 'Templates.ApiBuilder.methods';
@@ -82,7 +82,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.path = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#2-endpoint"><span class="icon-12-external"></span></a></p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host ? opt_data.host : '') + '</div><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="The endpoint could provide different capabilities to make your service more flexible. Visit the learn section for more information."></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path ? opt_data.path : '') + '" data-oninput="handleInputPath_" /></div></div></div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#2-endpoint"><span class="icon-12-external"></span></a></p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host ? opt_data.host : '') + '</div><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="The endpoint could provide different capabilities to make your service more flexible. Visit the learn section for more information."></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path ? opt_data.path : '') + '" data-oninput="handleInputPath_" /></div></div></div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.path.soyTemplateName = 'Templates.ApiBuilder.path';
@@ -97,7 +97,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#5-handler"><span class="icon-12-external"></span></a></p><div class="builder-section-handler">' + soy.$$escapeHtml(Templates.CodeMirror.content({config: {lineNumbers: true, mode: 'javascript', placeholder: 'function handler() {\n  return "Hello World";\n}', value: opt_data.handler}, events: {valueChanged: opt_data.id + ':handleHandlerCodeMirrorValueChanged_'}, id: opt_data.id + '-handlerCodeMirror'}, null, opt_ijData)) + '</div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#5-handler"><span class="icon-12-external"></span></a></p><div class="builder-section-handler">' + soy.$$escapeHtml(Templates.CodeMirror.content({config: {lineNumbers: true, mode: 'javascript', placeholder: 'function handler() {\n  return "Hello World";\n}', value: opt_data.handler}, events: {valueChanged: opt_data.id + ':handleHandlerCodeMirrorValueChanged_'}, id: opt_data.id + '-handlerCodeMirror'}, null, opt_ijData)) + '</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';
@@ -112,7 +112,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.body = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-body"><p class="api-section-title">Body <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#4-body"><span class="icon-12-external"></span></a></p><div class="builder-section-body">' + Templates.ApiBuilder.param({id: opt_data.id, index: -1, param: opt_data.body ? opt_data.body : []}, null, opt_ijData) + '</div></div>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-body"><p class="api-section-title">Body <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#4-body"><span class="icon-12-external"></span></a></p><div class="builder-section-body">' + Templates.ApiBuilder.param({id: opt_data.id, index: -1, param: opt_data.body ? opt_data.body : []}, null, opt_ijData) + '</div></div>');
 };
 if (goog.DEBUG) {
   Templates.ApiBuilder.body.soyTemplateName = 'Templates.ApiBuilder.body';
@@ -127,7 +127,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params" class="builder-params"><p class="api-section-title">Parameters <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#3-parameters"><span class="icon-12-external"></span></a></p><div class="builder-section-params">';
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params" class="builder-params"><p class="api-section-title">Parameters <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#3-parameters"><span class="icon-12-external"></span></a></p><div class="builder-section-params">';
   if (opt_data.parameters) {
     var paramList82 = opt_data.parameters;
     var paramListLen82 = paramList82.length;
@@ -173,7 +173,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/building-apis.html#6-authentication"><span class="icon-12-external"></span></a></p><div class="builder-section-auth"><div class="builder-section-auth-row">';
+  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#6-authentication"><span class="icon-12-external"></span></a></p><div class="builder-section-auth"><div class="builder-section-auth-row">';
   if (opt_data.roles && opt_data.roles.length) {
     output += '<div class="builder-section-auth-roles"><p class="api-section-title">Roles</p>';
     var roleList186 = opt_data.roles;
