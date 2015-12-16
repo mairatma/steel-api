@@ -4,10 +4,10 @@ import array from 'bower:metal/src/array/array';
 import dom from 'bower:metal/src/dom/dom';
 import object from 'bower:metal/src/object/object';
 import ApiBase from './ApiBase';
-import 'bower:steel-button-group/src/ButtonGroup';
-import 'bower:steel-dropdown/src/Dropdown';
-import 'bower:steel-select/src/Select';
-import 'bower:steel-switcher/src/Switcher';
+import 'bower:metal-button-group/src/ButtonGroup';
+import 'bower:metal-dropdown/src/Dropdown';
+import 'bower:metal-select/src/Select';
+import 'bower:metal-switcher/src/Switcher';
 import './ApiBuilder.soy';
 
 /**
