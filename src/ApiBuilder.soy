@@ -6,7 +6,7 @@
  * @param id
  * @skipUpdates elementClasses
  */
-{template .content}
+{template .render}
 	<div id="{$id}" class="builder component{$elementClasses ? ' ' + $elementClasses : ''}">
 		{call .title data="all" /}
 		{call .description data="all" /}
@@ -39,7 +39,7 @@
 		/>
 		<div class="builder-data show-tooltip" alt="When data is enabled your API becomes a RESTful database that can store and sync data in realtime">
 			<div class="builder-data-switcher">
-				{call Templates.Switcher.content}
+				{call Templates.Switcher.render}
 					{param checked: isNonnull($data) ? $data : true /}
 					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
 					{param id: $id + '-dataSwitcher' /}
@@ -49,7 +49,7 @@
 		</div>
 		<div class="builder-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
 			<div class="builder-visibility-switcher">
-				{call Templates.Switcher.content}
+				{call Templates.Switcher.render}
 					{param checked: isNonnull($visibility) ? $visibility : true /}
 					{param events: ['checkedChanged': $id + ':handleVisibilitySwitcherCheckedChanged_'] /}
 					{param id: $id + '-visibilitySwitcher' /}
@@ -86,7 +86,7 @@
 		<p class="api-section-title">
 			Method <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#1-method"><span class="icon-12-external"></span></a>
 		</p>
-		{call Templates.ButtonGroup.content}
+		{call Templates.ButtonGroup.render}
 			{param buttons: [
 				['label': 'get',    'cssClass': 'btn btn-default http-get-bg',    'icon': 'btn-group-icon icon-12-check'],
 				['label': 'post',   'cssClass': 'btn btn-default http-post-bg',   'icon': 'btn-group-icon icon-12-check'],
@@ -142,7 +142,7 @@
 			Handler <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#5-handler"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-handler">
-			{call Templates.CodeMirror.content}
+			{call Templates.CodeMirror.render}
 				{{param config: [
 					'lineNumbers': true,
 					'mode': 'javascript',
@@ -227,7 +227,7 @@
 			<div class="col-md-4">
 				<label class="api-section-label" for="builder-param-type-{$suffix}">Type</label>
 				{let $typesMap0: quoteKeysIfJs(['any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4,  'string': 5]) /}
-				{call Templates.Select.content}
+				{call Templates.Select.render}
 					{param id: 'builder-param-type-' + $suffix /}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
 					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
@@ -238,7 +238,7 @@
 			</div>
 			<div class="col-md-3">
 				<span class="builder-param-label">Required</span>
-				{call Templates.Switcher.content}
+				{call Templates.Switcher.render}
 					{param checked: $param.required ? $param.required : false /}
 					{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
 					{param elementClasses: 'builder-param-switcher' /}
@@ -247,7 +247,7 @@
 			</div>
 			{if not $isBody}
 				<div class="col-md-1 builder-param-actions">
-					{call Templates.Dropdown.content}
+					{call Templates.Dropdown.render}
 						{param body kind="html"}
 							<li data-onclick="{$id}:handleDuplicateParamClick_" data-index="{$index}"><a href="#">Duplicate</a></li>
 							<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
@@ -316,7 +316,7 @@
 					<label class="api-section-label" for="builder-param-validator-{$suffix}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
 						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-						{call Templates.CodeMirror.content}
+						{call Templates.CodeMirror.render}
 							{{param config: [
 								'lineNumbers': true,
 								'mode': 'javascript',
@@ -357,7 +357,7 @@
 										{param item: $role /}
 									{/call}
 								{/let}
-								{call Templates.Switcher.content}
+								{call Templates.Switcher.render}
 									{param checked: strContains($roleChecked, 'true') /}
 									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
@@ -379,7 +379,7 @@
 										{param item: $permission /}
 									{/call}
 								{/let}
-								{call Templates.Switcher.content}
+								{call Templates.Switcher.render}
 									{param checked: strContains($permissionChecked, 'true') /}
 									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
 									{param elementClasses: 'builder-param-switcher' /}
@@ -394,7 +394,7 @@
 			<label class="api-section-label" for="builder-param-auth-validator">Validator</label>
 			<div class="input-inner-addon input-inner-addon-left">
 				<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-				{call Templates.CodeMirror.content}
+				{call Templates.CodeMirror.render}
 					{{param config: [
 						'lineNumbers': true,
 						'mode': 'javascript',

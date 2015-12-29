@@ -762,7 +762,7 @@ describe('ApiBuilder', function() {
 	});
 
 	it('should decorate ApiBuilder without repainting when content is correct', function() {
-		var markup = SoyTemplates.get('ApiBuilder', 'content')({
+		var markup = SoyTemplates.get('ApiBuilder', 'render')({
 			auth: {
 				permissions: ['Edit'],
 				roles: ['Admin', 'Member']

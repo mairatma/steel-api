@@ -6,7 +6,7 @@
  * @param id
  * @skipUpdates elementClasses
  */
-{template .content}
+{template .render}
 	<div id="{$id}" class="explorer component{$elementClasses ? ' ' + $elementClasses : ''}">
 		{call .title data="all" /}
 		{call .description data="all" /}
@@ -182,7 +182,7 @@
 			Set Body <span class="explorer-section-body-toggler-arrow icon-12-arrow-down-short"></span>
 		</button>
 		<div class="explorer-section-body">
-			{call Templates.CodeMirror.content}
+			{call Templates.CodeMirror.render}
 				{param config: ['lineNumbers': true, 'mode': 'javascript'] /}
 				{param id: $id + '-bodyCodeMirror' /}
 				{param visible: false /}
@@ -206,7 +206,7 @@
 			<div class="input-group">
 				{if length($methodItems) > 1}
 					<div class="input-group-btn">
-						{call Templates.Select.content}
+						{call Templates.Select.render}
 							{param events: ['selectedIndexChanged': $id + ':handleMethodSelectedIndexChanged_'] /}
 							{param id: $id + '-methodSelect' /}
 							{param label: '' /}
@@ -244,7 +244,7 @@
 {template .tryRealTime}
 	<div id="{$id}-tryRealTime" class="explorer-real-time-container col-md-4 {$methodName == 'get' ? '' : ' hidden'}">
 		<span class="explorer-real-time-label">Real Time</span>
-		{call Templates.Switcher.content}
+		{call Templates.Switcher.render}
 			{param events: ['checkedChanged': $id + ':handleRealTimeCheckedChanged_'] /}
 			{param id: $id + '-realTimeSwitcher' /}
 		{/call}
@@ -260,7 +260,7 @@
 	<div id="{$id}-trySnippets" class="row{$response and $response.statusText ? '' : ' hidden'}">
 		<div class="explorer-section-snippets col-md-12">
 			<label class="api-section-label">Snippets</label>
-			{call Templates.CodeMirrorTabs.content}
+			{call Templates.CodeMirrorTabs.render}
 				{param config: ['readOnly': true] /}
 				{param events: ['selectedTabIndexChanged': $id + ':updateSnippet_'] /}
 				{param extraHeaderContent kind="html"}
@@ -311,7 +311,7 @@
 				</div>
 			</div>
 			<div class="explorer-code-container">
-				{call Templates.CodeMirror.content}
+				{call Templates.CodeMirror.render}
 					{param id: $id + '-responseCodeMirror' /}
 					{param visible: $visible /}
 				{/call}

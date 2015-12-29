@@ -1146,7 +1146,7 @@ describe('ApiExplorer', function() {
 	});
 
 	it('should decorate ApiExplorer without repainting when content is correct', function() {
-		var markup = SoyTemplates.get('ApiExplorer', 'content')({
+		var markup = SoyTemplates.get('ApiExplorer', 'render')({
 			auth: {
 				permissions: ['Edit'],
 				roles: ['Admin', 'Member']
