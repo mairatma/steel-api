@@ -195,7 +195,7 @@
 				{/foreach}
 			{/if}
 			<div class="builder-param-more row">
-				<div class="col-md-12">
+				<div class="col-md-16">
 					<button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_">
 						<span class="icon-16-plus"></span> Add Parameter
 					</button>
@@ -219,12 +219,12 @@
 		data-oninput="handleInputParam_">
 		<div class="row builder-param-item-row">
 			{if not $isBody}
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<label class="api-section-label" for="builder-param-name-{$suffix}">Name</label>
 					<input id="builder-param-name-{$suffix}" type="text" class="form-control" placeholder="Parameter" value="{$param.name}" data-name="name" />
 				</div>
 			{/if}
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<label class="api-section-label" for="builder-param-type-{$suffix}">Type</label>
 				{let $typesMap0: quoteKeysIfJs(['any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4,  'string': 5]) /}
 				{call Templates.Select.render}
@@ -262,7 +262,7 @@
 		</div>
 		{if not $isBody}
 			<div class="row builder-param-item-row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
 					<input
 						id="builder-param-description-{$suffix}"
@@ -281,7 +281,7 @@
 			</button>
 			{if $isBody}
 				<div class="row builder-param-item-row">
-					<div class="col-md-8">
+					<div class="col-md-6">
 						<label class="api-section-label" for="builder-param-description-{$suffix}">Description</label>
 						<input
 							id="builder-param-description-{$suffix}"
@@ -295,7 +295,7 @@
 				</div>
 			{else}
 				<div class="row builder-param-item-row">
-					<div class="col-md-8">
+					<div class="col-md-6">
 						<label class="api-section-label" for="builder-param-value-{$suffix}">Value</label>
 						<div class="input-inner-addon input-inner-addon-left">
 							<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Define a value that will be injected in the received request"></span>
@@ -312,7 +312,7 @@
 				</div>
 			{/if}
 			<div class="row builder-param-item-row">
-				<div class="col-md-8">
+				<div class="col-md-6">
 					<label class="api-section-label" for="builder-param-validator-{$suffix}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
 						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>

@@ -142,7 +142,7 @@
 	<div id="{$id}-tryParams" class="row">
 		{if $parameters}
 			{foreach $param in $parameters}
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<label for="explorer-param-{$param.name}" class="api-section-label">{$param.name} {if $param.required}<span class="explorer-icon-required">*</span>{/if}</label>
 					<input
 						id="explorer-param-{$param.name}"
@@ -158,7 +158,7 @@
 			{/foreach}
 		{/if}
 		{if strContains($path, '/*')}
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<label for="explorer-param-wildcard" class="api-section-label">Wildcard</label>
 				<input
 					id="explorer-param-wildcard"
@@ -202,7 +202,7 @@
 	<div id="{$id}-tryIt" class="row">
 		{let $methodItems: $method ? $method : ['get'] /}
 		{let $selectedIndex: $methodSelectedIndex ? $methodSelectedIndex : 0 /}
-		<div class="col-md-12">
+		<div class="col-md-16">
 			<div class="input-group">
 				{if length($methodItems) > 1}
 					<div class="input-group-btn">
