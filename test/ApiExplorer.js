@@ -5,6 +5,7 @@ import dom from 'bower:metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
 import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
 import EventEmitter from 'bower:metal/src/events/EventEmitter';
+import Launchpad from 'bower:api.js/src/api/Launchpad';
 
 describe('ApiExplorer', function() {
 	var explorer;
@@ -18,6 +19,7 @@ describe('ApiExplorer', function() {
 			return ioInstance;
 		};
 		sinon.spy(window, 'io');
+		Launchpad.socket(window.io);
 
 		requests = [];
 		this.xhr = sinon.useFakeXMLHttpRequest();
