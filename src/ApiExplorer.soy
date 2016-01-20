@@ -242,7 +242,7 @@
  * @param methodName
  */
 {template .tryRealTime}
-	<div id="{$id}-tryRealTime" class="explorer-real-time-container col-md-4 {$methodName == 'get' ? '' : ' hidden'}">
+	<div id="{$id}-tryRealTime" class="explorer-real-time-container col-md-6 {$methodName == 'get' ? '' : ' hidden'}">
 		<span class="explorer-real-time-label">Real Time</span>
 		{call Templates.Switcher.render}
 			{param events: ['checkedChanged': $id + ':handleRealTimeCheckedChanged_'] /}
@@ -258,7 +258,7 @@
  */
 {template .trySnippets}
 	<div id="{$id}-trySnippets" class="row{$response and $response.statusText ? '' : ' hidden'}">
-		<div class="explorer-section-snippets col-md-12">
+		<div class="explorer-section-snippets col-md-16">
 			<label class="api-section-label">Snippets</label>
 			{call Templates.CodeMirrorTabs.render}
 				{param config: ['readOnly': true] /}
@@ -285,11 +285,11 @@
 {template .tryResponse}
 	<div id="{$id}-tryResponse" class="row">
 		{let $visible: $response and $response.statusText /}
-		<div class="explorer-section-response col-md-12{$visible ? '' : ' hidden'}">
+		<div class="explorer-section-response col-md-16{$visible ? '' : ' hidden'}">
 			<label class="api-section-label">Response</label>
 			<div class="explorer-status-container">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<span class="explorer-status-streaming">
 							<span class="explorer-status-streaming-pulse"></span> Streaming results...
 						</span>
