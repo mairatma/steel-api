@@ -1,9 +1,9 @@
 'use strict';
 
-import core from 'bower:metal/src/core';
-import object from 'bower:metal/src/object/object';
-import Component from 'bower:metal/src/component/Component';
-import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
+import core from 'metal/src/core';
+import object from 'metal/src/object/object';
+import Component from 'metal/src/component/Component';
+import SoyRenderer from 'metal/src/soy/SoyRenderer';
 
 /**
  * Base class for components that will handle APIs, like `ApiBuilder` and `ApiExplorer`.

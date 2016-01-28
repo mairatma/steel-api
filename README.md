@@ -16,7 +16,6 @@ Steel's API Builder and API Explorer components,
 
   ```
   npm install
-  bower install
   ```
 
 4. Build the code:

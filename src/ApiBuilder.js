@@ -1,13 +1,13 @@
 'use strict';
 
-import array from 'bower:metal/src/array/array';
-import dom from 'bower:metal/src/dom/dom';
-import object from 'bower:metal/src/object/object';
+import array from 'metal/src/array/array';
+import dom from 'metal/src/dom/dom';
+import object from 'metal/src/object/object';
 import ApiBase from './ApiBase';
-import 'bower:metal-button-group/src/ButtonGroup';
-import 'bower:metal-dropdown/src/Dropdown';
-import 'bower:metal-select/src/Select';
-import 'bower:metal-switcher/src/Switcher';
+import 'metal-button-group/src/ButtonGroup';
+import 'metal-dropdown/src/Dropdown';
+import 'metal-select/src/Select';
+import 'metal-switcher/src/Switcher';
 import './ApiBuilder.soy';
 
 /**

@@ -1,11 +1,11 @@
 'use strict';
 
-import async from 'bower:metal/src/async/async';
-import dom from 'bower:metal/src/dom/dom';
+import async from 'metal/src/async/async';
+import dom from 'metal/src/dom/dom';
 import ApiExplorer from '../src/ApiExplorer';
-import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
-import EventEmitter from 'bower:metal/src/events/EventEmitter';
-import Launchpad from 'bower:api.js/src/api/Launchpad';
+import SoyTemplates from 'metal/src/soy/SoyTemplates';
+import EventEmitter from 'metal/src/events/EventEmitter';
+import Launchpad from 'api.js/src/api/Launchpad';
 
 describe('ApiExplorer', function() {
 	var explorer;
@@ -103,7 +103,7 @@ describe('ApiExplorer', function() {
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
 		assert.strictEqual(1, requests.length);
-		assert.strictEqual('foo.org/data', requests[0].url);
+		assert.strictEqual('http://foo.org/data', requests[0].url);
 	});
 
 	it('should send request with chosen method', function() {
@@ -174,7 +174,7 @@ describe('ApiExplorer', function() {
 		inputs[1].value = 12;
 		dom.triggerEvent(inputs[1], 'input');
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual('foo.org/data/foo/12', requests[0].url);
+		assert.strictEqual('http://foo.org/data/foo/12', requests[0].url);
 	});
 
 	it('should send request with default value if param chosen value is deleted', function() {
@@ -217,7 +217,7 @@ describe('ApiExplorer', function() {
 		input.value = 12;
 		dom.triggerEvent(input, 'input');
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual('foo.org/data/12', requests[0].url);
+		assert.strictEqual('http://foo.org/data/12', requests[0].url);
 	});
 
 	it('should ignore wildcard on request path if no value was chosen for it', function() {
@@ -227,7 +227,7 @@ describe('ApiExplorer', function() {
 		}).render();
 
 		dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-		assert.strictEqual('foo.org/data', requests[0].url);
+		assert.strictEqual('http://foo.org/data', requests[0].url);
 	});
 
 	it('should send request with chosen path params after path is changed', function(done) {
@@ -258,7 +258,7 @@ describe('ApiExplorer', function() {
 
 		explorer.once('attrsChanged', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-			assert.strictEqual('foo.org/another/12', requests[0].url);
+			assert.strictEqual('http://foo.org/another/12', requests[0].url);
 			assert.strictEqual('{"name":"foo"}', requests[0].requestBody);
 			done();
 		});
@@ -285,7 +285,7 @@ describe('ApiExplorer', function() {
 
 		explorer.once('attrsChanged', function() {
 			dom.triggerEvent(explorer.element.querySelector('.explorer-section-try-button'), 'click');
-			assert.strictEqual('foo.org/data/foo', requests[0].url);
+			assert.strictEqual('http://foo.org/data/foo', requests[0].url);
 			assert.strictEqual('PUT', requests[0].method);
 			done();
 		});

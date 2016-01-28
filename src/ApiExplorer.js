@@ -1,13 +1,13 @@
 'use strict';
 
-import core from 'bower:metal/src/core';
-import dom from 'bower:metal/src/dom/dom';
+import core from 'metal/src/core';
+import dom from 'metal/src/dom/dom';
 import ApiBase from './ApiBase';
-import Clipboard from 'bower:metal-clipboard/src/Clipboard';
-import Embodied from 'bower:api.js/src/api-query/Embodied';
-import Launchpad from 'bower:api.js/src/api/Launchpad';
-import 'bower:steel-codemirror-tabs/src/CodeMirrorTabs';
-import 'bower:metal-select/src/Select';
+import Clipboard from 'metal-clipboard/src/Clipboard';
+import Embodied from 'api.js/src/api-query/Embodied';
+import Launchpad from 'api.js/src/api/Launchpad';
+import 'steel-codemirror-tabs/src/CodeMirrorTabs';
+import 'metal-select/src/Select';
 import './ApiExplorer.soy';
 
 /**

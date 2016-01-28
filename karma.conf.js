@@ -6,10 +6,10 @@ module.exports = function (config) {
 	metalKarmaConfig(config);
 
 	config.files.push(
-		'bower_components/codemirror/lib/codemirror.js',
-		'bower_components/steel*/src/**/*.js',
-		'bower_components/api.js/src/**/!(node)/*.js'
+		'node_modules/codemirror/lib/codemirror.js',
+		'node_modules/steel*/src/**/*.js',
+		'node_modules/api.js/src/**/!(node)/*.js'
 	);
-	config.preprocessors['bower_components/steel*/**/*.js'] = ['babel', 'commonjs'];
-	config.preprocessors['bower_components/api.js/**/!(node)/*.js'] = ['babel', 'commonjs'];
+	config.preprocessors['node_modules/steel*/**/*.js'] = ['babel', 'commonjs'];
+	config.preprocessors['node_modules/api.js/**/!(node)/*.js'] = ['babel', 'commonjs'];
 };
