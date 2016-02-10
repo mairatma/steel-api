@@ -1,8 +1,8 @@
 'use strict';
 
-import dom from 'metal/src/dom/dom';
+import dom from 'metal-dom';
 import ApiBuilder from '../src/ApiBuilder';
-import SoyTemplates from 'metal/src/soy/SoyTemplates';
+import { SoyTemplates } from 'metal-soy';
 
 describe('ApiBuilder', function() {
 	var builder;

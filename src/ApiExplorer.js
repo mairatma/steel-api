@@ -1,13 +1,13 @@
 'use strict';
 
-import core from 'metal/src/core';
-import dom from 'metal/src/dom/dom';
+import core from 'metal';
+import dom from 'metal-dom';
 import ApiBase from './ApiBase';
-import Clipboard from 'metal-clipboard/src/Clipboard';
+import Clipboard from 'metal-clipboard';
 import Embodied from 'api.js/src/api-query/Embodied';
 import Launchpad from 'api.js/src/api/Launchpad';
-import 'steel-codemirror-tabs/src/CodeMirrorTabs';
-import 'metal-select/src/Select';
+import 'steel-codemirror-tabs';
+import 'metal-select';
 import './ApiExplorer.soy';
 
 /**

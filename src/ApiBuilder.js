@@ -1,13 +1,12 @@
 'use strict';
 
-import array from 'metal/src/array/array';
-import dom from 'metal/src/dom/dom';
-import object from 'metal/src/object/object';
+import { array, object } from 'metal';
+import dom from 'metal-dom';
 import ApiBase from './ApiBase';
-import 'metal-button-group/src/ButtonGroup';
-import 'metal-dropdown/src/Dropdown';
-import 'metal-select/src/Select';
-import 'metal-switcher/src/Switcher';
+import 'metal-button-group';
+import 'metal-dropdown';
+import 'metal-select';
+import 'metal-switcher';
 import './ApiBuilder.soy';
 
 /**

@@ -1,9 +1,8 @@
 'use strict';
 
-import core from 'metal/src/core';
-import object from 'metal/src/object/object';
-import Component from 'metal/src/component/Component';
-import SoyRenderer from 'metal/src/soy/SoyRenderer';
+import { core, object } from 'metal';
+import Component from 'metal-component';
+import { SoyRenderer } from 'metal-soy';
 
 /**
  * Base class for components that will handle APIs, like `ApiBuilder` and `ApiExplorer`.

@@ -1,10 +1,10 @@
 'use strict';
 
-import async from 'metal/src/async/async';
-import dom from 'metal/src/dom/dom';
+import { async } from 'metal';
+import dom from 'metal-dom';
 import ApiExplorer from '../src/ApiExplorer';
-import SoyTemplates from 'metal/src/soy/SoyTemplates';
-import EventEmitter from 'metal/src/events/EventEmitter';
+import { SoyTemplates } from 'metal-soy';
+import EventEmitter from 'metal-events';
 import Launchpad from 'api.js/src/api/Launchpad';
 
 describe('ApiExplorer', function() {
