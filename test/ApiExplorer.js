@@ -867,13 +867,14 @@ describe('ApiExplorer', function() {
 					statusText: 'OK'
 				}
 			}).render();
+			var renderer = explorer.getRenderer();
 
-			var snippetsElement = explorer.getSurfaceElement('trySnippets');
+			var snippetsElement = renderer.getSurfaceElement('trySnippets');
 			assert.ok(!dom.hasClass(snippetsElement, 'hidden'));
 
 			explorer.response = {};
 			explorer.once('attrsChanged', function() {
-				snippetsElement = explorer.getSurfaceElement('trySnippets');
+				snippetsElement = renderer.getSurfaceElement('trySnippets');
 				assert.ok(dom.hasClass(snippetsElement, 'hidden'));
 				done();
 			});

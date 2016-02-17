@@ -520,10 +520,11 @@ class ApiExplorer extends ApiBase {
 	 */
 	syncResponse() {
 		if (this.wasRendered) {
+			var renderer = this.getRenderer();
 			if (this.response.statusText) {
-				dom.removeClasses(this.getSurfaceElement('trySnippets'), 'hidden');
+				dom.removeClasses(renderer.getSurfaceElement('trySnippets'), 'hidden');
 			} else {
-				dom.addClasses(this.getSurfaceElement('trySnippets'), 'hidden');
+				dom.addClasses(renderer.getSurfaceElement('trySnippets'), 'hidden');
 			}
 		}
 		this.buildResponseCodeMirror_();
