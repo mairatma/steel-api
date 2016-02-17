@@ -20,7 +20,7 @@ class ApiBuilder extends ApiBase {
 		super(opt_config);
 
 		this.skipSurfaceUpdateForAttr_ = null;
-		this.on('renderSurface', this.handleRenderSurface_);
+		this.getRenderer().on('renderSurface', this.handleRenderSurface_);
 		this.on('attrsChanged', this.handleAttrsChanged_);
 		this.on('attrsSynced', this.handleAttrsSynced_);
 	}
