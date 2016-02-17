@@ -20,7 +20,7 @@ class ApiBuilder extends ApiBase {
 		super(opt_config);
 
 		this.skipSurfaceUpdateForAttr_ = null;
-		this.getRenderer().on('renderSurface', this.handleRenderSurface_);
+		this.getRenderer().on('renderSurface', this.handleRenderSurface_.bind(this));
 		this.on('attrsChanged', this.handleAttrsChanged_);
 		this.on('attrsSynced', this.handleAttrsSynced_);
 	}
@@ -90,7 +90,7 @@ class ApiBuilder extends ApiBase {
 		field.focus();
 		field.value = field.value;
 
-		this.clearSurfaceCache(index === '-1' ? 'body' : 'params');
+		this.getRenderer().clearSurfaceCache(index === '-1' ? 'body' : 'params');
 	}
 
 	/**
@@ -291,7 +291,7 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleRenderSurface_(data, event) {
 		if (data.renderAttrs.indexOf(this.skipSurfaceUpdateForAttr_) !== -1) {
-			this.clearSurfaceCache(data.surfaceId);
+			this.getRenderer().clearSurfaceCache(data.surfaceId);
 			event.preventDefault();
 		}
 	}
