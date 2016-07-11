@@ -200,7 +200,7 @@ class ApiBuilder extends ApiBase {
 	handlePermissionCheckedChanged_(data, event) {
 		this.updateAuthDataFromComponentEvent_(
 			event,
-			this.id + '-permissionsSwitcher',
+			'permissionsSwitcher',
 			'permissions'
 		);
 	}
@@ -302,7 +302,7 @@ class ApiBuilder extends ApiBase {
 		this.auth[type] = this.auth[type] || [];
 
 		var component = event.target;
-		var name = component.id.substr(prefix.length);
+		var name = component.config.ref.substr(prefix.length);
 
 		if (event.target.checked) {
 			this.auth[type].push(name);
