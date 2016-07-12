@@ -128,7 +128,7 @@
  * @param path
  */
 {template .path}
-	<div>
+	<div class="builder-path">
 		<p class="api-section-title">
 			Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#2-endpoint"><span class="icon-12-external"></span></a>
 		</p>
@@ -332,6 +332,7 @@
 								value="{$param.validator ? $param.validator : ''}"
 								data-oninput="handleInputValidator_"
 								data-type="{$suffix}"
+								data-name="validator"
 							>
 					</div>
 				</div>
@@ -404,7 +405,7 @@
 				<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
 				<input
 					type="text"
-					class="form-control"
+					class="form-control builder-section-auth-validator"
 					placeholder="$auth !== null"
 					value="{$auth.validator ? $auth.validator : ''}"
 					data-oninput="handleInputAuthValidator_"
@@ -420,7 +421,7 @@
  * @param array
  * @param item
  */
-{template .arrHasItem private="true"}
+{template .arrHasItem private="true" kind="text"}
 	{if $array}
 		{foreach $arrItem in $array}
 			{if $item == $arrItem}

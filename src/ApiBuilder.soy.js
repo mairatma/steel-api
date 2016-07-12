@@ -183,7 +183,8 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 function $path(opt_data, opt_ignored, opt_ijData) {
-  ie_open('div');
+  ie_open('div', null, null,
+      'class', 'builder-path');
     ie_open('p', null, null,
         'class', 'api-section-title');
       itext('Endpoint ');
@@ -499,7 +500,8 @@ function $param(opt_data, opt_ignored, opt_ijData) {
                 'class', 'form-control',
                 'value', opt_data.param.validator ? opt_data.param.validator : '',
                 'data-oninput', 'handleInputValidator_',
-                'data-type', suffix__soy83);
+                'data-type', suffix__soy83,
+                'data-name', 'validator');
             ie_close('input');
           ie_close('div');
         ie_close('div');
@@ -602,7 +604,7 @@ function $auth(opt_data, opt_ignored, opt_ijData) {
             'alt', 'Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values');
         ie_open('input', null, null,
             'type', 'text',
-            'class', 'form-control',
+            'class', 'form-control builder-section-auth-validator',
             'placeholder', '$auth !== null',
             'value', opt_data.auth.validator ? opt_data.auth.validator : '',
             'data-oninput', 'handleInputAuthValidator_');
@@ -621,20 +623,20 @@ if (goog.DEBUG) {
  * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
  * @param {Object<string, *>=} opt_ijData
- * @return {void}
+ * @return {string}
  * @suppress {checkTypes}
  */
 function $arrHasItem(opt_data, opt_ignored, opt_ijData) {
+  var output = '';
   if (opt_data.array) {
     var arrItemList219 = opt_data.array;
     var arrItemListLen219 = arrItemList219.length;
     for (var arrItemIndex219 = 0; arrItemIndex219 < arrItemListLen219; arrItemIndex219++) {
       var arrItemData219 = arrItemList219[arrItemIndex219];
-      if (opt_data.item == arrItemData219) {
-        itext('\'true\'');
-      }
+      output += (opt_data.item == arrItemData219) ? '\'true\'' : '';
     }
   }
+  return output;
 }
 exports.arrHasItem = $arrHasItem;
 if (goog.DEBUG) {
