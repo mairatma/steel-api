@@ -1,248 +1,673 @@
 /* jshint ignore:start */
 import Component from 'metal-component';
-import { SoyAop, SoyRenderer, SoyTemplates } from 'metal-soy';
-var Templates = SoyTemplates.get();
+import Soy from 'metal-soy';
+var templates;
+goog.loadModule(function(exports) {
+
 // This file was automatically generated from ApiBuilder.soy.
 // Please don't edit this file by hand.
 
 /**
- * @fileoverview Templates in namespace Templates.ApiBuilder.
+ * @fileoverview Templates in namespace ApiBuilder.
+ * @public
  */
 
-if (typeof Templates.ApiBuilder == 'undefined') { Templates.ApiBuilder = {}; }
+goog.module('ApiBuilder.incrementaldom');
+
+/** @suppress {extraRequire} */
+var soy = goog.require('soy');
+/** @suppress {extraRequire} */
+var soydata = goog.require('soydata');
+/** @suppress {extraRequire} */
+goog.require('goog.i18n.bidi');
+/** @suppress {extraRequire} */
+goog.require('goog.asserts');
+var IncrementalDom = goog.require('incrementaldom');
+var ie_open = IncrementalDom.elementOpen;
+var ie_close = IncrementalDom.elementClose;
+var ie_void = IncrementalDom.elementVoid;
+var ie_open_start = IncrementalDom.elementOpenStart;
+var ie_open_end = IncrementalDom.elementOpenEnd;
+var itext = IncrementalDom.text;
+var iattr = IncrementalDom.attr;
+
+var $templateAlias2 = Soy.getTemplate('ButtonGroup.incrementaldom', 'render');
+
+var $templateAlias4 = Soy.getTemplate('Dropdown.incrementaldom', 'render');
+
+var $templateAlias3 = Soy.getTemplate('Select.incrementaldom', 'render');
+
+var $templateAlias1 = Soy.getTemplate('Switcher.incrementaldom', 'render');
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.render = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '" class="builder component' + soy.$$escapeHtmlAttribute(opt_data.elementClasses ? ' ' + opt_data.elementClasses : '') + '">' + Templates.ApiBuilder.title(opt_data, null, opt_ijData) + Templates.ApiBuilder.description(opt_data, null, opt_ijData) + Templates.ApiBuilder.methods(opt_data, null, opt_ijData) + Templates.ApiBuilder.path(opt_data, null, opt_ijData) + Templates.ApiBuilder.params(opt_data, null, opt_ijData) + Templates.ApiBuilder.body(opt_data, null, opt_ijData) + Templates.ApiBuilder.handler(opt_data, null, opt_ijData) + Templates.ApiBuilder.auth(opt_data, null, opt_ijData) + '</div>');
-};
+function $render(opt_data, opt_ignored, opt_ijData) {
+  var $$temp;
+  ie_open('div', null, null,
+      'class', 'builder ' + (($$temp = opt_data.elementClasses) == null ? '' : $$temp));
+    $title(opt_data, null, opt_ijData);
+    $description(opt_data, null, opt_ijData);
+    $methods(opt_data, null, opt_ijData);
+    $path(opt_data, null, opt_ijData);
+    $params(opt_data, null, opt_ijData);
+    $body(opt_data, null, opt_ijData);
+    $auth(opt_data, null, opt_ijData);
+  ie_close('div');
+}
+exports.render = $render;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.render.soyTemplateName = 'Templates.ApiBuilder.render';
+  $render.soyTemplateName = 'ApiBuilder.render';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.title = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-title" class="builder-title"><input type="text" class="form-control-borderless" name="title" placeholder="add a title..." value="' + soy.$$escapeHtmlAttribute(opt_data.title ? opt_data.title : '') + '" autocomplete="off" autofocus data-oninput="handleInputTitle_" /><div class="builder-data show-tooltip" alt="When data is enabled your API becomes a RESTful database that can store and sync data in realtime"><div class="builder-data-switcher">' + soy.$$escapeHtml(Templates.Switcher.render({checked: opt_data.data != null ? opt_data.data : true, events: {checkedChanged: opt_data.id + ':handleDataSwitcherCheckedChanged_'}, id: opt_data.id + '-dataSwitcher'}, null, opt_ijData)) + '</div><span class="builder-data-label">Data</span></div><div class="builder-visibility show-tooltip" alt="When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it"><div class="builder-visibility-switcher">' + soy.$$escapeHtml(Templates.Switcher.render({checked: opt_data.visibility != null ? opt_data.visibility : true, events: {checkedChanged: opt_data.id + ':handleVisibilitySwitcherCheckedChanged_'}, id: opt_data.id + '-visibilitySwitcher'}, null, opt_ijData)) + '</div><span class="builder-visibility-label">Visibility</span></div></div>');
-};
+function $title(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div', null, null,
+      'class', 'builder-title');
+    ie_open('input', null, null,
+        'type', 'text',
+        'class', 'form-control-borderless',
+        'name', 'title',
+        'placeholder', 'add a title...',
+        'value', opt_data.title ? opt_data.title : '',
+        'autocomplete', 'off',
+        'autofocus', '',
+        'data-oninput', 'handleInputTitle_');
+    ie_close('input');
+    ie_open('div', null, null,
+        'class', 'builder-data show-tooltip',
+        'alt', 'When data is enabled your API becomes a RESTful database that can store and sync data in realtime');
+      ie_open('div', null, null,
+          'class', 'builder-data-switcher');
+        $templateAlias1({checked: opt_data.data != null ? opt_data.data : true, events: {checkedChanged: opt_data.handleDataSwitcherCheckedChanged_}, ref: 'dataSwitcher'}, null, opt_ijData);
+      ie_close('div');
+      ie_open('span', null, null,
+          'class', 'builder-data-label');
+        itext('Data');
+      ie_close('span');
+    ie_close('div');
+    ie_open('div', null, null,
+        'class', 'builder-visibility show-tooltip',
+        'alt', 'When your API is marked as \'visible\' it means that it can be requested by anyone, whereas \'invisible\' acts like a firewall where only your server can request it');
+      ie_open('div', null, null,
+          'class', 'builder-visibility-switcher');
+        $templateAlias1({checked: opt_data.visibility != null ? opt_data.visibility : true, events: {checkedChanged: opt_data.handleVisibilitySwitcherCheckedChanged_}, ref: 'visibilitySwitcher'}, null, opt_ijData);
+      ie_close('div');
+      ie_open('span', null, null,
+          'class', 'builder-visibility-label');
+        itext('Visibility');
+      ie_close('span');
+    ie_close('div');
+  ie_close('div');
+}
+exports.title = $title;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.title.soyTemplateName = 'Templates.ApiBuilder.title';
+  $title.soyTemplateName = 'ApiBuilder.title';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.description = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-description" class="builder-description"><textarea class="form-control-borderless" name="description" placeholder="add a description..." autocomplete="off" data-oninput="handleInputDescription_">' + soy.$$escapeHtmlRcdata(opt_data.description ? opt_data.description : '') + '</textarea></div>');
-};
+function $description(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div', null, null,
+      'class', 'builder-description');
+    ie_open('textarea', null, null,
+        'class', 'form-control-borderless',
+        'name', 'description',
+        'placeholder', 'add a description...',
+        'autocomplete', 'off',
+        'data-oninput', 'handleInputDescription_');
+      itext((goog.asserts.assert((opt_data.description ? opt_data.description : '') != null), opt_data.description ? opt_data.description : ''));
+    ie_close('textarea');
+  ie_close('div');
+}
+exports.description = $description;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.description.soyTemplateName = 'Templates.ApiBuilder.description';
+  $description.soyTemplateName = 'ApiBuilder.description';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.methods = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-methods" class="api-builder-methods"><p class="api-section-title">Method <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#1-method"><span class="icon-12-external"></span></a></p>' + soy.$$escapeHtml(Templates.ButtonGroup.render({buttons: [{label: 'get', cssClass: 'btn btn-default http-get-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'post', cssClass: 'btn btn-default http-post-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'put', cssClass: 'btn btn-default http-put-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'patch', cssClass: 'btn btn-default http-patch-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'delete', cssClass: 'btn btn-default http-delete-bg', icon: 'btn-group-icon icon-12-check'}], events: {selectedChanged: opt_data.id + ':handleMethodsSelectedChanged_'}, id: opt_data.id + '-methodButtonGroup', minSelected: 1, selected: opt_data.method ? opt_data.method : ['get']}, null, opt_ijData)) + '</div>');
-};
+function $methods(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div', null, null,
+      'class', 'api-builder-methods');
+    ie_open('p', null, null,
+        'class', 'api-section-title');
+      itext('Method ');
+      ie_open('a', null, null,
+          'class', 'api-section-title-link show-tooltip',
+          'alt', 'Learn more',
+          'target', '_blank',
+          'href', '/docs/js/building-apis.html#1-method');
+        ie_void('span', null, null,
+            'class', 'icon-12-external');
+      ie_close('a');
+    ie_close('p');
+    $templateAlias2({buttons: [{label: 'get', cssClass: 'btn btn-default http-get-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'post', cssClass: 'btn btn-default http-post-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'put', cssClass: 'btn btn-default http-put-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'patch', cssClass: 'btn btn-default http-patch-bg', icon: 'btn-group-icon icon-12-check'}, {label: 'delete', cssClass: 'btn btn-default http-delete-bg', icon: 'btn-group-icon icon-12-check'}], events: {selectedChanged: opt_data.handleMethodsSelectedChanged_}, ref: 'methodButtonGroup', minSelected: 1, selected: opt_data.method ? opt_data.method : ['get']}, null, opt_ijData);
+  ie_close('div');
+}
+exports.methods = $methods;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.methods.soyTemplateName = 'Templates.ApiBuilder.methods';
+  $methods.soyTemplateName = 'ApiBuilder.methods';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.path = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-path"><p class="api-section-title">Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#2-endpoint"><span class="icon-12-external"></span></a></p><div class="form-group"><div class="input-group"><div class="input-group-addon">' + soy.$$escapeHtml(opt_data.host ? opt_data.host : '') + '</div><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="The endpoint could provide different capabilities to make your service more flexible. Visit the learn section for more information."></span><input type="text" class="input-group-addon-input form-control" name="path" placeholder="/new-api" value="' + soy.$$escapeHtmlAttribute(opt_data.path ? opt_data.path : '') + '" data-oninput="handleInputPath_" /></div></div></div></div>');
-};
+function $path(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div');
+    ie_open('p', null, null,
+        'class', 'api-section-title');
+      itext('Endpoint ');
+      ie_open('a', null, null,
+          'class', 'api-section-title-link show-tooltip',
+          'alt', 'Learn more',
+          'target', '_blank',
+          'href', '/docs/js/building-apis.html#2-endpoint');
+        ie_void('span', null, null,
+            'class', 'icon-12-external');
+      ie_close('a');
+    ie_close('p');
+    ie_open('div', null, null,
+        'class', 'form-group');
+      ie_open('div', null, null,
+          'class', 'input-group');
+        ie_open('div', null, null,
+            'class', 'input-group-addon');
+          itext((goog.asserts.assert((opt_data.host ? opt_data.host : '') != null), opt_data.host ? opt_data.host : ''));
+        ie_close('div');
+        ie_open('div', null, null,
+            'class', 'input-inner-addon input-inner-addon-left');
+          ie_void('span', null, null,
+              'class', 'input-inner-icon-helper icon-16-info show-tooltip',
+              'alt', 'The endpoint could provide different capabilities to make your service more flexible. Visit the learn section for more information.');
+          ie_open('input', null, null,
+              'type', 'text',
+              'class', 'input-group-addon-input form-control',
+              'name', 'path',
+              'placeholder', '/new-api',
+              'value', opt_data.path ? opt_data.path : '',
+              'data-oninput', 'handleInputPath_');
+          ie_close('input');
+        ie_close('div');
+      ie_close('div');
+    ie_close('div');
+  ie_close('div');
+}
+exports.path = $path;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.path.soyTemplateName = 'Templates.ApiBuilder.path';
+  $path.soyTemplateName = 'ApiBuilder.path';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.handler = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-handler" class="form-group"><p class="api-section-title">Handler <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#5-handler"><span class="icon-12-external"></span></a></p><div class="builder-section-handler">' + soy.$$escapeHtml(Templates.CodeMirror.render({config: {lineNumbers: true, mode: 'javascript', placeholder: 'function handler() {\n  return "Hello World";\n}', value: opt_data.handler}, events: {valueChanged: opt_data.id + ':handleHandlerCodeMirrorValueChanged_'}, id: opt_data.id + '-handlerCodeMirror'}, null, opt_ijData)) + '</div></div>');
-};
+function $body(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div');
+    ie_open('p', null, null,
+        'class', 'api-section-title');
+      itext('Body ');
+      ie_open('a', null, null,
+          'class', 'api-section-title-link show-tooltip',
+          'alt', 'Learn more',
+          'target', '_blank',
+          'href', '/docs/js/building-apis.html#4-body');
+        ie_void('span', null, null,
+            'class', 'icon-12-external');
+      ie_close('a');
+    ie_close('p');
+    ie_open('div', null, null,
+        'class', 'builder-section-body');
+      $param({handleDuplicateParamClick_: opt_data.handleDuplicateParamClick_, handleRemoveParamClick_: opt_data.handleRemoveParamClick_, handleRequiredCheckedChanged_: opt_data.handleRequiredCheckedChanged_, handleTypeSelectedIndexChanged_: opt_data.handleTypeSelectedIndexChanged_, index: -1, param: opt_data.body ? opt_data.body : []}, null, opt_ijData);
+    ie_close('div');
+  ie_close('div');
+}
+exports.body = $body;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.handler.soyTemplateName = 'Templates.ApiBuilder.handler';
+  $body.soyTemplateName = 'ApiBuilder.body';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.body = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-body"><p class="api-section-title">Body <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#4-body"><span class="icon-12-external"></span></a></p><div class="builder-section-body">' + Templates.ApiBuilder.param({id: opt_data.id, index: -1, param: opt_data.body ? opt_data.body : []}, null, opt_ijData) + '</div></div>');
-};
+function $params(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div', null, null,
+      'class', 'builder-params');
+    ie_open('p', null, null,
+        'class', 'api-section-title');
+      itext('Parameters ');
+      ie_open('a', null, null,
+          'class', 'api-section-title-link show-tooltip',
+          'alt', 'Learn more',
+          'target', '_blank',
+          'href', '/docs/js/building-apis.html#3-parameters');
+        ie_void('span', null, null,
+            'class', 'icon-12-external');
+      ie_close('a');
+    ie_close('p');
+    ie_open('div', null, null,
+        'class', 'builder-section-params');
+      if (opt_data.parameters) {
+        var paramList78 = opt_data.parameters;
+        var paramListLen78 = paramList78.length;
+        for (var paramIndex78 = 0; paramIndex78 < paramListLen78; paramIndex78++) {
+          var paramData78 = paramList78[paramIndex78];
+          $param({handleDuplicateParamClick_: opt_data.handleDuplicateParamClick_, handleRemoveParamClick_: opt_data.handleRemoveParamClick_, handleRequiredCheckedChanged_: opt_data.handleRequiredCheckedChanged_, handleTypeSelectedIndexChanged_: opt_data.handleTypeSelectedIndexChanged_, index: paramIndex78, param: paramData78}, null, opt_ijData);
+        }
+      }
+      ie_open('div', null, null,
+          'class', 'builder-param-more row');
+        ie_open('div', null, null,
+            'class', 'col-md-16');
+          ie_open('button', null, null,
+              'class', 'btn btn-default btn-sm',
+              'data-onclick', 'handleClickAddParam_');
+            ie_void('span', null, null,
+                'class', 'icon-16-plus');
+            itext(' Add Parameter');
+          ie_close('button');
+        ie_close('div');
+      ie_close('div');
+    ie_close('div');
+  ie_close('div');
+}
+exports.params = $params;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.body.soyTemplateName = 'Templates.ApiBuilder.body';
+  $params.soyTemplateName = 'ApiBuilder.params';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.params = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-params" class="builder-params"><p class="api-section-title">Parameters <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#3-parameters"><span class="icon-12-external"></span></a></p><div class="builder-section-params">';
-  if (opt_data.parameters) {
-    var paramList82 = opt_data.parameters;
-    var paramListLen82 = paramList82.length;
-    for (var paramIndex82 = 0; paramIndex82 < paramListLen82; paramIndex82++) {
-      var paramData82 = paramList82[paramIndex82];
-      output += Templates.ApiBuilder.param({id: opt_data.id, index: paramIndex82, param: paramData82}, null, opt_ijData);
+function $param(opt_data, opt_ignored, opt_ijData) {
+  var isBody__soy82 = opt_data.index == -1;
+  var suffix__soy83 = isBody__soy82 ? 'Body' : opt_data.index;
+  ie_open('div', null, null,
+      'class', 'builder-param-item',
+      'data-index', opt_data.index,
+      'data-oninput', 'handleInputParam_');
+    ie_open('div', null, null,
+        'class', 'row builder-param-item-row');
+      if (! isBody__soy82) {
+        ie_open('div', null, null,
+            'class', 'col-md-6');
+          ie_open('label', null, null,
+              'class', 'api-section-label',
+              'for', 'builder-param-name-' + suffix__soy83);
+            itext('Name');
+          ie_close('label');
+          ie_open('input', null, null,
+              'id', 'builder-param-name-' + suffix__soy83,
+              'type', 'text',
+              'class', 'form-control',
+              'placeholder', 'Parameter',
+              'value', opt_data.param.name,
+              'data-name', 'name');
+          ie_close('input');
+        ie_close('div');
+      }
+      ie_open('div', null, null,
+          'class', 'col-md-6');
+        ie_open('label', null, null,
+            'class', 'api-section-label',
+            'for', 'builder-param-type-' + suffix__soy83);
+          itext('Type');
+        ie_close('label');
+        var typesMap0__soy99 = {'any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4, 'string': 5};
+        var param104 = function() {
+          itext('Type');
+        };
+        $templateAlias3({ref: 'builder-param-type-' + suffix__soy83, buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.handleTypeSelectedIndexChanged_}, items: ['Any', 'Array', 'Boolean', 'Number', 'Object', 'String'], label: param104, selectedIndex: opt_data.param.type ? typesMap0__soy99[opt_data.param.type] : 0}, null, opt_ijData);
+      ie_close('div');
+      ie_open('div', null, null,
+          'class', 'col-md-3');
+        ie_open('span', null, null,
+            'class', 'builder-param-label');
+          itext('Required');
+        ie_close('span');
+        $templateAlias1({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.handleRequiredCheckedChanged_}, elementClasses: 'builder-param-switcher', ref: 'requiredSwitcher' + suffix__soy83}, null, opt_ijData);
+      ie_close('div');
+      if (! isBody__soy82) {
+        ie_open('div', null, null,
+            'class', 'col-md-1 builder-param-actions');
+          var param118 = function() {
+            ie_open('li', null, null,
+                'data-onclick', opt_data.handleDuplicateParamClick_,
+                'data-index', opt_data.index);
+              ie_open('a', null, null,
+                  'href', '#');
+                itext('Duplicate');
+              ie_close('a');
+            ie_close('li');
+            ie_open('li', null, null,
+                'data-onclick', opt_data.handleRemoveParamClick_,
+                'data-index', opt_data.index);
+              ie_open('a', null, null,
+                  'href', '#');
+                itext('Remove');
+              ie_close('a');
+            ie_close('li');
+          };
+          var param128 = function() {
+            ie_void('button', null, null,
+                'class', 'builder-param-ellipsis btn-transparent icon-16-ellipsis',
+                'type', 'button',
+                'data-onclick', 'toggle');
+          };
+          $templateAlias4({body: param118, header: param128, ref: 'menu' + suffix__soy83}, null, opt_ijData);
+        ie_close('div');
+      }
+    ie_close('div');
+    if (! isBody__soy82) {
+      ie_open('div', null, null,
+          'class', 'row builder-param-item-row');
+        ie_open('div', null, null,
+            'class', 'col-md-12');
+          ie_open('label', null, null,
+              'class', 'api-section-label',
+              'for', 'builder-param-description-' + suffix__soy83);
+            itext('Description');
+          ie_close('label');
+          ie_open('input', null, null,
+              'id', 'builder-param-description-' + suffix__soy83,
+              'type', 'text',
+              'class', 'form-control',
+              'placeholder', 'Type what this parameter does',
+              'value', opt_data.param.description ? opt_data.param.description : '',
+              'data-name', 'description');
+          ie_close('input');
+        ie_close('div');
+      ie_close('div');
     }
-  }
-  output += '<div class="builder-param-more row"><div class="col-md-16"><button class="btn btn-default btn-sm" data-onclick="handleClickAddParam_"><span class="icon-16-plus"></span> Add Parameter</button></div></div></div></div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
-};
+    ie_open('div', null, null,
+        'class', 'builder-param-item-advanced',
+        'data-index', opt_data.index);
+      ie_open('button', null, null,
+          'class', 'builder-param-item-advanced-btn btn-transparent',
+          'type', 'button',
+          'data-onclick', 'handleAdvancedSetupClick_');
+        itext('Advanced Setup ');
+        ie_void('span', null, null,
+            'class', 'builder-param-item-advanced-arrow icon-12-arrow-down-short');
+      ie_close('button');
+      if (isBody__soy82) {
+        ie_open('div', null, null,
+            'class', 'row builder-param-item-row');
+          ie_open('div', null, null,
+              'class', 'col-md-6');
+            ie_open('label', null, null,
+                'class', 'api-section-label',
+                'for', 'builder-param-description-' + suffix__soy83);
+              itext('Description');
+            ie_close('label');
+            ie_open('input', null, null,
+                'id', 'builder-param-description-' + suffix__soy83,
+                'type', 'text',
+                'class', 'form-control',
+                'placeholder', 'Type what should be passed to the body',
+                'value', opt_data.param.description ? opt_data.param.description : '',
+                'data-name', 'description');
+            ie_close('input');
+          ie_close('div');
+        ie_close('div');
+      } else {
+        ie_open('div', null, null,
+            'class', 'row builder-param-item-row');
+          ie_open('div', null, null,
+              'class', 'col-md-6');
+            ie_open('label', null, null,
+                'class', 'api-section-label',
+                'for', 'builder-param-value-' + suffix__soy83);
+              itext('Value');
+            ie_close('label');
+            ie_open('div', null, null,
+                'class', 'input-inner-addon input-inner-addon-left');
+              ie_void('span', null, null,
+                  'class', 'input-inner-icon-helper icon-16-info show-tooltip',
+                  'alt', 'Define a value that will be injected in the received request');
+              ie_open('input', null, null,
+                  'id', 'builder-param-value-' + suffix__soy83,
+                  'type', 'text',
+                  'class', 'form-control',
+                  'placeholder', 'What is the default value?',
+                  'value', opt_data.param.value ? opt_data.param.value : '',
+                  'data-name', 'value');
+              ie_close('input');
+            ie_close('div');
+          ie_close('div');
+        ie_close('div');
+      }
+      ie_open('div', null, null,
+          'class', 'row builder-param-item-row');
+        ie_open('div', null, null,
+            'class', 'col-md-6');
+          ie_open('label', null, null,
+              'class', 'api-section-label',
+              'for', 'builder-param-validator-' + suffix__soy83);
+            itext('Validator');
+          ie_close('label');
+          ie_open('div', null, null,
+              'class', 'input-inner-addon input-inner-addon-left');
+            ie_void('span', null, null,
+                'class', 'input-inner-icon-helper icon-16-info show-tooltip',
+                'alt', 'Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values');
+            ie_open('input', null, null,
+                'type', 'text',
+                'class', 'form-control',
+                'value', opt_data.param.validator ? opt_data.param.validator : '',
+                'data-oninput', 'handleInputValidator_',
+                'data-type', suffix__soy83);
+            ie_close('input');
+          ie_close('div');
+        ie_close('div');
+      ie_close('div');
+    ie_close('div');
+  ie_close('div');
+}
+exports.param = $param;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.params.soyTemplateName = 'Templates.ApiBuilder.params';
+  $param.soyTemplateName = 'ApiBuilder.param';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.param = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '';
-  var isBody__soy90 = opt_data.index == -1;
-  var suffix__soy91 = isBody__soy90 ? 'Body' : opt_data.index;
-  output += '<div class="builder-param-item" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '" data-oninput="handleInputParam_"><div class="row builder-param-item-row">' + ((! isBody__soy90) ? '<div class="col-md-6"><label class="api-section-label" for="builder-param-name-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Name</label><input id="builder-param-name-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '" type="text" class="form-control" placeholder="Parameter" value="' + soy.$$escapeHtmlAttribute(opt_data.param.name) + '" data-name="name" /></div>' : '') + '<div class="col-md-6"><label class="api-section-label" for="builder-param-type-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Type</label>';
-  var typesMap0__soy107 = {'any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4, 'string': 5};
-  output += soy.$$escapeHtml(Templates.Select.render({id: 'builder-param-type-' + suffix__soy91, buttonClass: 'btn btn-default form-control dropdown-select', events: {selectedIndexChanged: opt_data.id + ':handleTypeSelectedIndexChanged_'}, items: ['Any', 'Array', 'Boolean', 'Number', 'Object', 'String'], label: 'Type', selectedIndex: opt_data.param.type ? typesMap0__soy107[opt_data.param.type] : 0}, null, opt_ijData)) + '</div><div class="col-md-3"><span class="builder-param-label">Required</span>' + soy.$$escapeHtml(Templates.Switcher.render({checked: opt_data.param.required ? opt_data.param.required : false, events: {checkedChanged: opt_data.id + ':handleRequiredCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-requiredSwitcher' + suffix__soy91}, null, opt_ijData)) + '</div>' + ((! isBody__soy90) ? '<div class="col-md-1 builder-param-actions">' + soy.$$escapeHtml(Templates.Dropdown.render({body: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleDuplicateParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Duplicate</a></li><li data-onclick="' + soy.$$escapeHtmlAttribute(opt_data.id) + ':handleRemoveParamClick_" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><a href="#">Remove</a></li>'), header: soydata.VERY_UNSAFE.$$ordainSanitizedHtmlForInternalBlocks('<button class="builder-param-ellipsis btn-transparent icon-16-ellipsis" type="button" data-onclick="toggle"></button>'), id: opt_data.id + '-menu' + suffix__soy91}, null, opt_ijData)) + '</div>' : '') + '</div>' + ((! isBody__soy90) ? '<div class="row builder-param-item-row"><div class="col-md-12"><label class="api-section-label" for="builder-param-description-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Description</label><input id="builder-param-description-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '" type="text" class="form-control" placeholder="Type what this parameter does" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div>' : '') + '<div class="builder-param-item-advanced" data-index="' + soy.$$escapeHtmlAttribute(opt_data.index) + '"><button class="builder-param-item-advanced-btn btn-transparent" type="button" data-onclick="handleAdvancedSetupClick_">Advanced Setup <span class="builder-param-item-advanced-arrow icon-12-arrow-down-short"></span></button>' + ((isBody__soy90) ? '<div class="row builder-param-item-row"><div class="col-md-6"><label class="api-section-label" for="builder-param-description-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Description</label><input id="builder-param-description-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '" type="text" class="form-control" placeholder="Type what should be passed to the body" value="' + soy.$$escapeHtmlAttribute(opt_data.param.description ? opt_data.param.description : '') + '" data-name="description" /></div></div>' : '<div class="row builder-param-item-row"><div class="col-md-6"><label class="api-section-label" for="builder-param-value-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Value</label><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Define a value that will be injected in the received request"></span><input id="builder-param-value-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '" type="text" class="form-control" placeholder="What is the default value?" value="' + soy.$$escapeHtmlAttribute(opt_data.param.value ? opt_data.param.value : '') + '" data-name="value" /></div></div></div>') + '<div class="row builder-param-item-row"><div class="col-md-6"><label class="api-section-label" for="builder-param-validator-' + soy.$$escapeHtmlAttribute(suffix__soy91) + '">Validator</label><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>' + soy.$$escapeHtml(Templates.CodeMirror.render({config: {lineNumbers: true, mode: 'javascript', value: opt_data.param.validator ? opt_data.param.validator : ''}, events: {valueChanged: opt_data.id + ':handleValidatorCodeMirrorValueChanged_'}, id: opt_data.id + '-validatorCodeMirror' + suffix__soy91, visible: false}, null, opt_ijData)) + '</div></div></div></div></div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
-};
+function $auth(opt_data, opt_ignored, opt_ijData) {
+  ie_open('div', null, null,
+      'class', 'form-group');
+    ie_open('p', null, null,
+        'class', 'api-section-title');
+      itext('Authentication ');
+      ie_open('a', null, null,
+          'class', 'api-section-title-link show-tooltip',
+          'alt', 'Learn more',
+          'target', '_blank',
+          'href', '/docs/js/building-apis.html#6-authentication');
+        ie_void('span', null, null,
+            'class', 'icon-12-external');
+      ie_close('a');
+    ie_close('p');
+    ie_open('div', null, null,
+        'class', 'builder-section-auth');
+      ie_open('div', null, null,
+          'class', 'builder-section-auth-row');
+        if (opt_data.roles && opt_data.roles.length) {
+          ie_open('div', null, null,
+              'class', 'builder-section-auth-roles');
+            ie_open('p', null, null,
+                'class', 'api-section-title');
+              itext('Roles');
+            ie_close('p');
+            var roleList188 = opt_data.roles;
+            var roleListLen188 = roleList188.length;
+            for (var roleIndex188 = 0; roleIndex188 < roleListLen188; roleIndex188++) {
+              var roleData188 = roleList188[roleIndex188];
+              ie_open('div', null, null,
+                  'class', 'builder-param-switcher-container');
+                var roleChecked__soy176 = '';
+                roleChecked__soy176 += $arrHasItem({array: opt_data.auth.roles, item: roleData188}, null, opt_ijData);
+                $templateAlias1({checked: ('' + roleChecked__soy176).indexOf('true') != -1, events: {checkedChanged: opt_data.handleRoleCheckedChanged_}, elementClasses: 'builder-param-switcher', ref: 'rolesSwitcher' + roleData188}, null, opt_ijData);
+                ie_open('span', null, null,
+                    'class', 'builder-param-label');
+                  itext(' ');
+                  itext((goog.asserts.assert((roleData188) != null), roleData188));
+                ie_close('span');
+              ie_close('div');
+            }
+          ie_close('div');
+        }
+        if (opt_data.permissions && opt_data.permissions.length) {
+          ie_open('div', null, null,
+              'class', 'builder-section-auth-permissions');
+            ie_open('p', null, null,
+                'class', 'api-section-title');
+              itext('Permissions');
+            ie_close('p');
+            var permissionList207 = opt_data.permissions;
+            var permissionListLen207 = permissionList207.length;
+            for (var permissionIndex207 = 0; permissionIndex207 < permissionListLen207; permissionIndex207++) {
+              var permissionData207 = permissionList207[permissionIndex207];
+              ie_open('div', null, null,
+                  'class', 'builder-param-switcher-container');
+                var permissionChecked__soy195 = '';
+                permissionChecked__soy195 += $arrHasItem({array: opt_data.auth.permissions, item: permissionData207}, null, opt_ijData);
+                $templateAlias1({checked: ('' + permissionChecked__soy195).indexOf('true') != -1, events: {checkedChanged: opt_data.handlePermissionCheckedChanged_}, elementClasses: 'builder-param-switcher', ref: 'permissionsSwitcher' + permissionData207}, null, opt_ijData);
+                ie_open('span', null, null,
+                    'class', 'builder-param-label');
+                  itext(' ');
+                  itext((goog.asserts.assert((permissionData207) != null), permissionData207));
+                ie_close('span');
+              ie_close('div');
+            }
+          ie_close('div');
+        }
+      ie_close('div');
+      ie_open('label', null, null,
+          'class', 'api-section-label',
+          'for', 'builder-param-auth-validator');
+        itext('Validator');
+      ie_close('label');
+      ie_open('div', null, null,
+          'class', 'input-inner-addon input-inner-addon-left');
+        ie_void('span', null, null,
+            'class', 'input-inner-icon-helper icon-16-info show-tooltip',
+            'alt', 'Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values');
+        ie_open('input', null, null,
+            'type', 'text',
+            'class', 'form-control',
+            'placeholder', '$auth !== null',
+            'value', opt_data.auth.validator ? opt_data.auth.validator : '',
+            'data-oninput', 'handleInputAuthValidator_');
+        ie_close('input');
+      ie_close('div');
+    ie_close('div');
+  ie_close('div');
+}
+exports.auth = $auth;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.param.soyTemplateName = 'Templates.ApiBuilder.param';
+  $auth.soyTemplateName = 'ApiBuilder.auth';
 }
 
 
 /**
- * @param {Object.<string, *>=} opt_data
+ * @param {Object<string, *>=} opt_data
  * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
+ * @param {Object<string, *>=} opt_ijData
+ * @return {void}
  * @suppress {checkTypes}
  */
-Templates.ApiBuilder.auth = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<div id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-auth" class="form-group"><p class="api-section-title">Authentication <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#6-authentication"><span class="icon-12-external"></span></a></p><div class="builder-section-auth"><div class="builder-section-auth-row">';
-  if (opt_data.roles && opt_data.roles.length) {
-    output += '<div class="builder-section-auth-roles"><p class="api-section-title">Roles</p>';
-    var roleList186 = opt_data.roles;
-    var roleListLen186 = roleList186.length;
-    for (var roleIndex186 = 0; roleIndex186 < roleListLen186; roleIndex186++) {
-      var roleData186 = roleList186[roleIndex186];
-      output += '<div class="builder-param-switcher-container">';
-      var roleChecked__soy188 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.roles, item: roleData186}, null, opt_ijData));
-      roleChecked__soy188 = soydata.$$markUnsanitizedTextForInternalBlocks(roleChecked__soy188);
-      output += soy.$$escapeHtml(Templates.Switcher.render({checked: ('' + roleChecked__soy188).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handleRoleCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-rolesSwitcher' + roleData186}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(roleData186) + '</span></div>';
-    }
-    output += '</div>';
-  }
-  if (opt_data.permissions && opt_data.permissions.length) {
-    output += '<div class="builder-section-auth-permissions"><p class="api-section-title">Permissions</p>';
-    var permissionList205 = opt_data.permissions;
-    var permissionListLen205 = permissionList205.length;
-    for (var permissionIndex205 = 0; permissionIndex205 < permissionListLen205; permissionIndex205++) {
-      var permissionData205 = permissionList205[permissionIndex205];
-      output += '<div class="builder-param-switcher-container">';
-      var permissionChecked__soy207 = '' + ('' + Templates.ApiBuilder.arrHasItem({array: opt_data.auth.permissions, item: permissionData205}, null, opt_ijData));
-      permissionChecked__soy207 = soydata.$$markUnsanitizedTextForInternalBlocks(permissionChecked__soy207);
-      output += soy.$$escapeHtml(Templates.Switcher.render({checked: ('' + permissionChecked__soy207).indexOf('true') != -1, events: {checkedChanged: opt_data.id + ':handlePermissionCheckedChanged_'}, elementClasses: 'builder-param-switcher', id: opt_data.id + '-permissionsSwitcher' + permissionData205}, null, opt_ijData)) + '<span class="builder-param-label"> ' + soy.$$escapeHtml(permissionData205) + '</span></div>';
-    }
-    output += '</div>';
-  }
-  output += '</div><label class="api-section-label" for="builder-param-auth-validator">Validator</label><div class="input-inner-addon input-inner-addon-left"><span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>' + soy.$$escapeHtml(Templates.CodeMirror.render({config: {lineNumbers: true, mode: 'javascript', placeholder: '$auth !== null', value: opt_data.auth.validator ? opt_data.auth.validator : ''}, events: {valueChanged: opt_data.id + ':handleAuthValidatorCodeMirrorValueChanged_'}, id: opt_data.id + '-authValidatorCodeMirror'}, null, opt_ijData)) + '</div></div></div>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
-};
-if (goog.DEBUG) {
-  Templates.ApiBuilder.auth.soyTemplateName = 'Templates.ApiBuilder.auth';
-}
-
-
-/**
- * @param {Object.<string, *>=} opt_data
- * @param {(null|undefined)=} opt_ignored
- * @param {Object.<string, *>=} opt_ijData
- * @return {!soydata.SanitizedHtml}
- * @suppress {checkTypes}
- */
-Templates.ApiBuilder.arrHasItem = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '';
+function $arrHasItem(opt_data, opt_ignored, opt_ijData) {
   if (opt_data.array) {
-    var arrItemList230 = opt_data.array;
-    var arrItemListLen230 = arrItemList230.length;
-    for (var arrItemIndex230 = 0; arrItemIndex230 < arrItemListLen230; arrItemIndex230++) {
-      var arrItemData230 = arrItemList230[arrItemIndex230];
-      output += (opt_data.item == arrItemData230) ? '\'true\'' : '';
+    var arrItemList219 = opt_data.array;
+    var arrItemListLen219 = arrItemList219.length;
+    for (var arrItemIndex219 = 0; arrItemIndex219 < arrItemListLen219; arrItemIndex219++) {
+      var arrItemData219 = arrItemList219[arrItemIndex219];
+      if (opt_data.item == arrItemData219) {
+        itext('\'true\'');
+      }
     }
   }
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
-};
+}
+exports.arrHasItem = $arrHasItem;
 if (goog.DEBUG) {
-  Templates.ApiBuilder.arrHasItem.soyTemplateName = 'Templates.ApiBuilder.arrHasItem';
+  $arrHasItem.soyTemplateName = 'ApiBuilder.arrHasItem';
 }
 
-Templates.ApiBuilder.render.params = ["id"];
-Templates.ApiBuilder.title.params = ["id","title","visibility","data"];
-Templates.ApiBuilder.description.params = ["id","description"];
-Templates.ApiBuilder.methods.params = ["id","method"];
-Templates.ApiBuilder.path.params = ["host","id","path"];
-Templates.ApiBuilder.handler.params = ["id"];
-Templates.ApiBuilder.body.params = ["id","body"];
-Templates.ApiBuilder.params.params = ["id","parameters"];
-Templates.ApiBuilder.param.private = true;
-Templates.ApiBuilder.auth.params = ["auth","id","permissions","roles"];
-Templates.ApiBuilder.arrHasItem.private = true;
+exports.render.params = ["elementClasses","handleDataSwitcherCheckedChanged_","handleMethodsSelectedChanged_","handleVisibilitySwitcherCheckedChanged_","handleDuplicateParamClick_","handleRemoveParamClick_","handleRequiredCheckedChanged_","handleTypeSelectedIndexChanged_","handleRoleCheckedChanged_","handlePermissionCheckedChanged_","parameters"];
+exports.render.types = {"elementClasses":"any","handleDataSwitcherCheckedChanged_":"any","handleMethodsSelectedChanged_":"any","handleVisibilitySwitcherCheckedChanged_":"any","handleDuplicateParamClick_":"any","handleRemoveParamClick_":"any","handleRequiredCheckedChanged_":"any","handleTypeSelectedIndexChanged_":"any","handleRoleCheckedChanged_":"any","handlePermissionCheckedChanged_":"any","parameters":"any"};
+exports.title.params = ["handleDataSwitcherCheckedChanged_","handleVisibilitySwitcherCheckedChanged_","title","visibility","data"];
+exports.title.types = {"handleDataSwitcherCheckedChanged_":"any","handleVisibilitySwitcherCheckedChanged_":"any","title":"any","visibility":"any","data":"any"};
+exports.description.params = ["description"];
+exports.description.types = {"description":"any"};
+exports.methods.params = ["handleMethodsSelectedChanged_","method"];
+exports.methods.types = {"handleMethodsSelectedChanged_":"any","method":"any"};
+exports.path.params = ["host","path"];
+exports.path.types = {"host":"any","path":"any"};
+exports.body.params = ["body","handleDuplicateParamClick_","handleRemoveParamClick_","handleRequiredCheckedChanged_","handleTypeSelectedIndexChanged_"];
+exports.body.types = {"body":"any","handleDuplicateParamClick_":"any","handleRemoveParamClick_":"any","handleRequiredCheckedChanged_":"any","handleTypeSelectedIndexChanged_":"any"};
+exports.params.params = ["handleDuplicateParamClick_","handleRemoveParamClick_","handleRequiredCheckedChanged_","handleTypeSelectedIndexChanged_","parameters"];
+exports.params.types = {"handleDuplicateParamClick_":"any","handleRemoveParamClick_":"any","handleRequiredCheckedChanged_":"any","handleTypeSelectedIndexChanged_":"any","parameters":"any"};
+exports.param.params = ["handleDuplicateParamClick_","handleRemoveParamClick_","handleRequiredCheckedChanged_","handleTypeSelectedIndexChanged_","index","param"];
+exports.param.types = {"handleDuplicateParamClick_":"any","handleRemoveParamClick_":"any","handleRequiredCheckedChanged_":"any","handleTypeSelectedIndexChanged_":"any","index":"any","param":"any"};
+exports.auth.params = ["auth","permissions","handleRoleCheckedChanged_","handlePermissionCheckedChanged_","roles"];
+exports.auth.types = {"auth":"any","permissions":"any","handleRoleCheckedChanged_":"any","handlePermissionCheckedChanged_":"any","roles":"any"};
+exports.arrHasItem.params = ["array","item"];
+exports.arrHasItem.types = {"array":"any","item":"any"};
+templates = exports;
+return exports;
+
+});
 
 class ApiBuilder extends Component {}
-ApiBuilder.RENDERER = SoyRenderer;
-SoyAop.registerTemplates('ApiBuilder');
-export default ApiBuilder;
+Soy.register(ApiBuilder, templates);
+export { ApiBuilder, templates };
+export default templates;
 /* jshint ignore:end */

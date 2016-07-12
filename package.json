@@ -21,31 +21,30 @@
     "steel"
   ],
   "dependencies": {
-    "api.js": "liferay-apps/api.js#master",
+    "api.js": "wedeploy/api.js#master",
     "bootstrap": "^3.3.6",
-    "closure-templates": "20140422.0.0",
     "codemirror": "~5.7.0",
-    "metal": "metal/metal.js#master",
-    "metal-button-group": "metal/metal-button-group#master",
-    "metal-clipboard": "metal/metal-clipboard#master",
-    "metal-component": "metal/metal-component#master",
-    "metal-dom": "metal/metal-dom#master",
-    "metal-dropdown": "metal/metal-dropdown#master",
-    "metal-events": "metal/metal-events#master",
-    "metal-select": "metal/metal-select#master",
-    "metal-soy": "metal/metal-soy#master",
-    "metal-switcher": "metal/metal-switcher#master",
-    "steel-bootstrap": "metal/steel-bootstrap#master",
+    "metal": "^1.0.0",
+    "metal-button-group": "^1.0.0",
+    "metal-clipboard": "^1.0.0",
+    "metal-component": "^1.0.0",
+    "metal-dom": "^1.0.0",
+    "metal-dropdown": "^1.0.0",
+    "metal-events": "^1.0.0",
+    "metal-select": "^1.0.0",
+    "metal-soy": "^1.0.0",
+    "metal-switcher": "^1.0.0",
+    "socket.io-client": "~1.3.7",
     "steel-codemirror": "metal/steel-codemirror#master",
     "steel-codemirror-tabs": "metal/steel-codemirror-tabs#master",
-    "socket.io-client": "~1.3.7"
+    "westyle": "github:wedeploy/westyle#v2.0.x"
   },
   "devDependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "gulp": "^3.8.11",
-    "gulp-metal": "^0.10.0",
-    "metal-karma-config": "^1.0.0",
+    "gulp-metal": "^1.0.0",
+    "metal-karma-config": "^2.0.0",
     "socket.io": "^1.3.7"
   }
 }

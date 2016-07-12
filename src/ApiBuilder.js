@@ -2,37 +2,19 @@
 
 import { array, object } from 'metal';
 import dom from 'metal-dom';
+import templates from './ApiBuilder.soy';
 import ApiBase from './ApiBase';
+import Soy from 'metal-soy';
+
 import 'metal-button-group';
 import 'metal-dropdown';
 import 'metal-select';
 import 'metal-switcher';
-import './ApiBuilder.soy';
 
 /**
  * Responsible for building HTTP APIs.
  */
 class ApiBuilder extends ApiBase {
-	/**
-	 * @inheritDoc
-	 */
-	constructor(opt_config) {
-		super(opt_config);
-
-		this.skipSurfaceUpdateForAttr_ = null;
-		this.getRenderer().on('renderSurface', this.handleRenderSurface_.bind(this));
-		this.on('attrsChanged', this.handleAttrsChanged_);
-		this.on('attrsSynced', this.handleAttrsSynced_);
-	}
-
-	/**
-	 * Called automatically when the component is attached to the document. Builds the CodeMirror
-	 * text editors.
-	 */
-	attached() {
-		this.preventCodeMirrorLineBreaks_(this.components[this.id + '-authValidatorCodeMirror']);
-	}
-
 	/**
 	 * Overrides the original method from `ApiBase` so this can add any attributes
 	 * that are defined on the API's path but were not explicitly added to the
@@ -52,14 +34,6 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * @inheritDoc
-	 */
-	disposeInternal() {
-		super.disposeInternal();
-		this.authValidatorCodeMirror_ = null;
-	}
-
-	/**
 	 * Handles a `click` event on one of the buttons for expanding/collapsing the
 	 * advanced setup for a param.
 	 * @param {!Event} event
@@ -67,38 +41,24 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleAdvancedSetupClick_(event) {
 		var container = event.delegateTarget.parentNode;
-		var index = container.getAttribute('data-index');
-
 		var arrow = event.delegateTarget.querySelector('.builder-param-item-advanced-arrow');
 		dom.toggleClasses(arrow, 'icon-12-arrow-down-short');
 		dom.toggleClasses(arrow, 'icon-12-arrow-up-short');
 		dom.toggleClasses(container, 'expanded');
-
-		// Build the CodeMirror editor for the validator field when it becomes visible.
-		if (dom.hasClass(container, 'expanded')) {
-			var suffix = index === '-1' ? 'Body' : index;
-			var codeMirror = this.components[this.id + '-validatorCodeMirror' + suffix];
-			if (!codeMirror.getCodeMirror()) {
-				this.preventCodeMirrorLineBreaks_(codeMirror);
-			}
-			codeMirror.visible = true;
-		}
 
 		// Focuses the first input field. Needs to reset the field's value after focus
 		// so the cursor shows up at the end instead of at the beginning of the text.
 		var field = container.querySelector('input[type="text"]');
 		field.focus();
 		field.value = field.value;
-
-		this.getRenderer().clearSurfaceCache(index === '-1' ? 'body' : 'params');
 	}
 
 	/**
-	 * Handles an `attrsChanged` event on this component. Makes sure that new params
+	 * Handles an `stateChanged` event on this component. Makes sure that new params
 	 * are automatically focused when created.
 	 * @protected
 	 */
-	handleAttrsChanged_() {
+	rendered() {
 		if (this.hasAddedParam_) {
 			this.hasAddedParam_ = false;
 			var selector = '.builder-params .builder-param-item:nth-child(' + this.parameters.length + ') input';
@@ -108,26 +68,6 @@ class ApiBuilder extends ApiBase {
 			// text field, but we want it to be at the end.
 			input.value = input.value;
 		}
-	}
-
-	/**
-	 * Handles an `attrsSynced` event on this component. Clears the variable that is
-	 * used for skipping surface updates, since any updates have already happened by
-	 * the time this is called.
-	 * @protected
-	 */
-	handleAttrsSynced_() {
-		this.skipSurfaceUpdateForAttr_ = null;
-	}
-
-	/**
-	 * Handles a `valueChanged` event on the `CodeMirror` instance used for the auth validator.
-	 * @param {!Object} data
-	 * @protected
-	 */
-	handleAuthValidatorCodeMirrorValueChanged_(data) {
-		this.setObjectValue_(this.auth, 'validator', data.newVal.trim());
-		this.skipSurfaceUpdateForAttr_ = 'auth';
 	}
 
 	/**
@@ -146,46 +86,22 @@ class ApiBuilder extends ApiBase {
 
 	/**
 	 * Handles a `checkedChanged` event on the `Switcher` instance used to control
-	 * the `data` attr.
+	 * the `data` state property.
 	 * @param {!Object} event
 	 * @protected
 	 */
 	handleDataSwitcherCheckedChanged_(event) {
 		this.data = event.newVal;
-		this.skipSurfaceUpdateForAttr_ = 'data';
-	}
-
-	/**
-	 * Handles a `valueChanged` event on the `CodeMirror` instance used for the handler.
-	 * @param {!Object} data
-	 * @protected
-	 */
-	handleHandlerCodeMirrorValueChanged_(data) {
-		this.handler = data.newVal;
-		this.skipSurfaceUpdateForAttr_ = 'handler';
-	}
-
-	/**
-	 * Handles a `valueChanged` event on the `CodeMirror` instance used for a validator.
-	 * @param {!Object} data
-	 * @param {!Object} event
-	 * @protected
-	 */
-	handleValidatorCodeMirrorValueChanged_(data, event) {
-		var suffix = event.target.id.substr((this.id + '-validatorCodeMirror').length);
-		var index = suffix === 'Body' ? -1 : parseInt(suffix, 10);
-		this.updateParamData_(index, 'validator', data.newVal.trim());
 	}
 
 	/**
 	 * Handles a `checkedChanged` event on the `Switcher` instance used to control
-	 * the `visibility` attr.
+	 * the `visibility` state property.
 	 * @param {!Object} event
 	 * @protected
 	 */
 	handleVisibilitySwitcherCheckedChanged_(event) {
 		this.visibility = event.newVal;
-		this.skipSurfaceUpdateForAttr_ = 'visibility';
 	}
 
 	/**
@@ -198,13 +114,23 @@ class ApiBuilder extends ApiBase {
 		this.parameters.push(object.mixin({}, this.parameters[index]));
 		this.parameters = this.parameters;
 		this.hasAddedParam_ = true;
-		this.components[this.id + '-menu' + index].close();
+		this.components['menu' + index].close();
 		event.preventDefault();
 	}
 
 	/**
+	 * Handles an `input` event for the auth validator. Updates the changed
+	 * validator with the new value.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleInputAuthValidator_(event) {
+		this.setObjectValue_(this.auth, 'validator', event.delegateTarget.value.trim());
+	}
+
+	/**
 	 * Handles an `input` event on the description text field. Updates the `description`
-	 * attr with the new value.
+	 * state property with the new value.
 	 * @param {!Event} event
 	 * @protected
 	 */
@@ -233,13 +159,25 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Handles an `input` event on the title text field. Updates the `title` attr
-	 * with the new value.
+	 * Handles an `input` event on the title text field. Updates the `title`
+	 * state property with the new value.
 	 * @param {!Event} event
 	 * @protected
 	 */
 	handleInputTitle_(event) {
 		this.updateAttrFromInput_(event, 'title');
+	}
+
+	/**
+	 * Handles an `input` event on the title text field. Updates the
+	 * `validator` state property with the new value.
+	 * @param {!Event} event
+	 * @protected
+	 */
+	handleInputValidator_(event) {
+		var suffix = event.delegateTarget.getAttribute('data-type');
+		var index = suffix === 'Body' ? -1 : parseInt(suffix, 10);
+		this.updateParamData_(index, 'validator', event.delegateTarget.value.trim());
 	}
 
 	/**
@@ -250,7 +188,6 @@ class ApiBuilder extends ApiBase {
 	 */
 	handleMethodsSelectedChanged_(data) {
 		this.method = data.newVal;
-		this.skipSurfaceUpdateForAttr_ = 'method';
 	}
 
 	/**
@@ -263,7 +200,7 @@ class ApiBuilder extends ApiBase {
 	handlePermissionCheckedChanged_(data, event) {
 		this.updateAuthDataFromComponentEvent_(
 			event,
-			this.id + '-permissionsSwitcher',
+			'permissionsSwitcher',
 			'permissions'
 		);
 	}
@@ -277,23 +214,8 @@ class ApiBuilder extends ApiBase {
 		var index = event.delegateTarget.getAttribute('data-index');
 		this.parameters.splice(index, 1);
 		this.parameters = this.parameters;
-		this.components[this.id + '-menu' + index].close();
+		this.components['menu' + index].close();
 		event.preventDefault();
-	}
-
-	/**
-	 * Handles a `renderSurface` event. Prevents rerendering surfaces caused by render attr
-	 * changes that should be skipped (because they were caused by ui change, and so the screen
-	 * has already been updated).
-	 * @param {!Object} data
-	 * @param {!Object} event
-	 * @protected
-	 */
-	handleRenderSurface_(data, event) {
-		if (data.renderAttrs.indexOf(this.skipSurfaceUpdateForAttr_) !== -1) {
-			this.getRenderer().clearSurfaceCache(data.surfaceId);
-			event.preventDefault();
-		}
 	}
 
 	/**
@@ -306,7 +228,7 @@ class ApiBuilder extends ApiBase {
 	handleRequiredCheckedChanged_(data, event) {
 		this.updateParamDataFromComponentEvent_(
 			event,
-			this.id + '-requiredSwitcher',
+			'requiredSwitcher',
 			'required',
 			event.target.checked
 		);
@@ -322,7 +244,7 @@ class ApiBuilder extends ApiBase {
 	handleRoleCheckedChanged_(data, event) {
 		this.updateAuthDataFromComponentEvent_(
 			event,
-			this.id + '-rolesSwitcher',
+			'rolesSwitcher',
 			'roles'
 		);
 	}
@@ -335,27 +257,12 @@ class ApiBuilder extends ApiBase {
 	 * @protected
 	 */
 	handleTypeSelectedIndexChanged_(data, event) {
-		var item = event.target.items[data.newVal];
 		this.updateParamDataFromComponentEvent_(
 			event,
 			'builder-param-type-',
 			'type',
-			item.toLowerCase()
+			TYPES[data.newVal]
 		);
-	}
-
-	/**
-	 * Prevents line breaks on the given `CodeMirror` component by setting
-	 * a key handler for the ENTER key that does nothing.
-	 * @param {!CodeMirror} codeMirrorComp
-	 * @protected
-	 */
-	preventCodeMirrorLineBreaks_(codeMirrorComp) {
-		codeMirrorComp.config = object.mixin({}, codeMirrorComp.config, {
-			extraKeys: {
-				Enter: function() {}
-			}
-		});
 	}
 
 	/**
@@ -375,22 +282,6 @@ class ApiBuilder extends ApiBase {
 	}
 
 	/**
-	 * Synchronization logic for the `auth` attr. Updates the value of the
-	 * CodeMirror editor.
-	 */
-	syncAuth() {
-		this.components[this.id + '-authValidatorCodeMirror'].value = this.auth.validator;
-	}
-
-	/**
-	 * Synchronization logic for the `handler` attr. Updates the value of the
-	 * CodeMirror editor.
-	 */
-	syncHandler() {
-		this.components[this.id + '-handlerCodeMirror'].value = this.handler;
-	}
-
-	/**
 	 * Updates an attribute's value from an `input` event.
 	 * @param {!Event} event
 	 * @param {string} attrName
@@ -398,7 +289,6 @@ class ApiBuilder extends ApiBase {
 	 */
 	updateAttrFromInput_(event, attrName) {
 		this[attrName] = event.delegateTarget.value.trim();
-		this.skipSurfaceUpdateForAttr_ = attrName;
 	}
 
 	/**
@@ -412,7 +302,7 @@ class ApiBuilder extends ApiBase {
 		this.auth[type] = this.auth[type] || [];
 
 		var component = event.target;
-		var name = component.id.substr(prefix.length);
+		var name = component.config.ref.substr(prefix.length);
 
 		if (event.target.checked) {
 			this.auth[type].push(name);
@@ -420,7 +310,6 @@ class ApiBuilder extends ApiBase {
 			array.remove(this.auth[type], name);
 		}
 		this.auth = this.auth;
-		this.skipSurfaceUpdateForAttr_ = 'auth';
 	}
 
 	/**
@@ -437,10 +326,8 @@ class ApiBuilder extends ApiBase {
 			this.setObjectValue_(param, name, value);
 			if (index === -1) {
 				this.body = this.body;
-				this.skipSurfaceUpdateForAttr_ = 'body';
 			} else {
 				this.parameters = this.parameters;
-				this.skipSurfaceUpdateForAttr_ = 'parameters';
 			}
 		}
 	}
@@ -455,7 +342,7 @@ class ApiBuilder extends ApiBase {
 	 */
 	updateParamDataFromComponentEvent_(event, prefix, name, value) {
 		var component = event.target;
-		var suffix = component.id.substr(prefix.length);
+		var suffix = component.config.ref.substr(prefix.length);
 		var index = suffix === 'Body' ? -1 : parseInt(suffix, 10);
 		this.updateParamData_(index, name, value);
 	}
@@ -480,7 +367,7 @@ class ApiBuilder extends ApiBase {
  * @type {!Object}
  * @static
  */
-ApiBuilder.ATTRS = {
+ApiBuilder.STATE = {
 	/**
 	 * All permissions that can be picked by the user in the Authentication section.
 	 * @type {!Array<string>}
@@ -506,11 +393,8 @@ ApiBuilder.ATTRS = {
 	}
 };
 
-/**
- * Default element classes.
- * @type {string}
- * @static
- */
-ApiBuilder.ELEMENT_CLASSES = 'builder';
+Soy.register(ApiBuilder, templates);
+
+var TYPES = ['any', 'array', 'boolean', 'number', 'object', 'string'];
 
 export default ApiBuilder;

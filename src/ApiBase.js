@@ -2,7 +2,6 @@
 
 import { core, object } from 'metal';
 import Component from 'metal-component';
-import { SoyRenderer } from 'metal-soy';
 
 /**
  * Base class for components that will handle APIs, like `ApiBuilder` and `ApiExplorer`.
@@ -124,7 +123,7 @@ ApiBase.API_ATTRS = [
  * @type {!Object}
  * @static
  */
-ApiBase.ATTRS = {
+ApiBase.STATE = {
 	/**
 	 * Object with the authentication roles and permissions for this API.
 	 * @type {!Object}
@@ -246,11 +245,5 @@ ApiBase.ATTRS = {
  */
 ApiBase.PATH_PARAMS_REGEX = /\/:(\w+)(?:\([^\)]+\))?/g;
 
-/**
- * The renderer that this component should use.
- * @type {!ComponentRenderer}
- * @static
- */
-ApiBase.RENDERER = SoyRenderer;
 
 export default ApiBase;

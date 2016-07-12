@@ -1,32 +1,54 @@
-{namespace Templates.ApiBuilder}
+{namespace ApiBuilder}
 
 /**
  * This renders the main element.
  * @param? elementClasses
- * @param id
- * @skipUpdates elementClasses
+ * @param? handleDataSwitcherCheckedChanged_
+ * @param? handleMethodsSelectedChanged_
+ * @param? handleVisibilitySwitcherCheckedChanged_
+ * @param? handleDuplicateParamClick_
+ * @param? handleRemoveParamClick_
+ * @param? handleRequiredCheckedChanged_
+ * @param? handleTypeSelectedIndexChanged_
+ * @param? handleRoleCheckedChanged_
+ * @param? handlePermissionCheckedChanged_
+ * @param parameters
  */
 {template .render}
-	<div id="{$id}" class="builder component{$elementClasses ? ' ' + $elementClasses : ''}">
-		{call .title data="all" /}
+	<div class="builder {$elementClasses ?: ''}">
+		{call .title data="all"}
+			{param handleDataSwitcherCheckedChanged_: $handleDataSwitcherCheckedChanged_ /}
+			{param handleVisibilitySwitcherCheckedChanged_: $handleVisibilitySwitcherCheckedChanged_ /}
+		{/call}
 		{call .description data="all" /}
-		{call .methods data="all" /}
+		{call .methods data="all"}
+			{param handleMethodsSelectedChanged_: $handleMethodsSelectedChanged_ /}
+		{/call}
 		{call .path data="all" /}
-		{call .params data="all" /}
+		{call .params data="all"}
+			{param handleDuplicateParamClick_: $handleDuplicateParamClick_ /}
+			{param handleRemoveParamClick_: $handleRemoveParamClick_ /}
+			{param handleRequiredCheckedChanged_: $handleRequiredCheckedChanged_ /}
+			{param handleTypeSelectedIndexChanged_: $handleTypeSelectedIndexChanged_ /}
+			{param parameters: $parameters /}
+		{/call}
 		{call .body data="all" /}
-		{call .handler data="all" /}
-		{call .auth data="all" /}
+		{call .auth data="all"}
+			{param handleRoleCheckedChanged_: $handleRoleCheckedChanged_ /}
+			{param handlePermissionCheckedChanged_: $handlePermissionCheckedChanged_ /}
+		{/call}
 	</div>
 {/template}
 
 /**
- * @param id
+ * @param? handleDataSwitcherCheckedChanged_
+ * @param? handleVisibilitySwitcherCheckedChanged_
  * @param title
  * @param? visibility
  * @param? data
  */
 {template .title}
-	<div id="{$id}-title" class="builder-title">
+	<div class="builder-title">
 		<input
 			type="text"
 			class="form-control-borderless"
@@ -39,20 +61,20 @@
 		/>
 		<div class="builder-data show-tooltip" alt="When data is enabled your API becomes a RESTful database that can store and sync data in realtime">
 			<div class="builder-data-switcher">
-				{call Templates.Switcher.render}
+				{call Switcher.render}
 					{param checked: isNonnull($data) ? $data : true /}
-					{param events: ['checkedChanged': $id + ':handleDataSwitcherCheckedChanged_'] /}
-					{param id: $id + '-dataSwitcher' /}
+					{param events: ['checkedChanged': $handleDataSwitcherCheckedChanged_] /}
+					{param ref: 'dataSwitcher' /}
 				{/call}
 			</div>
 			<span class="builder-data-label">Data</span>
 		</div>
 		<div class="builder-visibility show-tooltip" alt="When your API is marked as 'visible' it means that it can be requested by anyone, whereas 'invisible' acts like a firewall where only your server can request it">
 			<div class="builder-visibility-switcher">
-				{call Templates.Switcher.render}
+				{call Switcher.render}
 					{param checked: isNonnull($visibility) ? $visibility : true /}
-					{param events: ['checkedChanged': $id + ':handleVisibilitySwitcherCheckedChanged_'] /}
-					{param id: $id + '-visibilitySwitcher' /}
+					{param events: ['checkedChanged': $handleVisibilitySwitcherCheckedChanged_] /}
+					{param ref: 'visibilitySwitcher' /}
 				{/call}
 			</div>
 			<span class="builder-visibility-label">Visibility</span>
@@ -61,11 +83,10 @@
 {/template}
 
 /**
- * @param id
  * @param description
  */
 {template .description}
-	<div id="{$id}-description" class="builder-description">
+	<div class="builder-description">
 		<textarea
 			class="form-control-borderless"
 			name="description"
@@ -78,15 +99,15 @@
 {/template}
 
 /**
- * @param id
+ * @param? handleMethodsSelectedChanged_
  * @param method
  */
 {template .methods}
-	<div id="{$id}-methods" class="api-builder-methods">
+	<div class="api-builder-methods">
 		<p class="api-section-title">
 			Method <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#1-method"><span class="icon-12-external"></span></a>
 		</p>
-		{call Templates.ButtonGroup.render}
+		{call ButtonGroup.render}
 			{param buttons: [
 				['label': 'get',    'cssClass': 'btn btn-default http-get-bg',    'icon': 'btn-group-icon icon-12-check'],
 				['label': 'post',   'cssClass': 'btn btn-default http-post-bg',   'icon': 'btn-group-icon icon-12-check'],
@@ -94,8 +115,8 @@
 				['label': 'patch',  'cssClass': 'btn btn-default http-patch-bg',  'icon': 'btn-group-icon icon-12-check'],
 				['label': 'delete', 'cssClass': 'btn btn-default http-delete-bg', 'icon': 'btn-group-icon icon-12-check']
 			] /}
-			{param events: ['selectedChanged': $id + ':handleMethodsSelectedChanged_'] /}
-			{param id: $id + '-methodButtonGroup' /}
+			{param events: ['selectedChanged': $handleMethodsSelectedChanged_] /}
+			{param ref: 'methodButtonGroup' /}
 			{param minSelected: 1 /}
 			{param selected: $method ? $method : ['get'] /}
 		{/call}
@@ -104,11 +125,10 @@
 
 /**
  * @param host
- * @param id
  * @param path
  */
 {template .path}
-	<div id="{$id}-path">
+	<div>
 		<p class="api-section-title">
 			Endpoint <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#2-endpoint"><span class="icon-12-external"></span></a>
 		</p>
@@ -132,42 +152,23 @@
 {/template}
 
 /**
- * @param? handler
- * @param id
- * @skipUpdates handler
- */
-{template .handler}
-	<div id="{$id}-handler" class="form-group">
-		<p class="api-section-title">
-			Handler <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#5-handler"><span class="icon-12-external"></span></a>
-		</p>
-		<div class="builder-section-handler">
-			{call Templates.CodeMirror.render}
-				{{param config: [
-					'lineNumbers': true,
-					'mode': 'javascript',
-					'placeholder': 'function handler() {\n  return "Hello World";\n}',
-					'value': $handler
-				] /}}
-				{param events: ['valueChanged': $id + ':handleHandlerCodeMirrorValueChanged_'] /}
-				{param id: $id + '-handlerCodeMirror' /}
-			{/call}
-		</div>
-	</div>
-{/template}
-
-/**
- * @param id
  * @param body
+ * @param? handleDuplicateParamClick_
+ * @param? handleRemoveParamClick_
+ * @param? handleRequiredCheckedChanged_
+ * @param? handleTypeSelectedIndexChanged_
  */
 {template .body}
-	<div id="{$id}-body">
+	<div>
 		<p class="api-section-title">
 			Body <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#4-body"><span class="icon-12-external"></span></a>
 		</p>
 		<div class="builder-section-body">
 			{call .param}
-				{param id: $id /}
+				{param handleDuplicateParamClick_: $handleDuplicateParamClick_ /}
+				{param handleRemoveParamClick_: $handleRemoveParamClick_ /}
+				{param handleRequiredCheckedChanged_: $handleRequiredCheckedChanged_ /}
+				{param handleTypeSelectedIndexChanged_: $handleTypeSelectedIndexChanged_ /}
 				{param index: -1 /}
 				{param param: $body ? $body : [] /}
 			{/call}
@@ -176,11 +177,14 @@
 {/template}
 
 /**
- * @param id
+ * @param? handleDuplicateParamClick_
+ * @param? handleRemoveParamClick_
+ * @param? handleRequiredCheckedChanged_
+ * @param? handleTypeSelectedIndexChanged_
  * @param parameters
  */
 {template .params}
-	<div id="{$id}-params" class="builder-params">
+	<div class="builder-params">
 		<p class="api-section-title">
 			Parameters <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#3-parameters"><span class="icon-12-external"></span></a>
 		</p>
@@ -188,7 +192,10 @@
 			{if $parameters}
 				{foreach $param in $parameters}
 					{call .param}
-						{param id: $id /}
+						{param handleDuplicateParamClick_: $handleDuplicateParamClick_ /}
+						{param handleRemoveParamClick_: $handleRemoveParamClick_ /}
+						{param handleRequiredCheckedChanged_: $handleRequiredCheckedChanged_ /}
+						{param handleTypeSelectedIndexChanged_: $handleTypeSelectedIndexChanged_ /}
 						{param index: index($param) /}
 						{param param: $param /}
 					{/call}
@@ -206,7 +213,10 @@
 {/template}
 
 /**
- * @param id
+ * @param? handleDuplicateParamClick_
+ * @param? handleRemoveParamClick_
+ * @param? handleRequiredCheckedChanged_
+ * @param? handleTypeSelectedIndexChanged_
  * @param index
  * @param param
  */
@@ -227,35 +237,35 @@
 			<div class="col-md-6">
 				<label class="api-section-label" for="builder-param-type-{$suffix}">Type</label>
 				{let $typesMap0: quoteKeysIfJs(['any': 0, 'array': 1, 'boolean': 2, 'number': 3, 'object': 4,  'string': 5]) /}
-				{call Templates.Select.render}
-					{param id: 'builder-param-type-' + $suffix /}
+				{call Select.render}
+					{param ref: 'builder-param-type-' + $suffix /}
 					{param buttonClass: 'btn btn-default form-control dropdown-select' /}
-					{param events: ['selectedIndexChanged': $id + ':handleTypeSelectedIndexChanged_'] /}
+					{param events: ['selectedIndexChanged': $handleTypeSelectedIndexChanged_] /}
 					{param items: ['Any', 'Array', 'Boolean', 'Number', 'Object', 'String'] /}
-					{param label: 'Type' /}
+					{param label kind="html"}Type{/param}
 					{param selectedIndex: $param.type ? $typesMap0[$param.type] : 0 /}
 				{/call}
 			</div>
 			<div class="col-md-3">
 				<span class="builder-param-label">Required</span>
-				{call Templates.Switcher.render}
+				{call Switcher.render}
 					{param checked: $param.required ? $param.required : false /}
-					{param events: ['checkedChanged': $id + ':handleRequiredCheckedChanged_'] /}
+					{param events: ['checkedChanged': $handleRequiredCheckedChanged_] /}
 					{param elementClasses: 'builder-param-switcher' /}
-					{param id: $id + '-requiredSwitcher' + $suffix /}
+					{param ref: 'requiredSwitcher' + $suffix /}
 				{/call}
 			</div>
 			{if not $isBody}
 				<div class="col-md-1 builder-param-actions">
-					{call Templates.Dropdown.render}
+					{call Dropdown.render}
 						{param body kind="html"}
-							<li data-onclick="{$id}:handleDuplicateParamClick_" data-index="{$index}"><a href="#">Duplicate</a></li>
-							<li data-onclick="{$id}:handleRemoveParamClick_" data-index="{$index}"><a href="#">Remove</a></li>
+							<li data-onclick="{$handleDuplicateParamClick_}" data-index="{$index}"><a href="#">Duplicate</a></li>
+							<li data-onclick="{$handleRemoveParamClick_}" data-index="{$index}"><a href="#">Remove</a></li>
 						{/param}
 						{param header kind="html"}
 							<button class="builder-param-ellipsis btn-transparent icon-16-ellipsis" type="button" data-onclick="toggle"></button>
 						{/param}
-						{param id: $id + '-menu' + $suffix /}
+						{param ref: 'menu' + $suffix /}
 					{/call}
 				</div>
 			{/if}
@@ -316,16 +326,13 @@
 					<label class="api-section-label" for="builder-param-validator-{$suffix}">Validator</label>
 					<div class="input-inner-addon input-inner-addon-left">
 						<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-						{call Templates.CodeMirror.render}
-							{{param config: [
-								'lineNumbers': true,
-								'mode': 'javascript',
-								'value': $param.validator ? $param.validator : ''
-							] /}}
-							{param events: ['valueChanged': $id + ':handleValidatorCodeMirrorValueChanged_'] /}
-							{param id: $id + '-validatorCodeMirror' + $suffix /}
-							{param visible: false /}
-						{/call}
+							<input
+								type="text"
+								class="form-control"
+								value="{$param.validator ? $param.validator : ''}"
+								data-oninput="handleInputValidator_"
+								data-type="{$suffix}"
+							>
 					</div>
 				</div>
 			</div>
@@ -335,12 +342,13 @@
 
 /**
  * @param auth
- * @param id
  * @param permissions
+ * @param? handleRoleCheckedChanged_
+ * @param? handlePermissionCheckedChanged_
  * @param roles
  */
 {template .auth}
-	<div id="{$id}-auth" class="form-group">
+	<div class="form-group">
 		<p class="api-section-title">
 			Authentication <a class="api-section-title-link show-tooltip" alt="Learn more" target="_blank" href="/docs/js/building-apis.html#6-authentication"><span class="icon-12-external"></span></a>
 		</p>
@@ -357,11 +365,11 @@
 										{param item: $role /}
 									{/call}
 								{/let}
-								{call Templates.Switcher.render}
+								{call Switcher.render}
 									{param checked: strContains($roleChecked, 'true') /}
-									{param events: ['checkedChanged': $id + ':handleRoleCheckedChanged_'] /}
+									{param events: ['checkedChanged': $handleRoleCheckedChanged_] /}
 									{param elementClasses: 'builder-param-switcher' /}
-									{param id: $id + '-rolesSwitcher' + $role /}
+									{param ref: 'rolesSwitcher' + $role /}
 								{/call}
 								<span class="builder-param-label"> {$role}</span>
 							</div>
@@ -379,11 +387,11 @@
 										{param item: $permission /}
 									{/call}
 								{/let}
-								{call Templates.Switcher.render}
+								{call Switcher.render}
 									{param checked: strContains($permissionChecked, 'true') /}
-									{param events: ['checkedChanged': $id + ':handlePermissionCheckedChanged_'] /}
+									{param events: ['checkedChanged': $handlePermissionCheckedChanged_] /}
 									{param elementClasses: 'builder-param-switcher' /}
-									{param id: $id + '-permissionsSwitcher' + $permission /}
+									{param ref: 'permissionsSwitcher' + $permission /}
 								{/call}
 								<span class="builder-param-label"> {$permission}</span>
 							</div>
@@ -394,16 +402,13 @@
 			<label class="api-section-label" for="builder-param-auth-validator">Validator</label>
 			<div class="input-inner-addon input-inner-addon-left">
 				<span class="input-inner-icon-helper icon-16-info show-tooltip" alt="Describe any JavaScript expression to authorize the request. There couple variables that you could use here such as $auth, $params, $values"></span>
-				{call Templates.CodeMirror.render}
-					{{param config: [
-						'lineNumbers': true,
-						'mode': 'javascript',
-						'placeholder': '$auth !== null',
-						'value': $auth.validator ? $auth.validator : ''
-					] /}}
-					{param events: ['valueChanged': $id + ':handleAuthValidatorCodeMirrorValueChanged_'] /}
-					{param id: $id + '-authValidatorCodeMirror' /}
-				{/call}
+				<input
+					type="text"
+					class="form-control"
+					placeholder="$auth !== null"
+					value="{$auth.validator ? $auth.validator : ''}"
+					data-oninput="handleInputAuthValidator_"
+				>
 			</div>
 		</div>
 	</div>
