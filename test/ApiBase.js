@@ -2,7 +2,7 @@
 
 import ApiBase from '../src/ApiBase';
 
-describe('ApiBase', function() {
+describe.only('ApiBase', function() {
 	var api;
 
 	afterEach(function() {

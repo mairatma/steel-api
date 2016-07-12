@@ -21,7 +21,7 @@
     "steel"
   ],
   "dependencies": {
-    "api.js": "wedeploy/api.js#master",
+    "api-js": "wedeploy/api-js#master",
     "bootstrap": "^3.3.6",
     "codemirror": "~5.7.0",
     "metal": "^1.0.0",
